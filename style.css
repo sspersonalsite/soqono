@@ -1,4 +1,8 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     background-color: #F2C57C;
@@ -7,70 +11,105 @@ body {
     width: 100vw;
 }
 
-/* Header */
+/* Header Styling */
 .main-nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 5vw; background-color: #DDAE7E;
-    position: absolute; width: 100%; top: 0; z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5vw;
+    background-color: #DDAE7E;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 100;
 }
-.logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
-.nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
-/* Hero Layout */
+.logo {
+    font-family: 'Archivo Black', sans-serif;
+    color: #426A5A;
+    font-size: 1.5rem;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #426A5A;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+/* Hero Section */
 .hero {
-    display: flex; justify-content: space-between; align-items: center;
-    height: 100vh; padding: 0 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 0 5vw;
 }
 
-.headline-container {
+/* THE FIX: ONE SINGLE IMAGE MASK */
+.master-stencil {
     flex: 0 0 75%;
     display: flex;
     flex-direction: column;
-}
-
-/* THE SHARED MASK STYLE */
-.headline-row, .rotating-word {
-    font-family: 'Archivo Black', sans-serif;
-    font-size: 11vw;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.06em;
-    line-height: 0.7; /* Tight line height for the 2.2x scale */
-    
-    /* THE 2.2X VERTICAL STRETCH */
-    transform: scaleY(2.2);
-    transform-origin: left center;
-
-    /* THE IMAGE MASK - Applied to EVERY line */
-    background-image: url('prores.png');
+    background-image: url('prores.png'); /* Ensure this filename is correct */
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* This ensures the man is ONE image across all lines */
     background-repeat: no-repeat;
+    background-attachment: fixed;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
 }
 
-/* THE SPACING FIX */
+/* Typography & Stretch */
+.headline-row, 
+.rotating-word {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 10vw;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.06em; /* Tight horizontal bunching */
+    line-height: 1;
+    
+    /* 2.2X VERTICAL STRETCH */
+    transform: scaleY(2.2);
+    transform-origin: left center;
+}
+
+/* Rigid Boxes to prevent overlap */
 .headline-row {
-    margin: 5vw 0; /* Creates space for the vertical stretch */
+    height: 20vw;
+    display: flex;
+    align-items: center;
 }
 
 .word-window {
-    height: 15vw; /* Adjusted for the scale */
+    height: 20vw;
     overflow: hidden;
-    margin: 2vw 0;
+    display: block;
 }
 
 .rotating-word {
-    height: 15vw;
+    height: 20vw;
     display: flex;
     align-items: center;
-    margin: 0; /* Reset for words inside the stack */
 }
 
 /* Industry List */
-.industry-list { flex: 0 0 20%; display: flex; flex-direction: column; gap: 4vw; }
-.industry-item { font-size: 2vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
+.industry-list {
+    flex: 0 0 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 4vw;
+}
+
+.industry-item {
+    font-size: 2vw;
+    font-weight: 700;
+    color: #426A5A;
+    text-decoration: none;
+    line-height: 1.1;
+}
