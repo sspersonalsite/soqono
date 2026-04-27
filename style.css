@@ -11,6 +11,7 @@ body {
     width: 100vw;
 }
 
+/* Header (Unchanged) */
 .main-nav {
     display: flex;
     justify-content: space-between;
@@ -27,7 +28,7 @@ body {
     font-weight: 900;
     font-size: 1.5rem;
     color: #426A5A;
-    font-family: 'Archivo Black', sans-serif; /* Logo also looks good in this font */
+    font-family: 'Archivo Black', sans-serif;
 }
 
 .nav-links a {
@@ -47,35 +48,41 @@ body {
     padding: 5vw;
 }
 
-.headline-container {
-    flex: 0 0 70%; /* Give the headline a bit more room for the heavier font */
-}
-
+/* Master Typography (Archivo Black) */
 .headline-container h1, 
 .rotating-word {
-    font-family: 'Archivo Black', sans-serif; /* FULL FONT */
-    font-size: 10vw; /* Adjusted size for the wider font */
-    line-height: 0.85; /* Tighter lines = more connected image */
-    margin: 0;
-    letter-spacing: -0.02em;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 10vw;
+    font-weight: 900;
+    line-height: 0.85; /* Tight line height */
+    letter-spacing: -0.04em;
     text-transform: uppercase;
+    margin: 0;
+    padding: 0;
 }
 
-/* THE IMAGE MASKING REFINED */
-.masked-text {
-    background-image: url('prores.png'); 
-    background-size: 110%; /* Makes the man larger within the letters */
-    background-position: center 30%; /* Adjusts the "vertical" focus to show the head/torso */
+/* THE SINGLE IMAGE MASKING FIX */
+.headline-container {
+    flex: 0 0 70%;
+    background-image: url('prores.png'); /* The single image */
+    background-size: cover;
+    background-position: center 30%; /* Centered and slightly raised */
     background-repeat: no-repeat;
-    background-attachment: fixed; /* Crucial: the image stays still while words slide over it */
+    
+    /* Apply mask to the container */
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
-    display: block;
+    
+    /* This makes all the children (h1, span) transparent */
+    -webkit-text-fill-color: transparent; 
+    
+    display: flex;
+    flex-direction: column;
 }
 
+/* Window/Stack (Unchanged) */
 .word-window {
-    height: 8.5vw; /* Tighter window for the heavier font */
+    height: 8.5vw;
     overflow: hidden;
 }
 
@@ -85,6 +92,7 @@ body {
     align-items: center;
 }
 
+/* Industry List (Unchanged) */
 .industry-list {
     flex: 0 0 25%;
     display: flex;
@@ -98,10 +106,4 @@ body {
     line-height: 1.1;
     color: #426A5A;
     text-decoration: none;
-}
-
-@media (max-width: 800px) {
-    .hero { flex-direction: column; align-items: flex-start; justify-content: center; }
-    .headline-container h1, .rotating-word { font-size: 15vw; }
-    .word-window { height: 13vw; }
 }
