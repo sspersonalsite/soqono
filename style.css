@@ -27,6 +27,7 @@ body {
     font-weight: 900;
     font-size: 1.5rem;
     color: #426A5A;
+    font-family: 'Archivo Black', sans-serif; /* Logo also looks good in this font */
 }
 
 .nav-links a {
@@ -47,23 +48,26 @@ body {
 }
 
 .headline-container {
-    flex: 0 0 65%;
+    flex: 0 0 70%; /* Give the headline a bit more room for the heavier font */
 }
 
 .headline-container h1, 
 .rotating-word {
-    font-size: 9.5vw;
-    line-height: 1;
-    font-weight: 900;
-    letter-spacing: -0.05em;
+    font-family: 'Archivo Black', sans-serif; /* FULL FONT */
+    font-size: 10vw; /* Adjusted size for the wider font */
+    line-height: 0.85; /* Tighter lines = more connected image */
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
 }
 
-/* THE IMAGE MASKING */
+/* THE IMAGE MASKING REFINED */
 .masked-text {
     background-image: url('prores.png'); 
-    background-size: cover;
-    background-position: center;
+    background-size: 110%; /* Makes the man larger within the letters */
+    background-position: center 30%; /* Adjusts the "vertical" focus to show the head/torso */
     background-repeat: no-repeat;
+    background-attachment: fixed; /* Crucial: the image stays still while words slide over it */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -71,18 +75,18 @@ body {
 }
 
 .word-window {
-    height: 9.5vw;
+    height: 8.5vw; /* Tighter window for the heavier font */
     overflow: hidden;
 }
 
 .rotating-word {
-    height: 9.5vw;
+    height: 8.5vw;
     display: flex;
     align-items: center;
 }
 
 .industry-list {
-    flex: 0 0 30%;
+    flex: 0 0 25%;
     display: flex;
     flex-direction: column;
     gap: 3vw;
@@ -94,16 +98,10 @@ body {
     line-height: 1.1;
     color: #426A5A;
     text-decoration: none;
-    transition: opacity 0.3s ease;
-}
-
-.industry-item:hover {
-    opacity: 0.6;
 }
 
 @media (max-width: 800px) {
     .hero { flex-direction: column; align-items: flex-start; justify-content: center; }
-    .headline-container h1, .rotating-word, .word-window { font-size: 15vw; height: 15vw; }
-    .industry-list { margin-top: 50px; }
-    .industry-item { font-size: 8vw; }
+    .headline-container h1, .rotating-word { font-size: 15vw; }
+    .word-window { height: 13vw; }
 }
