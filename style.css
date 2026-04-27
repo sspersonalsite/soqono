@@ -7,41 +7,41 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    width: 100%;
+    overflow-x: hidden; 
+    width: 100vw;
 }
 
 .hero {
-    display: grid;
-    /* Split screen 65% left, 35% right */
-    grid-template-columns: 65% 35%;
-    width: 100vw;
-    min-height: 100vh;
-    padding: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    padding: 5vw;
 }
 
 .headline-container {
-    display: flex;
-    flex-direction: column;
+    flex: 0 0 65%; /* Keeps headline to 65% of screen width */
 }
 
 .headline-container h1 {
-    font-size: 10vw; /* Reduced size to ensure fit */
+    font-size: 9.5vw; /* Slightly smaller to prevent right-side overflow */
     line-height: 0.9;
     margin: 0;
     font-weight: 900;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.05em;
     text-transform: uppercase;
+    color: #000;
 }
 
-/* THE CROP WINDOW */
+/* THE FIX: Rigid window height and overflow */
 .word-window {
-    height: 9vw; /* Slightly smaller than font-size to crop tightly */
-    overflow: hidden; /* THIS HIDES THE OTHER WORDS */
+    height: 9vw; /* This MUST match the movement in script.js */
+    overflow: hidden; /* This hides the other words */
     display: block;
     position: relative;
-    margin: 0.1em 0; /* Adds tiny gap between lines */
+    border: 1px solid transparent; /* Forces layout calculation */
 }
 
 .word-stack {
@@ -52,43 +52,48 @@ body {
 }
 
 .rotating-word {
-    height: 9vw; /* MUST MATCH window height */
-    font-size: 10vw;
-    line-height: 0.9;
+    height: 9vw; /* MUST match window height exactly */
+    font-size: 9.5vw;
+    line-height: 1; /* Essential for alignment */
     font-weight: 900;
-    display: block;
+    display: flex;
+    align-items: center; /* Centers text inside the 9vw box */
     margin: 0;
     white-space: nowrap;
 }
 
 .industry-list {
+    flex: 0 0 30%; /* Limits list to 30% of width */
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    padding-left: 20px;
+    gap: 2vw;
 }
 
 .industry-item {
-    font-size: 3vw; /* Scales with window */
+    font-size: 2.2vw;
     font-weight: 700;
     line-height: 1.1;
     color: #1a1a1a;
-    word-wrap: break-word; /* Prevents long words from flying off */
+    text-align: left;
 }
 
-/* MOBILE VIEW */
+/* Mobile: Stack them vertically */
 @media (max-width: 800px) {
     .hero {
-        grid-template-columns: 1fr; /* Stack items vertically */
-        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
     }
     .headline-container h1, .rotating-word {
-        font-size: 18vw;
+        font-size: 15vw;
     }
     .word-window {
-        height: 16vw;
+        height: 14vw;
+    }
+    .industry-list {
+        margin-top: 50px;
     }
     .industry-item {
-        font-size: 8vw;
+        font-size: 6vw;
     }
 }
