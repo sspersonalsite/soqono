@@ -1,8 +1,4 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     background-color: #F2C57C;
@@ -11,7 +7,6 @@ body {
     width: 100vw;
 }
 
-/* Header (Unchanged) */
 .main-nav {
     display: flex;
     justify-content: space-between;
@@ -24,21 +19,8 @@ body {
     z-index: 100;
 }
 
-.logo {
-    font-weight: 900;
-    font-size: 1.5rem;
-    color: #426A5A;
-    font-family: 'Archivo Black', sans-serif;
-}
-
-.nav-links a {
-    margin-left: 25px;
-    text-decoration: none;
-    color: #426A5A;
-    font-weight: 600;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-}
+.logo { font-weight: 900; font-size: 1.5rem; color: #426A5A; font-family: 'Archivo Black', sans-serif; }
+.nav-links a { margin-left: 25px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
 .hero {
     display: flex;
@@ -48,62 +30,49 @@ body {
     padding: 5vw;
 }
 
-/* Master Typography (Archivo Black) */
+.headline-container { flex: 0 0 70%; }
+
 .headline-container h1, 
 .rotating-word {
     font-family: 'Archivo Black', sans-serif;
-    font-size: 10vw;
-    font-weight: 900;
-    line-height: 0.85; /* Tight line height */
+    font-size: 11vw; /* Bigger base size */
+    line-height: 1;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-    margin: 0;
-    padding: 0;
+    transform: scaleY(1.5); /* THIS STRETCHES THE FONT TALLER */
+    transform-origin: left;
+    margin: 1.5vw 0; /* Add margin to account for the vertical stretch */
 }
 
-/* THE SINGLE IMAGE MASKING FIX */
-.headline-container {
-    flex: 0 0 70%;
-    background-image: url('prores.png'); /* The single image */
+/* THE FIX: Fixed background prevents image jumping during animation */
+.masked-text {
+    background-image: url('prores.png'); 
     background-size: cover;
-    background-position: center 30%; /* Centered and slightly raised */
+    background-position: center;
     background-repeat: no-repeat;
-    
-    /* Apply mask to the container */
+    background-attachment: fixed; /* Keeps the man in one spot */
     -webkit-background-clip: text;
     background-clip: text;
-    
-    /* This makes all the children (h1, span) transparent */
-    -webkit-text-fill-color: transparent; 
-    
-    display: flex;
-    flex-direction: column;
+    color: transparent;
+    display: block;
 }
 
-/* Window/Stack (Unchanged) */
 .word-window {
-    height: 8.5vw;
+    height: 13vw; /* Adjusted for the taller stretched font */
     overflow: hidden;
+    margin: 1vw 0;
 }
 
 .rotating-word {
-    height: 8.5vw;
+    height: 13vw;
     display: flex;
     align-items: center;
 }
 
-/* Industry List (Unchanged) */
-.industry-list {
-    flex: 0 0 25%;
-    display: flex;
-    flex-direction: column;
-    gap: 3vw;
-}
+.industry-list { flex: 0 0 25%; display: flex; flex-direction: column; gap: 3vw; }
+.industry-item { font-size: 2.2vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
 
-.industry-item {
-    font-size: 2.2vw;
-    font-weight: 700;
-    line-height: 1.1;
-    color: #426A5A;
-    text-decoration: none;
+@media (max-width: 800px) {
+    .headline-container h1, .rotating-word { font-size: 14vw; transform: scaleY(1.3); }
+    .word-window { height: 18vw; }
 }
