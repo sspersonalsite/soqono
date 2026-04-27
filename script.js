@@ -1,19 +1,19 @@
 window.addEventListener("load", () => {
-    const stack = document.querySelector(".word-stack");
-    const words = document.querySelectorAll(".rotating-word");
+    const stack = document.querySelector("#wordStack");
+    const words = document.querySelectorAll(".rotating");
     let currentIndex = 0;
     const totalWords = words.length;
+    
+    // Each word in the SVG is spaced exactly 140 units apart in the viewBox
+    const step = 140; 
 
     function rotate() {
         currentIndex++;
-        
-        // Accurate decimal height calculation including the scale
-        const wordHeight = words[0].getBoundingClientRect().height;
 
         gsap.to(stack, {
-            y: -(wordHeight * currentIndex),
-            duration: 0.8,
-            ease: "power3.inOut",
+            y: -(step * currentIndex),
+            duration: 1.2,
+            ease: "expo.inOut", // Higher quality "Power" move
             onComplete: () => {
                 if (currentIndex >= totalWords - 1) {
                     gsap.set(stack, { y: 0 });
@@ -22,5 +22,6 @@ window.addEventListener("load", () => {
             }
         });
     }
+
     setInterval(rotate, 3000);
 });
