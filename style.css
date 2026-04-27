@@ -1,38 +1,82 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background-color: #F2C57C; font-family: sans-serif; overflow: hidden; }
+
+body {
+    background-color: #F2C57C;
+    font-family: sans-serif;
+    overflow: hidden;
+    width: 100vw;
+}
 
 .main-nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 5vw; background-color: #DDAE7E;
-    position: absolute; width: 100%; z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5vw;
+    background-color: #DDAE7E;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
 }
 
 .logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
-.nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; }
+.nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
 .hero {
-    display: flex; justify-content: space-between; align-items: center;
-    height: 100vh; padding: 0 5vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 0 5vw;
 }
 
-.headline-container { flex: 0 0 75%; height: 80vh; display: flex; align-items: center; }
+/* Horizontal Bunching & Scaling */
+.headline-container {
+    flex: 0 0 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
-.svg-mask { width: 100%; height: 100%; }
-
-.svg-text {
+.masked-header, .rotating-word {
     font-family: 'Archivo Black', sans-serif;
+    font-size: 12vw;
     font-weight: 900;
+    line-height: 0.8; /* Tight vertical spacing */
+    letter-spacing: -0.06em; /* Tight horizontal bunching */
     text-transform: uppercase;
-    fill: white; /* Color doesn't matter, it's a mask */
-    letter-spacing: -5px; /* Tighten horizontally */
-    transform: scaleY(2.2); /* Stretch vertically */
+    
+    /* THE 2X STRETCH */
+    transform: scaleY(2.2); 
+    transform-origin: left center;
+    
+    /* THE SINGLE IMAGE MASK */
+    background-image: url('prores.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* This makes all 3 lines look at 1 image */
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+    margin: 4vw 0; /* Space for the 2x stretch */
 }
 
-.main-title { font-size: 110px; }
-.rotating { font-size: 110px; }
+.word-window {
+    height: 18vw; /* Large enough for stretched words */
+    overflow: hidden;
+    display: block;
+}
 
-/* Position the "OPERATIONS" line relative to the window */
-#bottom-ops { transform: translateY(140px) scaleY(2.2); }
+.word-stack { display: block; }
 
-.industry-list { flex: 0 0 20%; display: flex; flex-direction: column; gap: 3vw; }
-.industry-item { font-size: 1.8vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
+.rotating-word {
+    height: 18vw;
+    display: flex;
+    align-items: center;
+    margin: 0; /* No margin inside the stack */
+}
+
+/* Industry List Styling */
+.industry-list { flex: 0 0 20%; display: flex; flex-direction: column; gap: 4vw; }
+.industry-item { font-size: 2vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
