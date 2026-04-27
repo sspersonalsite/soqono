@@ -64,33 +64,30 @@ body {
     flex: 0 0 30%;
     display: flex;
     flex-direction: column;
-    gap: 2vw;
+    gap: 4vw; /* Increased gap for better link separation */
 }
 
 .industry-item {
-    font-size: 2.5vw;
+    font-size: 2.2vw;
     font-weight: 700;
     line-height: 1.1;
     color: #1a1a1a;
+    text-decoration: none; /* Removes the underline */
+    display: block;
+    transition: opacity 0.3s ease; /* Smooth hover transition */
 }
 
-/* Mobile Responsive Adjustments */
+.industry-item:hover {
+    opacity: 0.5; /* Visual feedback when hovering */
+}
+
+/* Update Mobile styles for links */
 @media (max-width: 800px) {
-    .hero {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-    }
-    .headline-container h1, 
-    .rotating-word, 
-    .word-window {
-        font-size: 15vw;
-        height: 15vw;
-    }
     .industry-list {
-        margin-top: 40px;
+        margin-top: 60px;
+        gap: 8vw;
     }
     .industry-item {
-        font-size: 7vw;
+        font-size: 8vw;
     }
 }
