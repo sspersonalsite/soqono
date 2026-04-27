@@ -1,22 +1,20 @@
 window.addEventListener("load", () => {
-    const stack = document.querySelector(".word-stack");
-    const windowEl = document.querySelector(".word-window");
+    const stack = document.querySelector("#wordStack");
+    const rotatingWords = document.querySelectorAll(".rotating");
     let currentIndex = 0;
+
+    // The distance between the 'y' attributes in the HTML (225 units)
+    const jump = 225;
 
     function rotate() {
         currentIndex++;
-        
-        // Measure the current height of the window box
-        const jumpHeight = windowEl.offsetHeight;
-        const words = document.querySelectorAll(".rotating-word");
 
         gsap.to(stack, {
-            y: -(jumpHeight * currentIndex),
+            y: -(jump * currentIndex),
             duration: 1.2,
             ease: "expo.inOut",
             onComplete: () => {
-                // When we reach the decoy (the last word)
-                if (currentIndex >= words.length - 1) {
+                if (currentIndex >= rotatingWords.length - 1) {
                     gsap.set(stack, { y: 0 });
                     currentIndex = 0;
                 }
@@ -24,6 +22,5 @@ window.addEventListener("load", () => {
         });
     }
 
-    // Set rotation interval (3 seconds)
     setInterval(rotate, 3000);
 });
