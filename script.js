@@ -1,5 +1,6 @@
 window.addEventListener("load", () => {
     const stack = document.querySelector(".word-stack");
+    const windowEl = document.querySelector(".word-window");
     const words = document.querySelectorAll(".rotating-word");
     let currentIndex = 0;
     const totalWords = words.length;
@@ -7,8 +8,8 @@ window.addEventListener("load", () => {
     function rotate() {
         currentIndex++;
         
-        // Get precise height of the window to jump
-        const jump = document.querySelector(".word-window").offsetHeight;
+        // Measure the window height at the moment of animation
+        const jump = windowEl.offsetHeight;
 
         gsap.to(stack, {
             y: -(jump * currentIndex),
