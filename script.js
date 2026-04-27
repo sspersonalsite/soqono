@@ -1,4 +1,3 @@
-// Wait for the page to load
 window.addEventListener("load", () => {
     const stack = document.querySelector(".word-stack");
     const words = document.querySelectorAll(".rotating-word");
@@ -7,22 +6,21 @@ window.addEventListener("load", () => {
     function rotate() {
         currentIndex++;
         
+        // Calculate the exact height of the window to move the stack
+        const windowHeight = document.querySelector('.word-window').clientHeight;
+
         if (currentIndex >= words.length) {
-            // Instant reset to top without the user seeing a slide
+            // Reset to top
             gsap.set(stack, { y: 0 });
             currentIndex = 1; 
         }
 
-        // Calculate height based on the current size of a word
-        const wordHeight = words[0].offsetHeight;
-
         gsap.to(stack, {
-            y: -(wordHeight * currentIndex),
+            y: -(windowHeight * currentIndex),
             duration: 0.8,
-            ease: "power3.inOut"
+            ease: "power2.inOut"
         });
     }
 
-    // Start the loop
     setInterval(rotate, 2500);
 });
