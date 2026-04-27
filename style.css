@@ -7,75 +7,70 @@ body {
     width: 100vw;
 }
 
+/* Header */
 .main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5vw;
-    background-color: #DDAE7E;
-    position: absolute;
-    width: 100%;
-    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 5vw; background-color: #DDAE7E;
+    position: absolute; width: 100%; top: 0; z-index: 100;
 }
-
 .logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
 .nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
+/* Hero Layout */
 .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-    padding: 0 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    height: 100vh; padding: 0 5vw;
 }
 
-/* THE MASTER CONTAINER FIX */
-.headline-mask-wrapper {
+.headline-container {
     flex: 0 0 75%;
     display: flex;
     flex-direction: column;
+}
+
+/* THE SHARED MASK STYLE */
+.headline-row, .rotating-word {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11vw;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.06em;
+    line-height: 0.7; /* Tight line height for the 2.2x scale */
     
-    /* Apply image mask once to the whole block */
+    /* THE 2.2X VERTICAL STRETCH */
+    transform: scaleY(2.2);
+    transform-origin: left center;
+
+    /* THE IMAGE MASK - Applied to EVERY line */
     background-image: url('prores.png');
     background-size: cover;
-    background-position: center 20%;
+    background-position: center;
+    background-attachment: fixed; /* This ensures the man is ONE image across all lines */
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
 }
 
-.headline-row, .rotating-word {
-    font-family: 'Archivo Black', sans-serif;
-    font-size: 11vw;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.05em;
-    
-    /* Vertical Stretch */
-    transform: scaleY(2.2);
-    transform-origin: left center;
-    
-    /* Remove individual margins that caused the overlap */
-    margin: 0; 
-    line-height: 1.1; /* Adjusted to prevent letters from eating each other */
+/* THE SPACING FIX */
+.headline-row {
+    margin: 5vw 0; /* Creates space for the vertical stretch */
 }
 
 .word-window {
-    height: 16vw; /* Carefully calculated for the 2.2x scale */
+    height: 15vw; /* Adjusted for the scale */
     overflow: hidden;
-    margin: 4vw 0; /* Creates the necessary "breathing room" for the stretch */
+    margin: 2vw 0;
 }
 
 .rotating-word {
-    height: 16vw;
+    height: 15vw;
     display: flex;
     align-items: center;
+    margin: 0; /* Reset for words inside the stack */
 }
 
-/* Header & Industry List (Keep your existing colors/styles) */
-.main-nav { background-color: #DDAE7E; position: absolute; width: 100%; top: 0; z-index: 10; }
-.industry-item { color: #426A5A; text-decoration: none; font-size: 2vw; font-weight: 700; }
+/* Industry List */
+.industry-list { flex: 0 0 20%; display: flex; flex-direction: column; gap: 4vw; }
+.industry-item { font-size: 2vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
