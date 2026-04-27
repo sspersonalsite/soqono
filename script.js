@@ -6,11 +6,13 @@ window.addEventListener("load", () => {
 
     function rotate() {
         currentIndex++;
-        const jumpDistance = words[0].getBoundingClientRect().height;
+        
+        // Accurate decimal height calculation
+        const wordHeight = words[0].getBoundingClientRect().height;
 
         gsap.to(stack, {
-            y: -(jumpDistance * currentIndex),
-            duration: 0.9, // Slightly slower for a more "premium" feel
+            y: -(wordHeight * currentIndex),
+            duration: 0.9,
             ease: "power3.inOut",
             onComplete: () => {
                 if (currentIndex >= totalWords - 1) {
