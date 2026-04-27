@@ -39,42 +39,44 @@ body {
 
 .masked-header, .rotating-word {
     font-family: 'Archivo Black', sans-serif;
-    font-size: 12vw;
+    font-size: 11vw; /* Slightly smaller base to handle the 2.2x scale better */
     font-weight: 900;
-    line-height: 0.8; /* Tight vertical spacing */
-    letter-spacing: -0.06em; /* Tight horizontal bunching */
+    line-height: 0.7; 
+    letter-spacing: -0.06em;
     text-transform: uppercase;
     
     /* THE 2X STRETCH */
     transform: scaleY(2.2); 
     transform-origin: left center;
     
-    /* THE SINGLE IMAGE MASK */
+    /* THE FIX FOR INVISIBLE WORDS */
     background-image: url('prores.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; /* This makes all 3 lines look at 1 image */
+    background-size: cover;      /* Forces image to fill the screen */
+    background-position: center; /* Centers the man behind the middle of the text */
+    background-attachment: fixed; 
     background-repeat: no-repeat;
+    
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    -webkit-text-fill-color: transparent; /* Extra layer for browser compatibility */
     
-    margin: 4vw 0; /* Space for the 2x stretch */
-}
-
-.word-window {
-    height: 18vw; /* Large enough for stretched words */
-    overflow: hidden;
+    margin: 4.5vw 0; 
     display: block;
 }
 
-.word-stack { display: block; }
+.word-window {
+    height: 22vw; /* Increased from 18vw to accommodate the massive stretch */
+    overflow: hidden;
+    display: block;
+    margin: 1vw 0;
+}
 
 .rotating-word {
-    height: 18vw;
+    height: 22vw; /* Must match window height */
     display: flex;
     align-items: center;
-    margin: 0; /* No margin inside the stack */
+    margin: 0; 
 }
 
 /* Industry List Styling */
