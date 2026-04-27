@@ -1,78 +1,94 @@
 * {
-    box-sizing: border-box; /* Prevents padding from pushing things off screen */
+    box-sizing: border-box;
 }
 
 body {
     background-color: #f0f5f5;
     margin: 0;
+    padding: 0;
     font-family: sans-serif;
-    overflow-x: hidden; /* Stops the horizontal scroll */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    width: 100%;
 }
 
 .hero {
-    display: flex;
-    flex-wrap: wrap; /* Allows the list to drop below the headline on mobile */
+    display: grid;
+    /* Split screen 65% left, 35% right */
+    grid-template-columns: 65% 35%;
+    width: 100vw;
     min-height: 100vh;
-    padding: 4vw;
+    padding: 40px;
     align-items: center;
-    justify-content: space-between;
 }
 
 .headline-container {
-    flex: 1 1 60%; /* Takes up 60% of width */
-    min-width: 300px;
+    display: flex;
+    flex-direction: column;
 }
 
 .headline-container h1 {
-    font-size: 11vw; /* Slightly smaller to ensure it stays on screen */
-    line-height: 0.85;
+    font-size: 10vw; /* Reduced size to ensure fit */
+    line-height: 0.9;
     margin: 0;
     font-weight: 900;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
 }
 
-/* THE FIX FOR THE WINDOW */
+/* THE CROP WINDOW */
 .word-window {
-    height: 11vw; /* MUST match the font-size above */
-    overflow: hidden; /* This is what hides the other words */
+    height: 9vw; /* Slightly smaller than font-size to crop tightly */
+    overflow: hidden; /* THIS HIDES THE OTHER WORDS */
     display: block;
+    position: relative;
+    margin: 0.1em 0; /* Adds tiny gap between lines */
 }
 
 .word-stack {
     display: flex;
     flex-direction: column;
-    will-change: transform;
+    margin: 0;
+    padding: 0;
 }
 
 .rotating-word {
-    height: 11vw; /* MUST match the window height */
-    font-size: 11vw;
-    line-height: 1;
+    height: 9vw; /* MUST MATCH window height */
+    font-size: 10vw;
+    line-height: 0.9;
     font-weight: 900;
     display: block;
+    margin: 0;
+    white-space: nowrap;
 }
 
 .industry-list {
-    flex: 1 1 30%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    padding-top: 2rem;
+    gap: 30px;
+    padding-left: 20px;
 }
 
 .industry-item {
-    font-size: 2.5rem; /* Better for readability */
+    font-size: 3vw; /* Scales with window */
     font-weight: 700;
     line-height: 1.1;
+    color: #1a1a1a;
+    word-wrap: break-word; /* Prevents long words from flying off */
 }
 
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .headline-container h1, .rotating-word, .word-window {
+/* MOBILE VIEW */
+@media (max-width: 800px) {
+    .hero {
+        grid-template-columns: 1fr; /* Stack items vertically */
+        padding: 20px;
+    }
+    .headline-container h1, .rotating-word {
         font-size: 18vw;
-        height: 18vw;
+    }
+    .word-window {
+        height: 16vw;
     }
     .industry-item {
-        font-size: 1.5rem;
+        font-size: 8vw;
     }
 }
