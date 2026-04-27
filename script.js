@@ -6,19 +6,19 @@ window.addEventListener("load", () => {
 
     function rotate() {
         currentIndex++;
-
-        // Get the exact height of a word slot
+        
+        // Calculate the height based on the current size of the first word
         const jumpDistance = words[0].getBoundingClientRect().height;
 
-        // Animate the move upward
+        // Slide the stack UP
         gsap.to(stack, {
             y: -(jumpDistance * currentIndex),
             duration: 0.8,
             ease: "power3.inOut",
             onComplete: () => {
-                // If we are on the decoy (the last word), 
-                // snap back to the actual first word instantly
+                // Check if we are on the decoy "RESEARCH" (last index)
                 if (currentIndex >= totalWords - 1) {
+                    // Instantly snap the stack back to the top Y position
                     gsap.set(stack, { y: 0 });
                     currentIndex = 0;
                 }
@@ -26,5 +26,6 @@ window.addEventListener("load", () => {
         });
     }
 
+    // Runs every 2.5 seconds
     setInterval(rotate, 2500);
 });
