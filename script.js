@@ -6,11 +6,11 @@ window.addEventListener("load", () => {
     function rotate() {
         currentIndex++;
         
-        // Calculate the exact height of the window to move the stack
-        const windowHeight = document.querySelector('.word-window').clientHeight;
+        // Use the window's height for the jump
+        const windowHeight = document.querySelector('.word-window').offsetHeight;
 
         if (currentIndex >= words.length) {
-            // Reset to top
+            // Instant reset to zero
             gsap.set(stack, { y: 0 });
             currentIndex = 1; 
         }
