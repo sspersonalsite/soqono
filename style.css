@@ -35,3 +35,24 @@ body {
     line-height: 1.1;
     color: #1a1a1a;
 }
+
+.word-window {
+    height: 12vw; /* Must match your font-size exactly */
+    overflow: hidden;
+    position: relative;
+}
+
+.word-stack {
+    display: flex;
+    flex-direction: column;
+}
+
+.rotating-word {
+    height: 12vw; /* Ensures each word takes up the full window */
+    display: block;
+    font-size: 12vw;
+    line-height: 1;
+    font-weight: 900;
+    color: #000;
+    text-transform: uppercase;
+}
