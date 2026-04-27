@@ -5,36 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>soqóno | Technical Program Operations</title>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.7">
+    <link rel="stylesheet" href="style.css?v=1.9">
 </head>
 <body>
 
     <nav class="main-nav">
         <div class="logo">soqóno</div>
         <div class="nav-links">
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Applications</a>
-            <a href="#">Experience</a>
-            <a href="#">Let's Talk</a>
+            <a href="#">About</a> <a href="#">Services</a> <a href="#">Applications</a> <a href="#">Experience</a> <a href="#">Let's Talk</a>
         </div>
     </nav>
 
     <main class="hero">
         <div class="headline-container">
-            <h1 class="masked-text">TECHNICAL</h1>
-            <div class="word-window">
-                <div class="word-stack">
-                    <span class="rotating-word masked-text">RESEARCH</span>
-                    <span class="rotating-word masked-text">DATA</span>
-                    <span class="rotating-word masked-text">BUSINESS</span>
-                    <span class="rotating-word masked-text">PROGRAM</span>
-                    <span class="rotating-word masked-text">STRATEGY</span>
-                    <span class="rotating-word masked-text">PRODUCT</span>
-                    <span class="rotating-word masked-text">RESEARCH</span>
-                </div>
-            </div>
-            <h1 class="masked-text">OPERATIONS</h1>
+            <svg viewBox="0 0 800 600" class="svg-mask">
+                <defs>
+                    <clipPath id="textClip">
+                        <text x="0" y="100" class="svg-text main-title">TECHNICAL</text>
+                        <g id="wordStack">
+                            <text x="0" y="240" class="svg-text rotating">RESEARCH</text>
+                            <text x="0" y="380" class="svg-text rotating">DATA</text>
+                            <text x="0" y="520" class="svg-text rotating">BUSINESS</text>
+                            <text x="0" y="660" class="svg-text rotating">PROGRAM</text>
+                            <text x="0" y="800" class="svg-text rotating">STRATEGY</text>
+                            <text x="0" y="940" class="svg-text rotating">PRODUCT</text>
+                            <text x="0" y="1080" class="svg-text rotating">RESEARCH</text>
+                        </g>
+                        <text x="0" y="380" class="svg-text main-title" id="bottom-ops">OPERATIONS</text>
+                    </clipPath>
+                </defs>
+                
+                <image href="prores.png" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" clip-path="url(#textClip)" />
+            </svg>
         </div>
 
         <div class="industry-list">
