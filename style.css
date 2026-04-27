@@ -1,58 +1,78 @@
+* {
+    box-sizing: border-box; /* Prevents padding from pushing things off screen */
+}
+
 body {
-    background-color: #f0f5f5; /* Light grey/blue from your image */
+    background-color: #f0f5f5;
     margin: 0;
-    font-family: sans-serif; /* You can swap this for 'Inter' later */
-    overflow-x: hidden;
+    font-family: sans-serif;
+    overflow-x: hidden; /* Stops the horizontal scroll */
 }
 
 .hero {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr; /* Spreads text left and right */
-    height: 100vh;
-    padding: 5vw;
+    display: flex;
+    flex-wrap: wrap; /* Allows the list to drop below the headline on mobile */
+    min-height: 100vh;
+    padding: 4vw;
     align-items: center;
+    justify-content: space-between;
 }
 
-.headline-container h1, .rotating-word {
-    font-size: 12vw; /* Massive responsive text */
-    line-height: 0.9;
+.headline-container {
+    flex: 1 1 60%; /* Takes up 60% of width */
+    min-width: 300px;
+}
+
+.headline-container h1 {
+    font-size: 11vw; /* Slightly smaller to ensure it stays on screen */
+    line-height: 0.85;
     margin: 0;
     font-weight: 900;
     letter-spacing: -0.05em;
-    color: #000;
 }
 
-.industry-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding-left: 5vw;
-}
-
-.industry-item {
-    font-size: 3.5vw;
-    font-weight: 700;
-    line-height: 1.1;
-    color: #1a1a1a;
-}
-
+/* THE FIX FOR THE WINDOW */
 .word-window {
-    height: 12vw; /* Must match your font-size exactly */
-    overflow: hidden;
-    position: relative;
+    height: 11vw; /* MUST match the font-size above */
+    overflow: hidden; /* This is what hides the other words */
+    display: block;
 }
 
 .word-stack {
     display: flex;
     flex-direction: column;
+    will-change: transform;
 }
 
 .rotating-word {
-    height: 12vw; /* Ensures each word takes up the full window */
-    display: block;
-    font-size: 12vw;
+    height: 11vw; /* MUST match the window height */
+    font-size: 11vw;
     line-height: 1;
     font-weight: 900;
-    color: #000;
-    text-transform: uppercase;
+    display: block;
+}
+
+.industry-list {
+    flex: 1 1 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-top: 2rem;
+}
+
+.industry-item {
+    font-size: 2.5rem; /* Better for readability */
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .headline-container h1, .rotating-word, .word-window {
+        font-size: 18vw;
+        height: 18vw;
+    }
+    .industry-item {
+        font-size: 1.5rem;
+    }
 }
