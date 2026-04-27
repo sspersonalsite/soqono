@@ -1,0 +1,37 @@
+body {
+    background-color: #f0f5f5; /* Light grey/blue from your image */
+    margin: 0;
+    font-family: sans-serif; /* You can swap this for 'Inter' later */
+    overflow-x: hidden;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* Spreads text left and right */
+    height: 100vh;
+    padding: 5vw;
+    align-items: center;
+}
+
+.headline-container h1, .rotating-word {
+    font-size: 12vw; /* Massive responsive text */
+    line-height: 0.9;
+    margin: 0;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: #000;
+}
+
+.industry-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-left: 5vw;
+}
+
+.industry-item {
+    font-size: 3.5vw;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #1a1a1a;
+}
