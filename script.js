@@ -1,28 +1,28 @@
-// This tells GSAP to move the .word-stack up by one word height every 2 seconds
-const words = document.querySelectorAll(".rotating-word");
-const totalWords = words.length;
-let currentIndex = 0;
+// Wait for the page to load
+window.addEventListener("load", () => {
+    const stack = document.querySelector(".word-stack");
+    const words = document.querySelectorAll(".rotating-word");
+    let currentIndex = 0;
 
-function rotateWords() {
-    currentIndex++;
-    
-    // If we reach the end, reset to the first word
-    if (currentIndex >= totalWords) {
-        currentIndex = 0;
-        gsap.to(".word-stack", {
-            y: 0, 
-            duration: 0.8, 
-            ease: "power2.inOut"
-        });
-    } else {
-        // Move the stack up by the height of one word (12vw)
-        gsap.to(".word-stack", {
-            y: `-${currentIndex * 12}vw`, 
-            duration: 0.8, 
-            ease: "power2.inOut"
+    function rotate() {
+        currentIndex++;
+        
+        if (currentIndex >= words.length) {
+            // Instant reset to top without the user seeing a slide
+            gsap.set(stack, { y: 0 });
+            currentIndex = 1; 
+        }
+
+        // Calculate height based on the current size of a word
+        const wordHeight = words[0].offsetHeight;
+
+        gsap.to(stack, {
+            y: -(wordHeight * currentIndex),
+            duration: 0.8,
+            ease: "power3.inOut"
         });
     }
-}
 
-// Repeat the rotation every 2.5 seconds
-setInterval(rotateWords, 2500);
+    // Start the loop
+    setInterval(rotate, 2500);
+});
