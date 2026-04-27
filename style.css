@@ -35,30 +35,27 @@ body {
     color: #000;
 }
 
-/* THE FIX: Rigid window height and overflow */
+/* THE CROP WINDOW */
 .word-window {
-    height: 9vw; /* This MUST match the movement in script.js */
-    overflow: hidden; /* This hides the other words */
+    height: 10vw; /* Increased slightly for better visual breathing room */
+    overflow: hidden; 
     display: block;
-    position: relative;
-    border: 1px solid transparent; /* Forces layout calculation */
+    margin: 0;
+    /* Removed the border as it can add extra pixels to the height calculation */
 }
 
 .word-stack {
-    display: flex;
-    flex-direction: column;
+    display: block; /* Simpler than flex for vertical stacking */
     margin: 0;
     padding: 0;
 }
 
 .rotating-word {
-    height: 9vw; /* MUST match window height exactly */
-    font-size: 9.5vw;
-    line-height: 1; /* Essential for alignment */
-    font-weight: 900;
-    display: flex;
-    align-items: center; /* Centers text inside the 9vw box */
+    height: 10vw; /* MUST match .word-window exactly */
+    font-size: 10vw;
+    line-height: 1; /* Forces the text to occupy the vertical space predictably */
     margin: 0;
+    display: block;
     white-space: nowrap;
 }
 
