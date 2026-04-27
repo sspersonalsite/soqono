@@ -29,56 +29,53 @@ body {
     padding: 0 5vw;
 }
 
-/* Horizontal Bunching & Scaling */
-.headline-container {
+/* THE MASTER CONTAINER FIX */
+.headline-mask-wrapper {
     flex: 0 0 75%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-}
-
-.masked-header, .rotating-word {
-    font-family: 'Archivo Black', sans-serif;
-    font-size: 11vw; /* Slightly smaller base to handle the 2.2x scale better */
-    font-weight: 900;
-    line-height: 0.7; 
-    letter-spacing: -0.06em;
-    text-transform: uppercase;
     
-    /* THE 2X STRETCH */
-    transform: scaleY(2.2); 
-    transform-origin: left center;
-    
-    /* THE FIX FOR INVISIBLE WORDS */
+    /* Apply image mask once to the whole block */
     background-image: url('prores.png');
-    background-size: cover;      /* Forces image to fill the screen */
-    background-position: center; /* Centers the man behind the middle of the text */
-    background-attachment: fixed; 
+    background-size: cover;
+    background-position: center 20%;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    -webkit-text-fill-color: transparent; /* Extra layer for browser compatibility */
+    -webkit-text-fill-color: transparent;
+}
+
+.headline-row, .rotating-word {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11vw;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
     
-    margin: 4.5vw 0; 
-    display: block;
+    /* Vertical Stretch */
+    transform: scaleY(2.2);
+    transform-origin: left center;
+    
+    /* Remove individual margins that caused the overlap */
+    margin: 0; 
+    line-height: 1.1; /* Adjusted to prevent letters from eating each other */
 }
 
 .word-window {
-    height: 22vw; /* Increased from 18vw to accommodate the massive stretch */
+    height: 16vw; /* Carefully calculated for the 2.2x scale */
     overflow: hidden;
-    display: block;
-    margin: 1vw 0;
+    margin: 4vw 0; /* Creates the necessary "breathing room" for the stretch */
 }
 
 .rotating-word {
-    height: 22vw; /* Must match window height */
+    height: 16vw;
     display: flex;
     align-items: center;
-    margin: 0; 
 }
 
-/* Industry List Styling */
-.industry-list { flex: 0 0 20%; display: flex; flex-direction: column; gap: 4vw; }
-.industry-item { font-size: 2vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
+/* Header & Industry List (Keep your existing colors/styles) */
+.main-nav { background-color: #DDAE7E; position: absolute; width: 100%; top: 0; z-index: 10; }
+.industry-item { color: #426A5A; text-decoration: none; font-size: 2vw; font-weight: 700; }
