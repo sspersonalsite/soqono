@@ -1,115 +1,36 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: #F2C57C; font-family: sans-serif; overflow: hidden; width: 100vw; }
 
-body {
-    background-color: #F2C57C;
-    font-family: sans-serif;
-    overflow: hidden;
-    width: 100vw;
-}
-
-/* Header Styling */
 .main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5vw;
-    background-color: #DDAE7E;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 5vw; background-color: #DDAE7E;
+    position: absolute; width: 100%; top: 0; z-index: 100;
 }
+.logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
+.nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
-.logo {
-    font-family: 'Archivo Black', sans-serif;
-    color: #426A5A;
-    font-size: 1.5rem;
-}
-
-.nav-links a {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #426A5A;
-    font-weight: 600;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-}
-
-/* Hero Section */
 .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-    padding: 0 5vw;
+    display: flex; justify-content: space-between; align-items: center;
+    height: 100vh; padding: 0 5vw;
 }
 
-/* THE FIX: ONE SINGLE IMAGE MASK */
-.master-stencil {
+.headline-container {
     flex: 0 0 75%;
+    height: 90vh;
     display: flex;
-    flex-direction: column;
-    background-image: url('prores.png'); /* Ensure this filename is correct */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+    align-items: center;
 }
 
-/* Typography & Stretch */
-.headline-row, 
-.rotating-word {
+svg { width: 100%; height: 100%; overflow: visible; }
+
+.svg-text {
     font-family: 'Archivo Black', sans-serif;
-    font-size: 10vw;
+    font-size: 110px;
     font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.06em; /* Tight horizontal bunching */
-    line-height: 1;
-    
-    /* 2.2X VERTICAL STRETCH */
-    transform: scaleY(2.2);
-    transform-origin: left center;
+    letter-spacing: -6px;
+    /* This is the 2.2x vertical stretch handled by SVG */
+    transform: scale(1, 2.2);
 }
 
-/* Rigid Boxes to prevent overlap */
-.headline-row {
-    height: 20vw;
-    display: flex;
-    align-items: center;
-}
-
-.word-window {
-    height: 20vw;
-    overflow: hidden;
-    display: block;
-}
-
-.rotating-word {
-    height: 20vw;
-    display: flex;
-    align-items: center;
-}
-
-/* Industry List */
-.industry-list {
-    flex: 0 0 20%;
-    display: flex;
-    flex-direction: column;
-    gap: 4vw;
-}
-
-.industry-item {
-    font-size: 2vw;
-    font-weight: 700;
-    color: #426A5A;
-    text-decoration: none;
-    line-height: 1.1;
-}
+.industry-list { flex: 0 0 20%; display: flex; flex-direction: column; gap: 4vw; }
+.industry-item { font-size: 2vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
