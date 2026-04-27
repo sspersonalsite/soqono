@@ -4,7 +4,6 @@ body {
     background-color: #F2C57C;
     font-family: sans-serif;
     overflow-x: hidden;
-    width: 100vw;
 }
 
 .main-nav {
@@ -14,7 +13,6 @@ body {
     padding: 20px 5vw;
     background-color: #DDAE7E;
     position: absolute;
-    top: 0;
     width: 100%;
     z-index: 100;
 }
@@ -35,44 +33,39 @@ body {
 .headline-container h1, 
 .rotating-word {
     font-family: 'Archivo Black', sans-serif;
-    font-size: 11vw; /* Bigger base size */
-    line-height: 1;
-    letter-spacing: -0.04em;
+    font-size: 8vw; /* Reduced font-size because scaleY(2) makes it massive */
+    line-height: 0.7; /* Tightens the gap caused by scaling */
     text-transform: uppercase;
-    transform: scaleY(1.5); /* THIS STRETCHES THE FONT TALLER */
-    transform-origin: left;
-    margin: 1.5vw 0; /* Add margin to account for the vertical stretch */
+    transform: scaleY(2); /* DOUBLE HEIGHT */
+    transform-origin: left center;
+    margin: 4vw 0; /* Creates space for the tall letters */
 }
 
-/* THE FIX: Fixed background prevents image jumping during animation */
 .masked-text {
     background-image: url('prores.png'); 
+    background-repeat: no-repeat;
+    /* This makes the image cover the whole screen but stay "behind" the text */
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* Keeps the man in one spot */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     display: block;
+    /* Fix for the "blank" word bug: */
+    -webkit-text-fill-color: transparent;
+    backface-visibility: hidden;
 }
 
 .word-window {
-    height: 13vw; /* Adjusted for the taller stretched font */
+    height: 18vw; /* Must be large enough to contain the 2x scaled words */
     overflow: hidden;
-    margin: 1vw 0;
 }
 
 .rotating-word {
-    height: 13vw;
+    height: 18vw;
     display: flex;
     align-items: center;
 }
 
 .industry-list { flex: 0 0 25%; display: flex; flex-direction: column; gap: 3vw; }
 .industry-item { font-size: 2.2vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.1; }
-
-@media (max-width: 800px) {
-    .headline-container h1, .rotating-word { font-size: 14vw; transform: scaleY(1.3); }
-    .word-window { height: 18vw; }
-}
