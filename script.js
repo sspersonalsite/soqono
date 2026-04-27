@@ -7,7 +7,7 @@ window.addEventListener("load", () => {
     function rotate() {
         currentIndex++;
         
-        // This measures the height INCLUDING the vertical stretch
+        // Accurate decimal height calculation including the scale
         const wordHeight = words[0].getBoundingClientRect().height;
 
         gsap.to(stack, {
@@ -22,6 +22,5 @@ window.addEventListener("load", () => {
             }
         });
     }
-    // Set to 3000ms (3 seconds) for a more stable, readable feel
     setInterval(rotate, 3000);
 });
