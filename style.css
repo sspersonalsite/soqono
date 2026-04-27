@@ -6,7 +6,7 @@ body {
     background-color: #f0f5f5;
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: sans-serif; /* Unified Font Family */
     overflow-x: hidden; 
     width: 100vw;
 }
@@ -21,77 +21,76 @@ body {
     padding: 5vw;
 }
 
-.headline-container {
-    flex: 0 0 65%; /* Keeps headline to 65% of screen width */
-}
-
-.headline-container h1 {
-    font-size: 9.5vw; /* Slightly smaller to prevent right-side overflow */
-    line-height: 0.9;
+/* Master Typography Styles */
+.headline-container h1, 
+.rotating-word {
+    font-size: 10vw; 
+    line-height: 1;
     margin: 0;
     font-weight: 900;
     letter-spacing: -0.05em;
     text-transform: uppercase;
     color: #000;
+    font-family: sans-serif;
 }
 
-/* THE CROP WINDOW */
+.headline-container {
+    flex: 0 0 65%;
+}
+
+/* The Crop Window - must match font height exactly */
 .word-window {
-    height: 10vw; /* Increased slightly for better visual breathing room */
-    overflow: hidden; 
+    height: 10vw; 
+    overflow: hidden;
     display: block;
-    margin: 0;
-    /* Removed the border as it can add extra pixels to the height calculation */
+    position: relative;
 }
 
 .word-stack {
-    display: block; /* Simpler than flex for vertical stacking */
+    display: block;
     margin: 0;
     padding: 0;
 }
 
+/* Individual word slots */
 .rotating-word {
     height: 10vw;
-    font-size: 10vw;
-    line-height: 1; 
-    margin: 0;
-    display: flex;       /* Use flex to center the text in the 10vw box */
-    align-items: center; /* This keeps the letters vertically centered */
+    display: flex;
+    align-items: center; /* Vertical centering */
     white-space: nowrap;
 }
 
 .industry-list {
-    flex: 0 0 30%; /* Limits list to 30% of width */
+    flex: 0 0 30%;
     display: flex;
     flex-direction: column;
     gap: 2vw;
 }
 
 .industry-item {
-    font-size: 2.2vw;
+    font-size: 2.5vw;
     font-weight: 700;
     line-height: 1.1;
     color: #1a1a1a;
-    text-align: left;
 }
 
-/* Mobile: Stack them vertically */
+/* Mobile Responsive Adjustments */
 @media (max-width: 800px) {
     .hero {
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
     }
-    .headline-container h1, .rotating-word {
-        font-size: 15vw;
-    }
+    .headline-container h1, 
+    .rotating-word, 
     .word-window {
-        height: 14vw;
+        font-size: 15vw;
+        height: 15vw;
     }
     .industry-list {
-        margin-top: 50px;
+        margin-top: 40px;
     }
     .industry-item {
-        font-size: 6vw;
+        font-size: 7vw;
     }
 }
