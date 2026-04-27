@@ -10,7 +10,7 @@ window.addEventListener("load", () => {
 
         gsap.to(stack, {
             y: -(jumpDistance * currentIndex),
-            duration: 0.8,
+            duration: 0.9, // Slightly slower for a more "premium" feel
             ease: "power3.inOut",
             onComplete: () => {
                 if (currentIndex >= totalWords - 1) {
@@ -20,5 +20,5 @@ window.addEventListener("load", () => {
             }
         });
     }
-    setInterval(rotate, 2500);
+    setInterval(rotate, 2800);
 });
