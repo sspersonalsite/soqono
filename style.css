@@ -51,11 +51,12 @@ body {
 }
 
 .rotating-word {
-    height: 10vw; /* MUST match .word-window exactly */
+    height: 10vw;
     font-size: 10vw;
-    line-height: 1; /* Forces the text to occupy the vertical space predictably */
+    line-height: 1; 
     margin: 0;
-    display: block;
+    display: flex;       /* Use flex to center the text in the 10vw box */
+    align-items: center; /* This keeps the letters vertically centered */
     white-space: nowrap;
 }
 
