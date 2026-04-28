@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
     let time = 0;
     function render() {
         ctx.clearRect(0, 0, width, height);
-        const lineCount = 80;
+        const lineCount = 85;
         const step = width / lineCount;
         scanY += 2.2;
         if (scanY > height) scanY = -50;
@@ -66,22 +66,16 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // INTERACTION LOGIC
-    const listItems = document.querySelectorAll(".industry-item");
-    listItems.forEach(item => {
-        item.addEventListener("mouseenter", () => {
-            gsap.to(".noise-overlay", { opacity: 0.15, duration: 0.2, yoyo: true, repeat: 1 });
-        });
-    });
-
-    // BLOB DRIFT & TEXT ROTATE
+    // COLOR BLOB DRIFT
     gsap.to(".blob-1", { x: "15vw", y: "10vh", duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".blob-2", { x: "-10vw", y: "-15vh", duration: 25, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".blob-3", { x: "5vw", y: "10vh", duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
+    // HEADLINE ROTATION
     const stack = document.querySelector(".stack");
     const windowEl = document.querySelector(".window");
     let currentIndex = 0;
+
     function rotate() {
         currentIndex++;
         const jumpHeight = windowEl.clientHeight;
@@ -90,7 +84,10 @@ window.addEventListener("load", () => {
             duration: 1.2,
             ease: "expo.inOut",
             onComplete: () => {
-                if (currentIndex >= 6) { gsap.set(stack, { y: 0 }); currentIndex = 0; }
+                if (currentIndex >= 6) { 
+                    gsap.set(stack, { y: 0 }); 
+                    currentIndex = 0; 
+                }
             }
         });
     }
