@@ -6,6 +6,13 @@
 
 body {
     background-color: #F2C57C;
+    /* Create a subtle dot/grid pattern */
+    background-image: 
+        radial-gradient(#426A5A 0.5px, transparent 0.5px), 
+        radial-gradient(#426A5A 0.5px, #F2C57C 0.5px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    opacity: 1; /* Keep base body at 1 */
     font-family: sans-serif;
     overflow: hidden;
     width: 100vw;
