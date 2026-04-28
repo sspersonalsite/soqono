@@ -97,13 +97,13 @@ body {
 }
 
 .window {
-    height: 12vw; /* INCREASE THIS to match your new text height */
+    height: 18vw; /* Increased to accommodate the 2.2x stretch */
     overflow: hidden;
-    margin: 2vw 0;
+    margin: 3vw 0;
 }
 
 .rotate {
-    height: 12vw; /* MUST MATCH the .window height exactly */
+    height: 18vw; /* Must match the .window height exactly */
     display: flex;
     align-items: center;
     padding: 0;
