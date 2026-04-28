@@ -1,4 +1,5 @@
 window.addEventListener("load", () => {
+    // --- 1. CANVAS HUD SCANNER ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -66,30 +67,34 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // COLOR BLOB DRIFT
+    // --- 2. COLOR BLOB DRIFT ---
     gsap.to(".blob-1", { x: "15vw", y: "10vh", duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".blob-2", { x: "-10vw", y: "-15vh", duration: 25, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".blob-3", { x: "5vw", y: "10vh", duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
-    // HEADLINE ROTATION
-    const stack = document.querySelector(".stack");
-    const windowEl = document.querySelector(".window");
-    let currentIndex = 0;
+    // --- 3. TERMINAL SCRAMBLE SYSTEM ---
+    const words = ["RESEARCH", "DATA", "BUSINESS", "PROGRAM", "STRATEGY", "PRODUCT"];
+    let wordIndex = 0;
+    const target = document.getElementById("scramble-target");
+    const chars = "!<>-_\\/[]{}—=+*^?#________";
 
-    function rotate() {
-        currentIndex++;
-        const jumpHeight = windowEl.clientHeight;
-        gsap.to(stack, {
-            y: -(jumpHeight * currentIndex),
-            duration: 1.2,
-            ease: "expo.inOut",
-            onComplete: () => {
-                if (currentIndex >= 6) { 
-                    gsap.set(stack, { y: 0 }); 
-                    currentIndex = 0; 
-                }
-            }
-        });
+    function scrambleText() {
+        wordIndex = (wordIndex + 1) % words.length;
+        const finalWord = words[wordIndex];
+        let iteration = 0;
+        
+        const interval = setInterval(() => {
+            target.innerText = finalWord
+                .split("")
+                .map((letter, index) => {
+                    if (index < iteration) return finalWord[index];
+                    return chars[Math.floor(Math.random() * chars.length)];
+                })
+                .join("");
+
+            if (iteration >= finalWord.length) clearInterval(interval);
+            iteration += 1 / 3;
+        }, 30);
     }
-    setInterval(rotate, 3000);
+    setInterval(scrambleText, 3000);
 });
