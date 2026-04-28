@@ -7,29 +7,52 @@
 body {
     background-color: #F2C57C;
     font-family: sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
     width: 100vw;
     height: 100vh;
 }
 
-.grid-layer {
+/* GRADIENT MESH BACKGROUND */
+.bg-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: radial-gradient(rgba(66, 106, 90, 0.2) 1.5px, transparent 1.5px);
-    background-size: 50px 50px;
     z-index: -1;
-    opacity: 0.2;
+    overflow: hidden;
 }
 
+.blob {
+    position: absolute;
+    width: 70vw;
+    height: 70vw;
+    filter: blur(120px);
+    border-radius: 50%;
+    opacity: 0.4;
+    will-change: transform;
+}
+
+.blob-1 { background: #7FB685; top: -10%; left: -10%; }
+.blob-2 { background: #EF6F6C; bottom: -10%; right: -10%; }
+.blob-3 { background: #DDAE7E; top: 30%; left: 40%; width: 50vw; height: 50vw; }
+
+.noise-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.08; /* Subtle grain texture */
+    pointer-events: none;
+}
+
+/* TYPOGRAPHY & LAYOUT */
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 5vw;
-    background-color: #DDAE7E;
     position: fixed;
     width: 100%;
     top: 0;
@@ -47,68 +70,24 @@ body {
     height: 100vh;
 }
 
-.headline-container {
-    flex: 0 0 70%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
+.headline-container { flex: 0 0 70%; display: flex; flex-direction: column; }
 
 .text-row {
     font-family: 'Archivo Black', sans-serif;
-    /* Using a fixed-scaling size to prevent the 'Explosion' in the screenshot */
     font-size: 8.5vw; 
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.05em;
     color: #426A5A;
     line-height: 0.85;
-    
-    /* Instead of scaleY, we use a height-to-font ratio that is stable */
     display: block;
     height: 10vw; 
-    margin-bottom: 2vw;
+    margin-bottom: 2.5vw;
 }
 
-.window {
-    height: 10vw; /* Matches height of text-row */
-    overflow: hidden;
-    margin-bottom: 2vw;
-}
+.window { height: 10vw; overflow: hidden; margin-bottom: 2.5vw; }
+.rotate { height: 10vw; display: flex; align-items: center; }
 
-.rotate {
-    height: 10vw;
-    display: flex;
-    align-items: center;
-}
-
-.pulse-ring {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 300px;
-    height: 150px;
-    border: 3px solid #7FB685;
-    border-radius: 50%;
-    transform: translateY(-50%) scale(0);
-    opacity: 0;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.industry-list {
-    flex: 0 0 20%;
-    display: flex;
-    flex-direction: column;
-    gap: 2vw;
-    margin-top: 2vw;
-}
-
-.industry-item {
-    font-size: 1.4vw;
-    font-weight: 700;
-    color: #7FB685;
-    text-decoration: none;
-    line-height: 1.2;
-    will-change: transform;
-}
+.industry-list { flex: 0 0 22%; display: flex; flex-direction: column; gap: 2.5vw; margin-top: 2vw; }
+.industry-item { font-size: 1.5vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.2; opacity: 0.8; transition: opacity 0.3s; }
+.industry-item:hover { opacity: 1; color: #EF6F6C; }
