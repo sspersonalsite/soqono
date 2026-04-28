@@ -12,7 +12,7 @@ body {
     height: 100vh;
 }
 
-/* No changes needed to index.html structure from v17.0 */
+/* No changes to index.html structure needed */
 
 #waveCanvas {
     position: fixed;
@@ -22,11 +22,7 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
-    /* Keeps lines crisp even with anti-aliasing */
-    image-rendering: optimizeSpeed; 
 }
-
-/* Ensure the rest of your CSS stays the same as v17.0 */
 
 .bg-canvas {
     position: fixed;
@@ -37,7 +33,6 @@ body {
     z-index: -2;
     overflow: hidden;
 }
-
 .blob {
     position: absolute;
     width: 70vw;
