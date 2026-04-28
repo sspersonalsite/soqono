@@ -19,10 +19,11 @@ window.addEventListener("load", () => {
         gsap.to(row.querySelectorAll('span'), {
             y: 0,
             opacity: 1,
-            duration: 1,
-            stagger: 0.08,
+            duration: 1.2,
+            stagger: 0.05,
             ease: "expo.out",
-            startAt: { y: 40 } // Start slightly lower
+            // We start them slightly lower (y: 60) and they rise into place
+            startAt: { y: 60, opacity: 0 } 
         });
     });
 
