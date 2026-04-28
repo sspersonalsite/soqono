@@ -1,9 +1,10 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    background-color: #2B2D42; /* Slate Gray */
+    background-color: #2B2D42;
     font-family: 'Space Mono', monospace;
-    overflow: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+    overflow-y: auto;   /* Allow scrolling down on mobile */
     width: 100vw; height: 100vh;
 }
 
@@ -13,91 +14,111 @@ body {
 .grain-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    opacity: 0.08; pointer-events: none;
-    filter: invert(1); /* Invert noise for dark background */
+    opacity: 0.08; pointer-events: none; filter: invert(1);
 }
 
 .blob {
     position: absolute; width: 60vw; height: 60vw;
     filter: blur(140px); border-radius: 50%; opacity: 0.12;
 }
-.blob-1 { background: #8D99AE; top: -10%; left: -10%; } /* Cool Silver */
-.blob-2 { background: #EF233C; bottom: -10%; right: -10%; } /* Safety Orange */
+.blob-1 { background: #8D99AE; top: -10%; left: -10%; }
+.blob-2 { background: #EF233C; bottom: -10%; right: -10%; }
 
 .main-nav, .main-footer {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 5vw; background-color: #1a1b2b; /* Slightly darker than slate */
+    padding: 12px 5vw; background-color: #1a1b2b;
     position: fixed; width: 100%; z-index: 1000;
 }
 .main-nav { top: 0; border-bottom: 1px solid rgba(141, 153, 174, 0.1); }
 .main-footer { bottom: 0; color: #EF233C; font-size: 0.65rem; border-top: 1px solid rgba(141, 153, 174, 0.1); }
 
 .logo { font-family: 'Space Grotesk'; color: #EDF2F4; font-size: 1.1rem; font-weight: 700; }
-.nav-links a, .footer-email { text-decoration: none; color: #EDF2F4; font-size: 0.7rem; text-transform: uppercase; transition: color 0.3s; }
-.nav-links a:hover, .footer-email:hover { color: #EF233C; }
+.nav-links a, .footer-email { text-decoration: none; color: #EDF2F4; font-size: 0.7rem; text-transform: uppercase; }
 .nav-divider { color: #8D99AE; margin: 0 10px; opacity: 0.4; }
 
+/* HERO LAYOUT */
 .hero {
     display: flex; justify-content: center; align-items: flex-start;
-    height: 100vh; padding-top: 130px; padding-left: 5vw; padding-right: 5vw;
+    min-height: 100vh; padding-top: 130px; padding-bottom: 100px;
+    padding-left: 5vw; padding-right: 5vw;
 }
 
-.hero-inner { display: flex; align-items: flex-start; gap: 4vw; }
+.hero-inner {
+    display: flex; align-items: flex-start; 
+    gap: 4vw; width: fit-content;
+}
 
 .headline-container {
-    width: fit-content;
-    position: relative;
+    width: fit-content; position: relative;
     padding: 90px 60px 70px 60px;
     background: rgba(141, 153, 174, 0.03);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(141, 153, 174, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5vw; /* Increased gap for Modern Industrial clarity */
+    display: flex; flex-direction: column; gap: 1.5vw;
 }
 
 .hud-tag { position: absolute; top: 25px; left: 30px; font-size: 0.65rem; color: #EF233C; letter-spacing: 2px; }
 
 .text-row {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.8rem, 7vw, 8.5rem);
-    color: #EDF2F4; /* Signal White */
-    line-height: 1.0;
-    text-transform: uppercase; font-weight: 700;
-    white-space: nowrap;
+    font-size: clamp(2rem, 7vw, 8.5rem);
+    color: #EDF2F4; line-height: 1.0;
+    text-transform: uppercase; font-weight: 700; white-space: nowrap;
 }
 
-.window { display: flex; align-items: center; height: 1.1em; color: #8D99AE; } /* Silver rotating text */
+.window { display: flex; align-items: center; height: 1.1em; color: #8D99AE; }
 
 .industry-list { display: flex; flex-direction: column; gap: 15px; }
 
 .industry-item {
-    display: flex; align-items: flex-start;
-    padding: 1.6rem;
+    display: flex; align-items: flex-start; padding: 1.6rem;
     background: rgba(141, 153, 174, 0.05);
     backdrop-filter: blur(10px);
     border-left: 4px solid rgba(141, 153, 174, 0.2);
     text-decoration: none; transition: 0.3s ease;
 }
 
-.item-index { 
-    font-size: 0.7rem; 
-    color: #EF233C; /* Safety Orange index */
-    font-weight: 700;
-    margin-right: 15px; 
-    margin-top: 4px; 
-}
-
+.item-index { font-size: 0.7rem; color: #EF233C; font-weight: 700; margin-right: 15px; margin-top: 4px; }
 .item-text {
     font-size: clamp(0.9rem, 1.2vw, 1.4rem);
-    color: #8D99AE; /* Cool Silver text */
-    font-weight: 700;
+    color: #8D99AE; font-weight: 700;
     text-transform: uppercase; line-height: 1.2;
-    transition: color 0.3s;
 }
-
-.industry-item:hover { border-left-color: #EF233C; background: rgba(239, 35, 60, 0.05); }
-.industry-item:hover .item-text { color: #EDF2F4; }
 
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 1.5px solid #EF233C; border-right: 1.5px solid #EF233C; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #EF233C; border-left: 1.5px solid #EF233C; }
+
+/* --- MOBILE & TABLET RESPONSIVENESS --- */
+@media (max-width: 1024px) {
+    body { overflow-y: scroll; } /* Enable scroll for long vertical content */
+    
+    .hero { padding-top: 100px; }
+    
+    .hero-inner {
+        flex-direction: column; /* Stacks Industry List below Headline */
+        align-items: stretch;
+        width: 100%;
+        max-width: 600px; /* Keeps the HUD from getting too wide on tablets */
+        gap: 30px;
+    }
+    
+    .headline-container {
+        width: 100%;
+        padding: 60px 30px 40px 30px; /* Reduce padding for narrow screens */
+    }
+    
+    .text-row {
+        font-size: clamp(2rem, 12vw, 5rem); /* Allows text to stay large but fit width */
+    }
+    
+    .industry-list {
+        width: 100%;
+    }
+    
+    .industry-item {
+        padding: 1.2rem;
+    }
+    
+    .main-nav { padding: 10px 5vw; }
+    .nav-links { display: none; } /* Optional: Hide nav links on small mobile or use a burger menu */
+}
