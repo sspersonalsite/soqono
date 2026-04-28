@@ -36,7 +36,7 @@ body {
     height: 70vw;
     filter: blur(120px);
     border-radius: 50%;
-    opacity: 0.3;
+    opacity: 0.25;
 }
 
 .blob-1 { background: #7FB685; top: -10%; left: -10%; }
@@ -49,78 +49,43 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.06;
+    opacity: 0.05;
     pointer-events: none;
 }
 
-/* HEADER: Reduced by 50% */
-.main-nav {
+.main-nav, .main-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 5vw; /* Slimmer padding */
+    padding: 12px 5vw;
     background-color: #426A5A;
     position: fixed;
     width: 100%;
-    top: 0;
     z-index: 1000;
 }
 
-.logo { 
-    font-family: 'Space Grotesk', sans-serif; 
-    color: #EF6F6C; 
-    font-size: 1.1rem; 
-    font-weight: 700;
-}
+.main-nav { top: 0; }
+.main-footer { bottom: 0; color: #EF6F6C; font-size: 0.65rem; letter-spacing: 1px; }
 
-.nav-links a { 
-    margin-left: 20px; 
-    text-decoration: none; 
-    color: #EF6F6C; 
-    font-weight: 400; 
-    font-size: 0.7rem; 
-    text-transform: uppercase; 
-}
+.logo { font-family: 'Space Grotesk', sans-serif; color: #EF6F6C; font-size: 1.1rem; font-weight: 700; }
+.nav-links a, .footer-email { text-decoration: none; color: #EF6F6C; font-size: 0.7rem; text-transform: uppercase; margin-left: 20px; }
 
-/* FOOTER: Matching the Header */
-.main-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 5vw;
-    background-color: #426A5A;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    z-index: 1000;
-    color: #EF6F6C;
-    font-size: 0.65rem;
-    letter-spacing: 1px;
-}
-
-.footer-email {
-    color: #EF6F6C;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(239, 111, 108, 0.3);
-}
-
-/* HERO AREA */
 .hero {
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
-    padding: 100px 5vw 80px 5vw; /* Adjusted for slimmer nav/footer */
-    height: calc(100vh - 40px);
+    align-items: center; /* Centering the two main blocks */
+    padding: 0 5vw;
+    height: 100vh; /* Takes full height minus header/footer padding */
     gap: 4vw;
 }
 
 .headline-container {
-    flex: 0 0 62%;
+    flex: 0 0 65%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     position: relative;
-    padding: 40px;
+    padding: 80px 40px; /* Increased padding for better internal spacing */
     background: rgba(66, 106, 90, 0.04);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(66, 106, 90, 0.1);
@@ -135,39 +100,42 @@ body {
 
 .text-row {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 7.5vw;
+    font-size: clamp(2.5rem, 7.5vw, 8rem);
     color: #426A5A;
-    line-height: 1;
+    line-height: 1.1;
     text-transform: uppercase;
     font-weight: 700;
 }
 
-.window { height: 7.5vw; display: flex; align-items: center; }
+.window { display: flex; align-items: center; height: 1.1em; }
 
-/* INDUSTRY LIST */
 .industry-list {
-    flex: 0 0 30%;
+    flex: 0 0 28%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 1.5rem;
 }
 
 .industry-item {
-    height: 22%;
-    display: flex;
-    align-items: center;
+    padding: 1.5rem;
     background: rgba(221, 174, 126, 0.1);
     backdrop-filter: blur(10px);
     border-left: 4px solid rgba(66, 106, 90, 0.2);
-    padding: 0 20px;
-    font-size: 1vw;
+    font-size: clamp(0.8rem, 1vw, 1.1rem);
     color: #426A5A;
     text-decoration: none;
     font-weight: 700;
     text-transform: uppercase;
+    transition: 0.3s ease;
 }
 
-.item-index { opacity: 0.5; margin-right: 12px; }
+.industry-item:hover {
+    border-left-color: #EF6F6C;
+    color: #EF6F6C;
+    background: rgba(66, 106, 90, 0.05);
+    padding-left: 2rem;
+}
 
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 2px solid #EF6F6C; border-right: 2px solid #EF6F6C; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 2px solid #EF6F6C; border-left: 2px solid #EF6F6C; }
