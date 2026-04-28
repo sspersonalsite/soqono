@@ -1,50 +1,43 @@
 window.addEventListener("load", () => {
-    // --- 1. "SILK FABRIC" WAVE ENGINE ---
+    // --- 1. TRUE ISIDOR.AI WAVE ENGINE ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
     let width, height;
-    let mouse = { x: -1000, y: -1000 };
 
     function resize() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
     resize();
 
     let time = 0;
     function render() {
         ctx.clearRect(0, 0, width, height);
         
-        const lineCount = 110; 
+        const lineCount = 90; 
         const step = width / lineCount;
         
-        ctx.lineWidth = 1.8;
-        ctx.strokeStyle = '#426A5A';
-        ctx.globalAlpha = 0.14;
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#426A5A'; // Strictly palette Dark Green
+        ctx.globalAlpha = 0.15;
 
         for (let i = 0; i <= lineCount; i++) {
             ctx.beginPath();
             let xAnchor = i * step;
 
-            for (let y = 0; y <= height; y += 15) {
-                // FABRIC PHYSICS:
-                // We use low-frequency noise for massive "folds" (silk)
-                // We scroll the noise horizontally (time * 0.0015) to simulate wind.
-                let wave1 = simplex.noise3D(xAnchor * 0.0006, y * 0.0006, time * 0.0012) * 85;
-                let wave2 = simplex.noise3D(xAnchor * 0.0015, y * 0.0015, time * 0.002) * 20; 
+            for (let y = 0; y <= height; y += 10) {
+                // Isidor Logic: The vertical distortion is strongest in the center (y) 
+                // and tapers off toward the top and bottom edges (0 and height).
+                let distanceToEdge = Math.min(y, height - y);
+                let edgeTaper = Math.min(1, distanceToEdge / (height * 0.3));
                 
-                let totalNoise = wave1 + wave2;
-
-                // Mouse Gravity interaction
-                let dx = xAnchor - mouse.x;
-                let dy = y - mouse.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                let mag = Math.max(0, (350 - dist) / 350);
+                // Low-frequency noise for the "billow"
+                let noise = simplex.noise3D(xAnchor * 0.001, y * 0.001, time * 0.002) * 50;
                 
-                let x = xAnchor + totalNoise + (dx * mag * 0.55);
+                // Apply the taper so lines are straighter at header/footer
+                let x = xAnchor + (noise * edgeTaper);
 
                 if (y === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
