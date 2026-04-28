@@ -22,6 +22,8 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
+    /* Keeps lines crisp even with anti-aliasing */
+    image-rendering: optimizeSpeed; 
 }
 
 /* Ensure the rest of your CSS stays the same as v17.0 */
