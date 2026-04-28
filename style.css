@@ -12,6 +12,8 @@ body {
     height: 100vh;
 }
 
+/* No changes needed to index.html structure from v17.0 */
+
 #waveCanvas {
     position: fixed;
     top: 0;
@@ -20,7 +22,11 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
+    /* This ensures the fragments look sharp */
+    image-rendering: pixelated; 
 }
+
+/* Ensure the rest of your CSS stays the same as v17.0 */
 
 .bg-canvas {
     position: fixed;
