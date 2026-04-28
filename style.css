@@ -32,32 +32,28 @@ body {
 
 .blob {
     position: absolute;
-    width: 70vw;
-    height: 70vw;
+    width: 60vw;
+    height: 60vw;
     filter: blur(120px);
     border-radius: 50%;
-    opacity: 0.25;
+    opacity: 0.2;
 }
 
-.blob-1 { background: #7FB685; top: -10%; left: -10%; }
-.blob-2 { background: #EF6F6C; bottom: -10%; right: -10%; }
-.blob-3 { background: #DDAE7E; top: 20%; left: 30%; width: 50vw; height: 50vw; }
+.blob-1 { background: #7FB685; top: -5%; left: -5%; }
+.blob-2 { background: #EF6F6C; bottom: -5%; right: -5%; }
+.blob-3 { background: #DDAE7E; top: 25%; left: 35%; }
 
 .noise-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.05;
-    pointer-events: none;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.05; pointer-events: none;
 }
 
 .main-nav, .main-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 5vw;
+    padding: 10px 5vw;
     background-color: #426A5A;
     position: fixed;
     width: 100%;
@@ -65,27 +61,32 @@ body {
 }
 
 .main-nav { top: 0; }
-.main-footer { bottom: 0; color: #EF6F6C; font-size: 0.65rem; letter-spacing: 1px; }
+.main-footer { bottom: 0; color: #EF6F6C; font-size: 0.65rem; }
 
-.logo { font-family: 'Space Grotesk', sans-serif; color: #EF6F6C; font-size: 1.1rem; font-weight: 700; }
+.logo { font-family: 'Space Grotesk'; color: #EF6F6C; font-size: 1.1rem; font-weight: 700; }
 .nav-links a, .footer-email { text-decoration: none; color: #EF6F6C; font-size: 0.7rem; text-transform: uppercase; margin-left: 20px; }
 
+/* HERO LAYOUT ADJUSTMENTS */
 .hero {
     display: flex;
-    justify-content: space-between;
-    align-items: center; /* Centering the two main blocks */
-    padding: 0 5vw;
-    height: 100vh; /* Takes full height minus header/footer padding */
-    gap: 4vw;
+    justify-content: center; /* Centers the content group */
+    align-items: center;
+    height: 100vh;
+    padding: 60px 5vw 40px 5vw; /* Tighter top/bottom spacing */
+}
+
+.hero-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 2vw; /* Reduced gap between title and list */
+    width: 100%;
+    max-width: 1400px;
 }
 
 .headline-container {
     flex: 0 0 65%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     position: relative;
-    padding: 80px 40px; /* Increased padding for better internal spacing */
+    padding: 60px 40px;
     background: rgba(66, 106, 90, 0.04);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(66, 106, 90, 0.1);
@@ -100,29 +101,34 @@ body {
 
 .text-row {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 7.5vw, 8rem);
+    font-size: clamp(2rem, 7vw, 7.5vw);
     color: #426A5A;
-    line-height: 1.1;
+    line-height: 0.95; /* Loosened spacing slightly */
+    letter-spacing: -0.02em; /* Tighter letter fit but readable */
     text-transform: uppercase;
     font-weight: 700;
 }
 
-.window { display: flex; align-items: center; height: 1.1em; }
+.window { 
+    height: 1.1em; 
+    display: flex; 
+    align-items: center;
+    margin: 5px 0; /* Extra breathe room between rows */
+}
 
 .industry-list {
-    flex: 0 0 28%;
+    flex: 0 0 30%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 1.5rem;
+    gap: 12px; /* Uniform, tighter gap */
 }
 
 .industry-item {
-    padding: 1.5rem;
+    padding: 1.2rem;
     background: rgba(221, 174, 126, 0.1);
     backdrop-filter: blur(10px);
     border-left: 4px solid rgba(66, 106, 90, 0.2);
-    font-size: clamp(0.8rem, 1vw, 1.1rem);
+    font-size: 0.85vw;
     color: #426A5A;
     text-decoration: none;
     font-weight: 700;
@@ -134,8 +140,7 @@ body {
     border-left-color: #EF6F6C;
     color: #EF6F6C;
     background: rgba(66, 106, 90, 0.05);
-    padding-left: 2rem;
 }
 
-.hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 2px solid #EF6F6C; border-right: 2px solid #EF6F6C; }
-.hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 2px solid #EF6F6C; border-left: 2px solid #EF6F6C; }
+.hud-corner-tr { position: absolute; top: 0; right: 0; width: 20px; height: 20px; border-top: 1.5px solid #EF6F6C; border-right: 1.5px solid #EF6F6C; }
+.hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 20px; height: 20px; border-bottom: 1.5px solid #EF6F6C; border-left: 1.5px solid #EF6F6C; }
