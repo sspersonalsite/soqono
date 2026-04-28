@@ -47,49 +47,52 @@ body {
 .hero {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start; /* Aligns to top instead of center */
     height: 100vh;
-    padding: 0 5vw;
+    padding: 120px 5vw 0 5vw; /* Fixed top padding to sit under nav */
 }
 
 .headline-container {
     flex: 0 0 75%;
     display: flex;
     flex-direction: column;
+    position: relative; /* Required for the shockwave position */
 }
 
 .text-row {
+    /* Responsive Font: Min 40px, Preferred 10vw, Max 180px */
+    font-size: clamp(40px, 10vw, 180px); 
     font-family: 'Archivo Black', sans-serif;
-    font-size: 11vw;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: -0.06em;
-    line-height: 1;
-    
-    /* 2.2X VERTICAL STRETCH */
+    line-height: 0.9;
     transform: scaleY(2.2);
     transform-origin: left center;
-    
-    /* SWAPPED COLOR: Dark Green */
-    color: #426A5A !important;
-    
-    margin: 3vw 0;
-    display: block;
+    color: #426A5A;
+    margin: 4vw 0; /* Scalable margin */
 }
 
-.window {
-    height: 22vw;
-    overflow: hidden;
-    margin: 2vw 0;
+/* THE SHOCKWAVE / PULSE RING */
+.pulse-ring {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 200px;
+    height: 100px;
+    border: 2px solid #7FB685;
+    border-radius: 50%; /* Oval shape */
+    transform: translateY(-50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
 }
 
-.rotate {
-    height: 22vw;
-    display: flex;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-}
+/* Window/Rotate heights must stay in sync with the new clamp font */
+/* Since clamp is dynamic, we use a slightly larger vw to be safe */
+.window { height: 20vw; overflow: hidden; }
+.rotate { height: 20vw; display: flex; align-items: center; }
+
 
 .industry-list {
     flex: 0 0 20%;
