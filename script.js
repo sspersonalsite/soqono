@@ -1,86 +1,81 @@
 window.addEventListener("load", () => {
-    // --- 1. GENERATIVE DATA-PULSE SYSTEM ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
     let width, height;
     let mouse = { x: -1000, y: -1000 };
-    let packets = []; // Array to hold the "data packets"
+    let fragments = [];
 
     function resize() {
         width = canvas.width = window.innerWidth;
         height = canvas.height = window.innerHeight;
+        initFragments();
     }
-    window.addEventListener('resize', resize);
-    resize();
 
-    window.addEventListener('mousemove', e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    });
+    class Fragment {
+        constructor(x, y) {
+            this.baseX = x;
+            this.baseY = y;
+            this.x = x;
+            this.y = y;
+            this.angle = Math.random() * Math.PI * 2; // Random initial rotation
+            this.size = Math.random() * 15 + 5; // Length of the dash
+        }
+
+        update(time) {
+            let dx = this.x - mouse.x;
+            let dy = this.y - mouse.y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+            let influence = Math.max(0, (200 - dist) / 200);
+
+            // 1. Organic Drift (The "Chaos" state)
+            let noise = simplex.noise3D(this.baseX * 0.01, this.baseY * 0.01, time * 0.002) * 20;
+            this.x = this.baseX + noise;
+            
+            // 2. Assembly Logic (The "Ops" state)
+            // If mouse is near, rotate to 90 degrees (vertical) and snap to grid
+            let targetAngle = (dist < 150) ? Math.PI / 2 : this.angle + (time * 0.01);
+            
+            // Smoothly interpolate rotation
+            this.currentAngle = gsap.utils.interpolate(this.angle + (noise * 0.1), Math.PI / 2, influence);
+        }
+
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.currentAngle);
+            ctx.beginPath();
+            ctx.moveTo(-this.size / 2, 0);
+            ctx.lineTo(this.size / 2, 0);
+            ctx.stroke();
+            ctx.restore();
+        }
+    }
+
+    function initFragments() {
+        fragments = [];
+        const spacing = 40;
+        for (let x = 0; x < width; x += spacing) {
+            for (let y = 0; y < height; y += spacing) {
+                fragments.push(new Fragment(x, y));
+            }
+        }
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    resize();
 
     let time = 0;
     function render() {
         ctx.clearRect(0, 0, width, height);
-        const lineCount = 75; 
-        const step = width / lineCount;
-        
-        // DRAW THE BLUEPRINT INFRASTRUCTURE
-        ctx.setLineDash([2, 4]); // Dotted lines
         ctx.strokeStyle = '#426A5A';
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 0.12; // Very faint schematic look
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = 0.2;
 
-        for (let i = 0; i <= lineCount; i++) {
-            ctx.beginPath();
-            let xBase = i * step;
-
-            for (let y = 0; y <= height; y += 20) {
-                let noise = simplex.noise3D(xBase * 0.003, y * 0.003, time * 0.004) * 35;
-                let dx = xBase - mouse.x;
-                let dy = y - mouse.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                let mag = Math.max(0, (250 - dist) / 250);
-                let x = xBase + noise + (dx * mag * 0.4);
-
-                if (y === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.stroke();
-        }
-
-        // THE DATA PULSE LOGIC
-        ctx.setLineDash([]); // Reset to solid for packets
-        ctx.globalAlpha = 0.6;
-        ctx.fillStyle = '#7FB685'; // Vibrant green data packets
-
-        // Spawn a new packet occasionally
-        if (Math.random() > 0.96) {
-            packets.push({ 
-                lineIndex: Math.floor(Math.random() * lineCount), 
-                y: -10, 
-                speed: Math.random() * 4 + 3 
-            });
-        }
-
-        packets.forEach((p, index) => {
-            p.y += p.speed;
-            let xBase = p.lineIndex * step;
-            // Packets follow the same noise/mouse path as the lines
-            let noise = simplex.noise3D(xBase * 0.003, p.y * 0.003, time * 0.004) * 35;
-            let dx = xBase - mouse.x;
-            let dy = p.y - mouse.y;
-            let dist = Math.sqrt(dx * dx + dy * dy);
-            let mag = Math.max(0, (250 - dist) / 250);
-            
-            let x = xBase + noise + (dx * mag * 0.4);
-
-            ctx.beginPath();
-            ctx.arc(x, p.y, 2, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Cleanup
-            if (p.y > height + 10) packets.splice(index, 1);
+        fragments.forEach(f => {
+            f.update(time);
+            f.draw();
         });
 
         time++;
@@ -88,12 +83,13 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // --- 2. BACKGROUND BLOB DRIFT ---
+    // --- RETAIN ALL PREVIOUS LOGIC BELOW ---
+    // (Background Blobs, Magnetic Hover, and Text Rotation)
+    
     gsap.to(".blob-1", { x: "15vw", y: "10vh", duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".blob-2", { x: "-10vw", y: "-15vh", duration: 25, repeat: -1, yoyo: true, ease: "sine.inOut" });
     gsap.to(".blob-3", { x: "5vw", y: "10vh", duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
-    // --- 3. MAGNETIC HOVER ---
     const items = document.querySelectorAll(".industry-item");
     items.forEach(item => {
         item.addEventListener("mousemove", (e) => {
@@ -107,22 +103,19 @@ window.addEventListener("load", () => {
         });
     });
 
-    // --- 4. TEXT ROTATION (ISIDOR STYLE) ---
     const stack = document.querySelector(".stack");
     const windowEl = document.querySelector(".window");
-    const words = document.querySelectorAll(".rotate");
     let currentIndex = 0;
 
     function rotate() {
         currentIndex++;
         const jumpHeight = windowEl.clientHeight;
-
         gsap.to(stack, {
             y: -(jumpHeight * currentIndex),
             duration: 1.2,
             ease: "expo.inOut",
             onComplete: () => {
-                if (currentIndex >= words.length - 1) {
+                if (currentIndex >= document.querySelectorAll(".rotate").length - 1) {
                     gsap.set(stack, { y: 0 });
                     currentIndex = 0;
                 }
