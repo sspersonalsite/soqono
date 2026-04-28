@@ -126,14 +126,49 @@ body {
     flex: 0 0 22%;
     display: flex;
     flex-direction: column;
-    gap: 2.5vw;
+    gap: 3vw;
+    margin-top: 2vw;
 }
 
 .industry-item {
-    font-size: 1.5vw;
+    position: relative;
+    padding: 15px 20px;
+    font-size: 1.2vw;
     font-weight: 700;
     color: #426A5A;
     text-decoration: none;
     line-height: 1.2;
-    will-change: transform;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    
+    /* THE GLASS CARVE EFFECT */
+    background: rgba(221, 174, 126, 0.1); /* DDAE7E with transparency */
+    backdrop-filter: blur(8px); /* Distorts the wave background behind it */
+    -webkit-backdrop-filter: blur(8px);
+    border-left: 2px solid #EF6F6C; /* Coral accent "marker" */
+    
+    transition: all 0.4s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* Technical "Corner" Accents */
+.industry-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #426A5A;
+    border-right: 2px solid #426A5A;
+    opacity: 0.5;
+}
+
+/* Hover State: The "Activation" Pulse */
+.industry-item:hover {
+    background: rgba(127, 182, 133, 0.2); /* 7FB685 Vibrant Green glow */
+    color: #EF6F6C; /* Pink/Coral highlight */
+    padding-left: 30px; /* Slight shift to the right */
+    border-left: 4px solid #7FB685;
 }
