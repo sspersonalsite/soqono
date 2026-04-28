@@ -7,16 +7,18 @@ window.addEventListener("load", () => {
     function rotate() {
         currentIndex++;
         
-        // Get precise height of the window container
         const jumpHeight = windowEl.offsetHeight;
 
         gsap.to(stack, {
             y: -(jumpHeight * currentIndex),
-            duration: 1.2,
-            ease: "expo.inOut",
+            duration: 1.1, // Slightly longer duration to enjoy the physics
+            /* back.out(1.7) creates a sophisticated overshoot. 
+               The '1.7' controls how much it overshoots. 
+            */
+            ease: "back.out(1.7)", 
             onComplete: () => {
-                // If we reach the end (the decoy word), reset to start instantly
                 if (currentIndex >= words.length - 1) {
+                    // Instant reset to the first word (the decoy)
                     gsap.set(stack, { y: 0 });
                     currentIndex = 0;
                 }
@@ -24,6 +26,5 @@ window.addEventListener("load", () => {
         });
     }
 
-    // Move every 3 seconds
     setInterval(rotate, 3000);
 });
