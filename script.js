@@ -1,26 +1,17 @@
 window.addEventListener("load", () => {
     // 1. REVEAL ANIMATION (TECHNICAL & OPERATIONS)
-    gsap.from(".static", {
-        x: -100,
+    // Targeting the h1 rows that don't rotate
+    const staticRows = document.querySelectorAll(".static");
+
+    gsap.from(staticRows, {
+        x: -100, // Slides in from the left
         opacity: 0,
-        duration: 1.2,
-        stagger: 0.2,
+        duration: 1.5,
+        stagger: 0.3,
         ease: "power4.out"
     });
 
-    // 2. MOUSE PARALLAX (Subtle image shift)
-    window.addEventListener("mousemove", (e) => {
-        const xPos = (e.clientX / window.innerWidth) - 0.5;
-        const yPos = (e.clientY / window.innerHeight) - 0.5;
-        
-        gsap.to(".text-row", {
-            backgroundPosition: `${50 + (xPos * 5)}% ${50 + (yPos * 5)}%`,
-            duration: 1,
-            ease: "power2.out"
-        });
-    });
-
-    // 3. VERTICAL ROTATION (The Word Stack)
+    // 2. VERTICAL ROTATION (The Word Stack)
     const stack = document.querySelector(".stack");
     const windowEl = document.querySelector(".window");
     const words = document.querySelectorAll(".rotate");
@@ -28,13 +19,16 @@ window.addEventListener("load", () => {
 
     function rotate() {
         currentIndex++;
+        
+        // Measure the physical height of the window at this exact screen size
         const jumpHeight = windowEl.offsetHeight;
 
         gsap.to(stack, {
             y: -(jumpHeight * currentIndex),
             duration: 1,
-            ease: "back.out(1.5)", // Kinetic Elasticity
+            ease: "back.out(1.5)", // Kinetic Elasticity snap
             onComplete: () => {
+                // When we reach the decoy (last word), instantly reset
                 if (currentIndex >= words.length - 1) {
                     gsap.set(stack, { y: 0 });
                     currentIndex = 0;
@@ -42,5 +36,7 @@ window.addEventListener("load", () => {
             }
         });
     }
+
+    // Move every 3 seconds
     setInterval(rotate, 3000);
 });
