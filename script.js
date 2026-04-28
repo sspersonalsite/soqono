@@ -19,40 +19,59 @@ window.addEventListener("load", () => {
     });
 
     let time = 0;
-    function renderWaves() {
-        ctx.clearRect(0, 0, width, height);
-        const lineCount = 70; 
-        const step = width / lineCount;
-        
-        ctx.strokeStyle = '#426A5A'; // Lines match your text color
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 0.25;
+ let packets = [];
 
-        for (let i = 0; i <= lineCount; i++) {
-            ctx.beginPath();
-            let xBase = i * step;
+function renderWaves() {
+    ctx.clearRect(0, 0, width, height);
+    const lineCount = 70; 
+    const step = width / lineCount;
+    
+    // 1. Draw the "Infrastructure" (The vertical lines)
+    ctx.setLineDash([2, 4]); // Dotted look for a blueprint feel
+    ctx.strokeStyle = '#426A5A';
+    ctx.lineWidth = 1;
+    ctx.globalAlpha = 0.15;
 
-            for (let y = 0; y <= height; y += 15) {
-                // Organic flow
-                let noise = simplex.noise3D(xBase * 0.003, y * 0.003, time * 0.004) * 35;
-                
-                // Mouse Interaction (Push effect)
-                let dx = xBase - mouse.x;
-                let dy = y - mouse.y;
-                let dist = Math.sqrt(dx * dx + dy * dy);
-                let mag = Math.max(0, (250 - dist) / 250);
-                
-                let x = xBase + noise + (dx * mag * 0.4);
-
-                if (y === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.stroke();
+    for (let i = 0; i <= lineCount; i++) {
+        ctx.beginPath();
+        let xBase = i * step;
+        for (let y = 0; y <= height; y += 20) {
+            let noise = simplex.noise3D(xBase * 0.003, y * 0.003, time * 0.004) * 35;
+            let dx = xBase - mouse.x;
+            let dy = y - mouse.y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+            let mag = Math.max(0, (250 - dist) / 250);
+            let x = xBase + noise + (dx * mag * 0.4);
+            if (y === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
-        time++;
-        requestAnimationFrame(renderWaves);
+        ctx.stroke();
     }
-    renderWaves();
+
+    // 2. THE DATA PULSE: Draw and move "packets"
+    ctx.setLineDash([]); // Reset to solid for packets
+    ctx.globalAlpha = 0.6;
+    ctx.fillStyle = '#7FB685'; // Vibrant green packets
+
+    // Randomly spawn a new packet
+    if (Math.random() > 0.95) {
+        packets.push({ lineIndex: Math.floor(Math.random() * lineCount), y: 0, speed: Math.random() * 5 + 2 });
+    }
+
+    packets.forEach((p, index) => {
+        p.y += p.speed;
+        let xBase = p.lineIndex * step;
+        let noise = simplex.noise3D(xBase * 0.003, p.y * 0.003, time * 0.004) * 35;
+        ctx.beginPath();
+        ctx.arc(xBase + noise, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Remove packet when it leaves the screen
+        if (p.y > height) packets.splice(index, 1);
+    });
+
+    time++;
+    requestAnimationFrame(renderWaves);
+}
 
     // --- 2. BACKGROUND BLOB DRIFT ---
     gsap.to(".blob-1", { x: "15vw", y: "10vh", duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
