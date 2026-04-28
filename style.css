@@ -14,26 +14,19 @@ body {
 
 #waveCanvas {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     z-index: -1;
 }
 
 .bg-canvas {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     z-index: -2;
 }
 
 .blob {
     position: absolute;
-    width: 60vw;
-    height: 60vw;
+    width: 60vw; height: 60vw;
     filter: blur(120px);
     border-radius: 50%;
     opacity: 0.15;
@@ -43,17 +36,11 @@ body {
 .blob-2 { background: #EF6F6C; bottom: -5%; right: -5%; }
 .blob-3 { background: #DDAE7E; top: 25%; left: 35%; }
 
-.noise-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    opacity: 0.05; pointer-events: none;
-}
-
 .main-nav, .main-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 5vw;
+    padding: 12px 5vw;
     background-color: #426A5A;
     position: fixed;
     width: 100%;
@@ -64,9 +51,20 @@ body {
 .main-footer { bottom: 0; color: #EF6F6C; font-size: 0.65rem; }
 
 .logo { font-family: 'Space Grotesk'; color: #EF6F6C; font-size: 1.1rem; font-weight: 700; }
-.nav-links a, .footer-email { text-decoration: none; color: #EF6F6C; font-size: 0.7rem; text-transform: uppercase; margin-left: 20px; }
 
-/* HERO LAYOUT */
+.nav-links a, .footer-email { 
+    text-decoration: none; 
+    color: #EF6F6C; 
+    font-size: 0.7rem; 
+    text-transform: uppercase; 
+}
+
+.nav-divider {
+    color: #EF6F6C;
+    margin: 0 10px;
+    opacity: 0.4;
+}
+
 .hero {
     display: flex;
     justify-content: center;
@@ -77,14 +75,14 @@ body {
 
 .hero-inner {
     display: flex;
-    align-items: center; /* Vertical center both blocks */
-    gap: 3vw;
+    align-items: center;
+    gap: 4vw;
     width: 100%;
-    max-width: 1500px;
+    max-width: 1600px;
 }
 
 .headline-container {
-    flex: 0 0 65%;
+    flex: 0 0 60%;
     position: relative;
     padding: 80px 50px;
     background: rgba(66, 106, 90, 0.04);
@@ -92,7 +90,7 @@ body {
     border: 1px solid rgba(66, 106, 90, 0.1);
     display: flex;
     flex-direction: column;
-    gap: 0.5rem; /* Flexible gap instead of hard-coded heights */
+    gap: 0.5rem;
 }
 
 .hud-tag {
@@ -100,51 +98,63 @@ body {
     top: 20px; left: 25px;
     font-size: 0.65rem;
     color: #EF6F6C;
-    letter-spacing: 1px;
 }
 
 .text-row {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 6.5vw, 8rem);
+    font-size: clamp(2rem, 6vw, 7rem);
     color: #426A5A;
-    line-height: 1; /* Reset line height to prevent overlap */
-    letter-spacing: -0.01em;
+    line-height: 1;
     text-transform: uppercase;
     font-weight: 700;
-    margin: 0;
 }
 
-.window { 
-    display: flex; 
-    align-items: center;
-    min-height: 1.1em;
+/* Middle word specific sizing - smaller to fit the long phrase */
+#scramble-target {
+    font-size: clamp(1rem, 2.5vw, 3rem);
+    letter-spacing: 0.1em;
 }
 
 .industry-list {
-    flex: 0 0 30%;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 .industry-item {
-    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    padding: 1.5rem;
     background: rgba(221, 174, 126, 0.1);
     backdrop-filter: blur(10px);
     border-left: 4px solid rgba(66, 106, 90, 0.2);
-    font-size: clamp(0.7rem, 0.9vw, 1.1rem);
-    color: #426A5A;
     text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.item-index { 
+    font-size: 0.7rem; 
+    color: #426A5A; 
+    opacity: 0.5; 
+    margin-right: 15px;
+    margin-top: 4px;
+}
+
+.item-text {
+    font-size: clamp(0.9rem, 1.2vw, 1.4rem);
+    color: #426A5A;
     font-weight: 700;
     text-transform: uppercase;
-    transition: 0.3s ease;
+    line-height: 1.2;
 }
 
 .industry-item:hover {
     border-left-color: #EF6F6C;
-    color: #EF6F6C;
     background: rgba(66, 106, 90, 0.05);
 }
+
+.industry-item:hover .item-text { color: #EF6F6C; }
 
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 1.5px solid #EF6F6C; border-right: 1.5px solid #EF6F6C; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #EF6F6C; border-left: 1.5px solid #EF6F6C; }
