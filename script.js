@@ -15,25 +15,23 @@ window.addEventListener("load", () => {
     function render() {
         ctx.clearRect(0, 0, width, height);
         
-        // ISIDOR STYLE: High density vertical flow
         const lineCount = 100; 
         const step = width / lineCount;
         
-        ctx.lineWidth = 1.4;
-        ctx.strokeStyle = '#426A5A';
-        ctx.globalAlpha = 0.14;
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = '#8D99AE'; // Silver waves
+        ctx.globalAlpha = 0.12;
 
         for (let i = 0; i <= lineCount; i++) {
             ctx.beginPath();
             let xAnchor = i * step;
 
             for (let y = 0; y <= height; y += 10) {
-                // Taper effect: Keep ends stable like Isidor
                 let distanceToEdge = Math.min(y, height - y);
                 let edgeTaper = Math.min(1, distanceToEdge / (height * 0.25));
                 
-                // Motion: Billowing noise + Horizontal flow drift
-                let noise = simplex.noise3D(xAnchor * 0.0012, y * 0.001, time * 0.0015) * 60;
+                // Sinusoidal flow for Modern Industrial precision
+                let noise = simplex.noise3D(xAnchor * 0.001, y * 0.0012, time * 0.0018) * 55;
                 
                 let x = xAnchor + (noise * edgeTaper);
 
@@ -48,11 +46,10 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // TERMINAL SCRAMBLE
     const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     let wordIndex = 0;
     const target = document.getElementById("scramble-target");
-    const chars = "!<>-_\\/[]{}—=+*^?#________";
+    const chars = "0123456789<>-_\\/[]{}—=+*^?#"; // Technical scramble chars
 
     function scrambleText() {
         wordIndex = (wordIndex + 1) % words.length;
@@ -69,7 +66,7 @@ window.addEventListener("load", () => {
     }
     setInterval(scrambleText, 3500);
 
-    // DRIFTING BLOBS
-    gsap.to(".blob-1", { x: "10vw", y: "5vh", duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to(".blob-2", { x: "-10vw", y: "-5vh", duration: 25, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    // Drifting Blobs logic
+    gsap.to(".blob-1", { x: "8vw", y: "4vh", duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(".blob-2", { x: "-8vw", y: "-4vh", duration: 22, repeat: -1, yoyo: true, ease: "sine.inOut" });
 });
