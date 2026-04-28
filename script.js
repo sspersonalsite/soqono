@@ -1,5 +1,5 @@
 window.addEventListener("load", () => {
-    // --- 1. VERTICAL FLOWING WAVES (Right to Left) ---
+    // --- 1. LOCALIZED VERTICAL WAVES (Right to Left) ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -21,22 +21,26 @@ window.addEventListener("load", () => {
     function render() {
         ctx.clearRect(0, 0, width, height);
         
-        const lineCount = 60; 
+        // DOUBLED LINE COUNT: 120 lines for high resolution
+        const lineCount = 120; 
         const step = width / lineCount;
         
         ctx.lineWidth = 1;
         ctx.strokeStyle = '#426A5A';
-        ctx.globalAlpha = 0.15;
+        ctx.globalAlpha = 0.12;
 
         for (let i = 0; i <= lineCount; i++) {
             ctx.beginPath();
-            // Start the x position based on step + a time-based offset for "flow"
-            let xBase = (i * step - (time * 1.5)) % width;
-            if (xBase < 0) xBase += width; // Wrap around to stay right-to-left
+            
+            // Continuous flow from right to left
+            let xBase = (i * step - (time * 1.2)) % width;
+            if (xBase < 0) xBase += width;
 
-            for (let y = 0; y <= height; y += 15) {
-                // Vertical wave noise
-                let noise = simplex.noise3D(xBase * 0.002, y * 0.002, time * 0.002) * 40;
+            for (let y = 0; y <= height; y += 10) {
+                // LOCALIZED VERTICAL NOISE: 
+                // Adding 'y' into the simplex math ensures different parts 
+                // of the same line move at different speeds/offsets.
+                let noise = simplex.noise3D(xBase * 0.003, y * 0.004, time * 0.002) * 35;
                 
                 // Mouse gravity interaction
                 let dx = xBase - mouse.x;
