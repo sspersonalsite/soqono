@@ -1,4 +1,8 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
     background-color: #F2C57C;
@@ -8,66 +12,96 @@ body {
     height: 100vh;
 }
 
+/* Header Styling (Keep the green you like) */
 .main-nav {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 20px 5vw; background-color: #DDAE7E;
-    position: fixed; width: 100%; top: 0; z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5vw;
+    background-color: #DDAE7E;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
 }
 
+.logo {
+    font-family: 'Archivo Black', sans-serif;
+    color: #426A5A;
+    font-size: 1.5rem;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #426A5A;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+/* Hero Section: The side-by-side flexbox */
 .hero {
     display: flex;
-    justify-content: space-between; /* Pushes list to the right */
+    justify-content: space-between;
     align-items: center;
     height: 100vh;
     padding: 0 5vw;
 }
 
 .headline-container {
-    flex: 0 0 70%;
+    flex: 0 0 75%;
     display: flex;
     flex-direction: column;
-    gap: 3vw; /* Physical space between the three rows */
 }
 
+/* THE NEW SOLID TEXT STYLE */
 .text-row {
     font-family: 'Archivo Black', sans-serif;
-    font-size: 10vw;
+    font-size: 11vw; /* Balanced size for large screens */
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.06em; /* Horizontal bunching */
     line-height: 1;
-
-    /* THE STRETCH */
+    
+    /* 2.2X VERTICAL STRETCH */
     transform: scaleY(2.2);
     transform-origin: left center;
-
-    /* THE IMAGE MASK - Fixed ensures ONE man across all lines */
-    background-image: url('prores.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; 
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+    
+    /* NEW SOLID COLOR */
+    color: #7FB685;
+    
+    /* Removed all background mask logic */
+    background-image: none; 
+    
+    margin: 3vw 0; /* Creates vertical space between rows */
 }
 
+/* THE SYNCED WINDOW BOX */
 .window {
-    height: 18vw; /* Large enough for the 2.2x scale */
+    height: 22vw; /* Larger buffer for the towering text */
     overflow: hidden;
+    margin: 2vw 0;
+    position: relative;
+    display: block;
 }
+
+.stack { display: block; }
 
 .rotate {
-    height: 18vw;
+    height: 22vw; /* MUST MATCH the window height */
     display: flex;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
+/* THE SIDEBAR (Industry List) */
 .industry-list {
-    flex: 0 0 22%;
+    flex: 0 0 20%;
     display: flex;
     flex-direction: column;
-    gap: 2vw;
+    gap: 4vw;
 }
 
 .industry-item {
@@ -75,5 +109,5 @@ body {
     font-weight: 700;
     color: #426A5A;
     text-decoration: none;
-    line-height: 1.2;
+    line-height: 1.1;
 }
