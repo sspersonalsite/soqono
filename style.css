@@ -6,13 +6,12 @@
 
 body {
     background-color: #F2C57C;
-    /* Create a subtle dot/grid pattern */
+    /* Grid color matches the new headline color at very low opacity */
     background-image: 
-        radial-gradient(#426A5A 0.5px, transparent 0.5px), 
-        radial-gradient(#426A5A 0.5px, #F2C57C 0.5px);
+        radial-gradient(rgba(66, 106, 90, 0.1) 1px, transparent 1px), 
+        radial-gradient(rgba(66, 106, 90, 0.1) 1px, #F2C57C 1px);
     background-size: 40px 40px;
     background-position: 0 0, 20px 20px;
-    opacity: 1; /* Keep base body at 1 */
     font-family: sans-serif;
     overflow: hidden;
     width: 100vw;
@@ -62,26 +61,20 @@ body {
     flex-direction: column;
 }
 
-/* THE NEW SOLID TEXT STYLE */
 .text-row {
     font-family: 'Archivo Black', sans-serif;
-    font-size: 11vw; /* Balanced size for large screens */
+    font-size: 11vw;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -0.06em; /* Horizontal bunching */
+    letter-spacing: -0.06em;
     line-height: 1;
-    
-    /* 2.2X VERTICAL STRETCH */
     transform: scaleY(2.2);
     transform-origin: left center;
     
-    /* NEW SOLID COLOR */
-    color: #7FB685;
+    /* SWAPPED: Now the darker green */
+    color: #426A5A; 
     
-    /* Removed all background mask logic */
-    background-image: none; 
-    
-    margin: 3vw 0; /* Creates vertical space between rows */
+    margin: 3vw 0;
 }
 
 /* THE SYNCED WINDOW BOX */
@@ -112,12 +105,14 @@ body {
 }
 
 .industry-item {
-    display: inline-block; /* Required for the magnetic transform to work */
+    display: inline-block;
     font-size: 1.8vw;
     font-weight: 700;
-    color: #426A5A;
     text-decoration: none;
     line-height: 1.1;
     cursor: pointer;
     will-change: transform;
+    
+    /* SWAPPED: Now the lighter vibrant green */
+    color: #7FB685; 
 }
