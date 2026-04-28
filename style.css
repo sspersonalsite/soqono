@@ -1,28 +1,99 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #F2C57C;
+    font-family: sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
+#waveCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.blob {
+    position: absolute;
+    width: 70vw;
+    height: 70vw;
+    filter: blur(120px);
+    border-radius: 50%;
+    opacity: 0.3;
+}
+
+.blob-1 { background: #7FB685; top: -10%; left: -10%; }
+.blob-2 { background: #EF6F6C; bottom: -10%; right: -10%; }
+.blob-3 { background: #DDAE7E; top: 20%; left: 30%; width: 50vw; height: 50vw; }
+
+.noise-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.06;
+    pointer-events: none;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5vw;
+    background-color: #426A5A;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo { font-family: 'Archivo Black'; color: #EF6F6C; font-size: 1.5rem; }
+.nav-links a { margin-left: 20px; text-decoration: none; color: #EF6F6C; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
+
 .hero {
     display: flex;
     justify-content: space-between;
-    align-items: stretch; /* Forces both containers to be the same height */
-    padding: 160px 5vw 0 5vw;
-    height: 70vh; /* Fixed height for the hero section */
-    gap: 5vw;
+    align-items: stretch;
+    padding: 160px 5vw 100px 5vw;
+    height: 85vh; /* Sets the total height for both columns to align */
+    gap: 4vw;
 }
 
-/* HEADLINE BOX INTEGRATION */
+/* HEADLINE HUD BOX */
 .headline-container {
-    flex: 0 0 60%;
+    flex: 0 0 62%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    padding: 40px;
-    background: rgba(66, 106, 90, 0.03);
-    backdrop-filter: blur(5px);
+    padding: 50px 40px;
+    background: rgba(66, 106, 90, 0.04);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(66, 106, 90, 0.1);
 }
 
 .hud-tag {
     position: absolute;
-    top: 10px; left: 15px;
+    top: 15px; left: 20px;
     font-family: monospace;
     font-size: 0.7rem;
     color: #EF6F6C;
@@ -31,56 +102,58 @@
 
 .text-row {
     font-family: 'Archivo Black';
-    font-size: 7.5vw; /* Slightly smaller to fit HUD box */
+    font-size: 8vw;
     color: #426A5A;
     line-height: 1;
-    height: 7.5vw; 
+    height: 8vw;
     text-transform: uppercase;
-    flex: 1; /* Distributes height evenly */
 }
 
 .window {
-    height: 7.5vw;
+    height: 8vw;
     overflow: hidden;
-    flex: 1;
+    position: relative;
 }
 
 .rotate {
-    height: 7.5vw;
+    height: 8vw;
     display: flex;
     align-items: center;
 }
 
-/* INDUSTRY LIST INTEGRATION */
+/* INDUSTRY LIST ALIGNMENT */
 .industry-list {
     flex: 0 0 30%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Spreads 4 items across same height as title */
+    justify-content: space-between;
 }
 
 .industry-item {
-    height: 22%; /* Calculated to leave gaps between 4 items */
+    height: 22%; /* Fits 4 items perfectly with gaps */
     display: flex;
     align-items: center;
     background: rgba(221, 174, 126, 0.1);
     backdrop-filter: blur(10px);
-    border-left: 3px solid rgba(66, 106, 90, 0.2);
-    padding: 0 20px;
+    -webkit-backdrop-filter: blur(10px);
+    border-left: 4px solid rgba(66, 106, 90, 0.2);
+    padding: 0 25px;
     font-size: 1.1vw;
     color: #426A5A;
     text-decoration: none;
     font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.item-index { font-family: monospace; font-size: 0.7rem; opacity: 0.5; margin-right: 12px; }
+
+.industry-item:hover {
+    background: rgba(66, 106, 90, 0.1);
+    border-left: 6px solid #EF6F6C;
+    color: #EF6F6C;
 }
 
 /* HUD CORNERS */
-.hud-corner-tr {
-    position: absolute; top: 0; right: 0;
-    width: 20px; height: 20px;
-    border-top: 2px solid #EF6F6C; border-right: 2px solid #EF6F6C;
-}
-.hud-corner-bl {
-    position: absolute; bottom: 0; left: 0;
-    width: 20px; height: 20px;
-    border-bottom: 2px solid #EF6F6C; border-left: 2px solid #EF6F6C;
-}
+.hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 2px solid #EF6F6C; border-right: 2px solid #EF6F6C; }
+.hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 2px solid #EF6F6C; border-left: 2px solid #EF6F6C; }
