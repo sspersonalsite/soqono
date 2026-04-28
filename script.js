@@ -20,7 +20,7 @@ window.addEventListener("load", () => {
         ctx.clearRect(0, 0, width, height);
         const lineCount = 85;
         const step = width / lineCount;
-        scanY += 2.2;
+        scanY += 2.0; // Slightly slower scan for cleaner feel
         if (scanY > height) scanY = -50;
 
         for (let i = 0; i <= lineCount; i++) {
