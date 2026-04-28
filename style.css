@@ -12,7 +12,6 @@ body {
     height: 100vh;
 }
 
-/* BACKGROUND SYSTEMS */
 #waveCanvas {
     position: fixed;
     top: 0;
@@ -29,7 +28,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2; /* Behind the waves */
+    z-index: -2;
     overflow: hidden;
 }
 
@@ -39,7 +38,7 @@ body {
     height: 70vw;
     filter: blur(120px);
     border-radius: 50%;
-    opacity: 0.35;
+    opacity: 0.3;
 }
 
 .blob-1 { background: #7FB685; top: -10%; left: -10%; }
@@ -52,11 +51,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.08;
+    opacity: 0.06;
     pointer-events: none;
 }
 
-/* NAVIGATION */
 .main-nav {
     display: flex;
     justify-content: space-between;
@@ -72,7 +70,6 @@ body {
 .logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
 .nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
-/* HERO LAYOUT */
 .hero {
     display: flex;
     justify-content: space-between;
@@ -96,7 +93,7 @@ body {
     color: #426A5A;
     line-height: 0.8;
     display: block;
-    height: 7vw; /* Fixed height for pixel-perfect rotation */
+    height: 7vw;
 }
 
 .window {
@@ -111,7 +108,6 @@ body {
     align-items: center;
 }
 
-/* INDUSTRY LIST */
 .industry-list {
     flex: 0 0 22%;
     display: flex;
