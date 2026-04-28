@@ -73,13 +73,13 @@ body {
 }
 
 .window {
-    height: 12vw; /* Matches the font size */
+    height: 15vw; /* INCREASE THIS to match your new text height */
     overflow: hidden;
-    margin: 1vw 0;
+    margin: 2vw 0;
 }
 
 .rotate {
-    height: 12vw;
+    height: 15vw; /* MUST MATCH the .window height exactly */
     display: flex;
     align-items: center;
     padding: 0;
