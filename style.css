@@ -6,7 +6,7 @@
 
 body {
     background-color: #F2C57C;
-    font-family: sans-serif;
+    font-family: 'Space Mono', monospace;
     overflow: hidden;
     width: 100vw;
     height: 100vh;
@@ -53,11 +53,12 @@ body {
     pointer-events: none;
 }
 
+/* HEADER: Reduced by 50% */
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 5vw;
+    padding: 10px 5vw; /* Slimmer padding */
     background-color: #426A5A;
     position: fixed;
     width: 100%;
@@ -65,59 +66,83 @@ body {
     z-index: 1000;
 }
 
-.logo { font-family: 'Archivo Black'; color: #EF6F6C; font-size: 1.5rem; }
-.nav-links a { margin-left: 20px; text-decoration: none; color: #EF6F6C; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
+.logo { 
+    font-family: 'Space Grotesk', sans-serif; 
+    color: #EF6F6C; 
+    font-size: 1.1rem; 
+    font-weight: 700;
+}
 
+.nav-links a { 
+    margin-left: 20px; 
+    text-decoration: none; 
+    color: #EF6F6C; 
+    font-weight: 400; 
+    font-size: 0.7rem; 
+    text-transform: uppercase; 
+}
+
+/* FOOTER: Matching the Header */
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5vw;
+    background-color: #426A5A;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
+    color: #EF6F6C;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+}
+
+.footer-email {
+    color: #EF6F6C;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(239, 111, 108, 0.3);
+}
+
+/* HERO AREA */
 .hero {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    padding: 160px 5vw 100px 5vw;
-    height: 85vh;
+    padding: 100px 5vw 80px 5vw; /* Adjusted for slimmer nav/footer */
+    height: calc(100vh - 40px);
     gap: 4vw;
 }
 
-/* HEADLINE HUD BOX */
 .headline-container {
     flex: 0 0 62%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    padding: 50px 40px;
+    padding: 40px;
     background: rgba(66, 106, 90, 0.04);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(66, 106, 90, 0.1);
 }
 
 .hud-tag {
     position: absolute;
     top: 15px; left: 20px;
-    font-family: monospace;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     color: #EF6F6C;
-    letter-spacing: 2px;
 }
 
 .text-row {
-    font-family: 'Archivo Black';
-    font-size: 8vw;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 7.5vw;
     color: #426A5A;
     line-height: 1;
     text-transform: uppercase;
+    font-weight: 700;
 }
 
-#scramble-target {
-    display: inline-block;
-    min-width: 10ch;
-}
-
-.window {
-    height: 8vw;
-    display: flex;
-    align-items: center;
-}
+.window { height: 7.5vw; display: flex; align-items: center; }
 
 /* INDUSTRY LIST */
 .industry-list {
@@ -133,24 +158,16 @@ body {
     align-items: center;
     background: rgba(221, 174, 126, 0.1);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-left: 4px solid rgba(66, 106, 90, 0.2);
-    padding: 0 25px;
-    font-size: 1.1vw;
+    padding: 0 20px;
+    font-size: 1vw;
     color: #426A5A;
     text-decoration: none;
     font-weight: 700;
     text-transform: uppercase;
-    transition: all 0.3s ease;
 }
 
-.item-index { font-family: monospace; font-size: 0.7rem; opacity: 0.5; margin-right: 12px; }
-
-.industry-item:hover {
-    background: rgba(66, 106, 90, 0.1);
-    border-left: 6px solid #EF6F6C;
-    color: #EF6F6C;
-}
+.item-index { opacity: 0.5; margin-right: 12px; }
 
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 2px solid #EF6F6C; border-right: 2px solid #EF6F6C; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 2px solid #EF6F6C; border-left: 2px solid #EF6F6C; }
