@@ -10,13 +10,19 @@ body {
 #waveCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 .bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
 
+/* Fixed Grain: No more staticky boxes */
+.grain-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity: 0.05; pointer-events: none;
+}
+
 .blob {
     position: absolute; width: 60vw; height: 60vw;
     filter: blur(120px); border-radius: 50%; opacity: 0.15;
 }
 .blob-1 { background: #7FB685; top: -10%; left: -10%; }
 .blob-2 { background: #EF6F6C; bottom: -10%; right: -10%; }
-.blob-3 { background: #DDAE7E; top: 20%; left: 30%; }
 
 .main-nav, .main-footer {
     display: flex; justify-content: space-between; align-items: center;
@@ -28,80 +34,68 @@ body {
 
 .logo { font-family: 'Space Grotesk'; color: #EF6F6C; font-size: 1.1rem; font-weight: 700; }
 .nav-links a, .footer-email { text-decoration: none; color: #EF6F6C; font-size: 0.7rem; text-transform: uppercase; }
-.nav-divider { color: #EF6F6C; margin: 0 10px; opacity: 0.4; }
+.nav-divider { color: #EF6F6C; margin: 0 10px; opacity: 0.4; font-family: 'Space Mono'; }
 
-/* HERO POSITIONING: Anchored closer to header */
 .hero {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Aligns content to the top */
-    height: 100vh;
-    padding-top: 140px; /* Precise distance from header */
-    padding-left: 5vw;
-    padding-right: 5vw;
+    display: flex; justify-content: center; align-items: flex-start;
+    height: 100vh; padding-top: 130px; padding-left: 5vw; padding-right: 5vw;
 }
 
-.hero-inner {
-    display: flex;
-    align-items: flex-start;
-    gap: 3vw;
-}
+.hero-inner { display: flex; align-items: flex-start; gap: 4vw; }
 
-/* HEADLINE HUD: Robust vertical rhythm to prevent overlap */
+/* FIX: HUD Container Spacing */
 .headline-container {
     width: fit-content;
     position: relative;
-    padding: 80px 50px 60px 50px;
+    padding: 90px 60px 70px 60px; /* Increased internal padding */
     background: rgba(66, 106, 90, 0.03);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     border: 1px solid rgba(66, 106, 90, 0.1);
     display: flex;
     flex-direction: column;
+    gap: 1.2vw; /* Use vw for gap to ensure it flexes with screen size */
 }
 
-.hud-tag {
-    position: absolute; top: 25px; left: 30px;
-    font-size: 0.65rem; color: #EF6F6C;
-}
+.hud-tag { position: absolute; top: 25px; left: 30px; font-size: 0.65rem; color: #EF6F6C; }
 
 .text-row {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 6.8vw, 8.5rem);
+    font-size: clamp(2.8rem, 7vw, 9rem); /* Larger and more responsive */
     color: #426A5A;
-    /* Using margin-bottom instead of line-height for absolute control */
-    margin-bottom: 0.3em; 
-    line-height: 0.85;
+    line-height: 1.0;
     text-transform: uppercase; font-weight: 700;
     white-space: nowrap;
 }
 
-.window { 
-    display: flex; 
-    align-items: center; 
-    height: 1em; 
-    margin-bottom: 0.3em;
-}
+.window { display: flex; align-items: center; height: 1.1em; }
 
 .industry-list { display: flex; flex-direction: column; gap: 15px; }
 
 .industry-item {
     display: flex; align-items: flex-start;
-    padding: 1.5rem;
+    padding: 1.6rem;
     background: rgba(221, 174, 126, 0.1);
     backdrop-filter: blur(10px);
     border-left: 4px solid rgba(66, 106, 90, 0.2);
     text-decoration: none; transition: 0.3s ease;
 }
 
-.item-index { font-size: 0.7rem; opacity: 0.5; margin-right: 15px; margin-top: 4px; color: #426A5A; }
+/* FIX: Coral/Pink Indices */
+.item-index { 
+    font-size: 0.7rem; 
+    color: #EF6F6C; /* Coral Pink */
+    font-weight: 700;
+    margin-right: 15px; 
+    margin-top: 4px; 
+}
+
 .item-text {
-    font-size: clamp(0.85rem, 1.1vw, 1.3rem);
+    font-size: clamp(0.9rem, 1.2vw, 1.4rem);
     color: #426A5A; font-weight: 700;
     text-transform: uppercase; line-height: 1.2;
 }
 
 .industry-item:hover { border-left-color: #EF6F6C; background: rgba(66, 106, 90, 0.05); }
-.industry-item:hover .item-text { color: #EF6F6C; }
 
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 1.5px solid #EF6F6C; border-right: 1.5px solid #EF6F6C; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #EF6F6C; border-left: 1.5px solid #EF6F6C; }
