@@ -1,8 +1,4 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     background-color: #F2C57C;
@@ -13,109 +9,65 @@ body {
 }
 
 .main-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5vw;
-    background-color: #DDAE7E;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 5vw; background-color: #DDAE7E;
+    position: fixed; width: 100%; top: 0; z-index: 1000;
 }
-
-.logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
-.nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
 .hero {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Pushes list to the right */
     align-items: center;
     height: 100vh;
     padding: 0 5vw;
-    padding-top: 80px;
 }
 
-/* THE HEADLINE SYSTEM */
 .headline-container {
-    flex: 0 0 75%;
+    flex: 0 0 70%;
     display: flex;
     flex-direction: column;
+    gap: 3vw; /* Physical space between the three rows */
 }
 
 .text-row {
     font-family: 'Archivo Black', sans-serif;
+    font-size: 10vw;
     font-weight: 900;
     text-transform: uppercase;
-    
-    /* Font height and horizontal bunching */
-    font-size: 12vw; 
-    line-height: 0.8;
-    letter-spacing: -0.06em;
-    
-    /* THE PARALLAX SETUP */
-    background-image: url('prores.png');
-    /* 125% allows the image to be "larger" than the screen, 
-       giving it room to move when you move the mouse */
-    background-size: 125% auto; 
-    background-position: center;
-    background-attachment: scroll; /* Must be scroll for GSAP to move it */
-    background-repeat: no-repeat;
-    
-    /* The Masking */
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    
-    /* Layout spacing */
-    padding: 1vw 0; 
-    display: block;
-    
-    /* Smooth out any jittery movement */
-    will-change: background-position;
-}
+    letter-spacing: -0.05em;
+    line-height: 1;
 
-/* THE FIX: Apply the stretch and mask to individual letters */
-.text-row span {
-    display: inline-block;
-    background-image: inherit;
-    background-size: inherit;
-    background-position: inherit;
-    background-attachment: inherit;
+    /* THE STRETCH */
+    transform: scaleY(2.2);
+    transform-origin: left center;
+
+    /* THE IMAGE MASK - Fixed ensures ONE man across all lines */
+    background-image: url('prores.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
-    
-    /* THE STRETCH: Applied to the individual letters */
-    transform: scaleY(2.2); 
-    transform-origin: center;
-    
-    /* Adjust width slightly so letters don't overlap due to stretch */
-    margin: 0 2px; 
 }
 
 .window {
-    height: 18vw; /* Increased to accommodate the 2.2x stretch */
+    height: 18vw; /* Large enough for the 2.2x scale */
     overflow: hidden;
-    margin: 3vw 0;
 }
 
 .rotate {
-    height: 18vw; /* Must match the .window height exactly */
+    height: 18vw;
     display: flex;
     align-items: center;
-    padding: 0;
-    margin: 0;
 }
 
-/* INDUSTRY LIST */
 .industry-list {
-    flex: 0 0 20%;
+    flex: 0 0 22%;
     display: flex;
     flex-direction: column;
-    gap: 3vw;
+    gap: 2vw;
 }
 
 .industry-item {
@@ -123,8 +75,5 @@ body {
     font-weight: 700;
     color: #426A5A;
     text-decoration: none;
-    line-height: 1.1;
-    transition: opacity 0.3s;
+    line-height: 1.2;
 }
-
-.industry-item:hover { opacity: 0.6; }
