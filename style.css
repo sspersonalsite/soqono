@@ -76,6 +76,18 @@ body {
     will-change: background-position;
 }
 
+/* This ensures the staggered letters show the image mask */
+.text-row span {
+    background-image: inherit;
+    background-size: inherit;
+    background-position: inherit;
+    background-attachment: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
 .window {
     height: 12vw; /* INCREASE THIS to match your new text height */
     overflow: hidden;
