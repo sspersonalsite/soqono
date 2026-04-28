@@ -36,7 +36,7 @@ body {
     height: 60vw;
     filter: blur(120px);
     border-radius: 50%;
-    opacity: 0.2;
+    opacity: 0.15;
 }
 
 .blob-1 { background: #7FB685; top: -5%; left: -5%; }
@@ -66,69 +66,73 @@ body {
 .logo { font-family: 'Space Grotesk'; color: #EF6F6C; font-size: 1.1rem; font-weight: 700; }
 .nav-links a, .footer-email { text-decoration: none; color: #EF6F6C; font-size: 0.7rem; text-transform: uppercase; margin-left: 20px; }
 
-/* HERO LAYOUT ADJUSTMENTS */
+/* HERO LAYOUT */
 .hero {
     display: flex;
-    justify-content: center; /* Centers the content group */
+    justify-content: center;
     align-items: center;
     height: 100vh;
-    padding: 60px 5vw 40px 5vw; /* Tighter top/bottom spacing */
+    padding: 80px 5vw;
 }
 
 .hero-inner {
     display: flex;
-    align-items: flex-start;
-    gap: 2vw; /* Reduced gap between title and list */
+    align-items: center; /* Vertical center both blocks */
+    gap: 3vw;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1500px;
 }
 
 .headline-container {
     flex: 0 0 65%;
     position: relative;
-    padding: 60px 40px;
+    padding: 80px 50px;
     background: rgba(66, 106, 90, 0.04);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(66, 106, 90, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Flexible gap instead of hard-coded heights */
 }
 
 .hud-tag {
     position: absolute;
-    top: 15px; left: 20px;
-    font-size: 0.6rem;
+    top: 20px; left: 25px;
+    font-size: 0.65rem;
     color: #EF6F6C;
+    letter-spacing: 1px;
 }
 
 .text-row {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2rem, 7vw, 7.5vw);
+    font-size: clamp(2.5rem, 6.5vw, 8rem);
     color: #426A5A;
-    line-height: 0.95; /* Loosened spacing slightly */
-    letter-spacing: -0.02em; /* Tighter letter fit but readable */
+    line-height: 1; /* Reset line height to prevent overlap */
+    letter-spacing: -0.01em;
     text-transform: uppercase;
     font-weight: 700;
+    margin: 0;
 }
 
 .window { 
-    height: 1.1em; 
     display: flex; 
     align-items: center;
-    margin: 5px 0; /* Extra breathe room between rows */
+    min-height: 1.1em;
 }
 
 .industry-list {
     flex: 0 0 30%;
     display: flex;
     flex-direction: column;
-    gap: 12px; /* Uniform, tighter gap */
+    gap: 15px;
 }
 
 .industry-item {
-    padding: 1.2rem;
+    padding: 1.2rem 1.5rem;
     background: rgba(221, 174, 126, 0.1);
     backdrop-filter: blur(10px);
     border-left: 4px solid rgba(66, 106, 90, 0.2);
-    font-size: 0.85vw;
+    font-size: clamp(0.7rem, 0.9vw, 1.1rem);
     color: #426A5A;
     text-decoration: none;
     font-weight: 700;
@@ -142,5 +146,5 @@ body {
     background: rgba(66, 106, 90, 0.05);
 }
 
-.hud-corner-tr { position: absolute; top: 0; right: 0; width: 20px; height: 20px; border-top: 1.5px solid #EF6F6C; border-right: 1.5px solid #EF6F6C; }
-.hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 20px; height: 20px; border-bottom: 1.5px solid #EF6F6C; border-left: 1.5px solid #EF6F6C; }
+.hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 1.5px solid #EF6F6C; border-right: 1.5px solid #EF6F6C; }
+.hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #EF6F6C; border-left: 1.5px solid #EF6F6C; }
