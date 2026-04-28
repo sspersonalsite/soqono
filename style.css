@@ -3,8 +3,8 @@
 body {
     background-color: #2B2D42;
     font-family: 'Space Mono', monospace;
-    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
-    overflow-y: auto;   /* Allow scrolling down on mobile */
+    overflow-x: hidden;
+    overflow-y: auto;
     width: 100vw; height: 100vh;
 }
 
@@ -33,13 +33,14 @@ body {
 .main-footer { bottom: 0; color: #EF233C; font-size: 0.65rem; border-top: 1px solid rgba(141, 153, 174, 0.1); }
 
 .logo { font-family: 'Space Grotesk'; color: #EDF2F4; font-size: 1.1rem; font-weight: 700; }
-.nav-links a, .footer-email { text-decoration: none; color: #EDF2F4; font-size: 0.7rem; text-transform: uppercase; }
-.nav-divider { color: #8D99AE; margin: 0 10px; opacity: 0.4; }
+.nav-links a, .footer-email { text-decoration: none; color: #EDF2F4; font-size: 0.7rem; text-transform: uppercase; transition: color 0.3s; }
+.nav-links a:hover, .footer-email:hover { color: #EF233C; }
+.nav-divider { color: #8D99AE; margin: 0 10px; opacity: 0.4; font-family: 'Space Mono'; }
 
 /* HERO LAYOUT */
 .hero {
     display: flex; justify-content: center; align-items: flex-start;
-    min-height: 100vh; padding-top: 130px; padding-bottom: 100px;
+    min-height: 100vh; padding-top: 130px; padding-bottom: 120px;
     padding-left: 5vw; padding-right: 5vw;
 }
 
@@ -54,14 +55,14 @@ body {
     background: rgba(141, 153, 174, 0.03);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(141, 153, 174, 0.1);
-    display: flex; flex-direction: column; gap: 1.5vw;
+    display: flex; flex-direction: column; gap: 1.5rem; /* Gap provides breathing room for text rows */
 }
 
 .hud-tag { position: absolute; top: 25px; left: 30px; font-size: 0.65rem; color: #EF233C; letter-spacing: 2px; }
 
 .text-row {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2rem, 7vw, 8.5rem);
+    font-size: clamp(2rem, 7.5vw, 8.5rem);
     color: #EDF2F4; line-height: 1.0;
     text-transform: uppercase; font-weight: 700; white-space: nowrap;
 }
@@ -85,40 +86,45 @@ body {
     text-transform: uppercase; line-height: 1.2;
 }
 
+.industry-item:hover { border-left-color: #EF233C; background: rgba(239, 35, 60, 0.05); }
+.industry-item:hover .item-text { color: #EDF2F4; }
+
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 1.5px solid #EF233C; border-right: 1.5px solid #EF233C; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #EF233C; border-left: 1.5px solid #EF233C; }
 
-/* --- MOBILE & TABLET RESPONSIVENESS --- */
+/* --- MOBILE & TABLET MEDIA QUERY --- */
 @media (max-width: 1024px) {
-    body { overflow-y: scroll; } /* Enable scroll for long vertical content */
-    
-    .hero { padding-top: 100px; }
+    .main-nav {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px 5vw;
+    }
+
+    .nav-links {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        gap: 5px;
+    }
+
+    .hero { padding-top: 170px; } /* Extra space for the stacked header */
     
     .hero-inner {
-        flex-direction: column; /* Stacks Industry List below Headline */
+        flex-direction: column;
         align-items: stretch;
         width: 100%;
-        max-width: 600px; /* Keeps the HUD from getting too wide on tablets */
-        gap: 30px;
+        max-width: 650px;
+        gap: 40px;
     }
     
     .headline-container {
         width: 100%;
-        padding: 60px 30px 40px 30px; /* Reduce padding for narrow screens */
+        padding: 60px 25px 40px 25px;
     }
     
     .text-row {
-        font-size: clamp(2rem, 12vw, 5rem); /* Allows text to stay large but fit width */
+        font-size: clamp(1.8rem, 11vw, 4.5rem);
     }
     
-    .industry-list {
-        width: 100%;
-    }
-    
-    .industry-item {
-        padding: 1.2rem;
-    }
-    
-    .main-nav { padding: 10px 5vw; }
-    .nav-links { display: none; } /* Optional: Hide nav links on small mobile or use a burger menu */
+    .industry-list { width: 100%; }
 }
