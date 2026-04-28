@@ -76,8 +76,9 @@ body {
     will-change: background-position;
 }
 
-/* This ensures the staggered letters show the image mask */
+/* THE FIX: Apply the stretch and mask to individual letters */
 .text-row span {
+    display: inline-block;
     background-image: inherit;
     background-size: inherit;
     background-position: inherit;
@@ -86,6 +87,13 @@ body {
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+    
+    /* THE STRETCH: Applied to the individual letters */
+    transform: scaleY(2.2); 
+    transform-origin: center;
+    
+    /* Adjust width slightly so letters don't overlap due to stretch */
+    margin: 0 2px; 
 }
 
 .window {
