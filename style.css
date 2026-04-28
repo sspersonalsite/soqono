@@ -112,9 +112,12 @@ body {
 }
 
 .industry-item {
+    display: inline-block; /* Required for the magnetic transform to work */
     font-size: 1.8vw;
     font-weight: 700;
     color: #426A5A;
     text-decoration: none;
     line-height: 1.1;
+    cursor: pointer;
+    will-change: transform;
 }
