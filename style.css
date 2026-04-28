@@ -73,7 +73,7 @@ body {
     justify-content: space-between;
     align-items: stretch;
     padding: 160px 5vw 100px 5vw;
-    height: 85vh; /* Sets the total height for both columns to align */
+    height: 85vh;
     gap: 4vw;
 }
 
@@ -105,23 +105,21 @@ body {
     font-size: 8vw;
     color: #426A5A;
     line-height: 1;
-    height: 8vw;
     text-transform: uppercase;
 }
 
-.window {
-    height: 8vw;
-    overflow: hidden;
-    position: relative;
+#scramble-target {
+    display: inline-block;
+    min-width: 10ch;
 }
 
-.rotate {
+.window {
     height: 8vw;
     display: flex;
     align-items: center;
 }
 
-/* INDUSTRY LIST ALIGNMENT */
+/* INDUSTRY LIST */
 .industry-list {
     flex: 0 0 30%;
     display: flex;
@@ -130,7 +128,7 @@ body {
 }
 
 .industry-item {
-    height: 22%; /* Fits 4 items perfectly with gaps */
+    height: 22%;
     display: flex;
     align-items: center;
     background: rgba(221, 174, 126, 0.1);
@@ -154,6 +152,5 @@ body {
     color: #EF6F6C;
 }
 
-/* HUD CORNERS */
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 2px solid #EF6F6C; border-right: 2px solid #EF6F6C; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 2px solid #EF6F6C; border-left: 2px solid #EF6F6C; }
