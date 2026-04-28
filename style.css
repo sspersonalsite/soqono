@@ -22,8 +22,6 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
-    /* This ensures the fragments look sharp */
-    image-rendering: pixelated; 
 }
 
 /* Ensure the rest of your CSS stays the same as v17.0 */
@@ -61,20 +59,33 @@ body {
     pointer-events: none;
 }
 
+/* Updated Nav Colors */
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 5vw;
-    background-color: #DDAE7E;
+    background-color: #426A5A; /* Dark Green Bar */
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
 }
 
-.logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
-.nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
+.logo { 
+    font-family: 'Archivo Black'; 
+    color: #EF6F6C; /* Pink/Coral Text */
+    font-size: 1.5rem; 
+}
+
+.nav-links a { 
+    margin-left: 20px; 
+    text-decoration: none; 
+    color: #EF6F6C; /* Pink/Coral Text */
+    font-weight: 600; 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+}
 
 .hero {
     display: flex;
