@@ -1,29 +1,71 @@
-<main class="hero">
-    <div class="headline-container hud-box">
-        <div class="hud-tag">ID_099 // SYSTEM_PRIMARY</div>
-        
-        <h1 class="text-row">TECHNICAL</h1>
-        <div class="window">
-            <div class="stack">
-                <span class="text-row rotate">RESEARCH</span>
-                <span class="text-row rotate">DATA</span>
-                <span class="text-row rotate">BUSINESS</span>
-                <span class="text-row rotate">PROGRAM</span>
-                <span class="text-row rotate">STRATEGY</span>
-                <span class="text-row rotate">PRODUCT</span>
-                <span class="text-row rotate">RESEARCH</span>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>soqóno | Technical Program Operations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=23.0">
+</head>
+<body>
+    <canvas id="waveCanvas"></canvas>
+
+    <div class="bg-canvas">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <svg class="noise-overlay">
+            <filter id="grain">
+                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+                <feColorMatrix type="saturate" values="0" />
+            </filter>
+            <rect width="100%" height="100%" filter="url(#grain)" />
+        </svg>
+    </div>
+
+    <nav class="main-nav">
+        <div class="logo">soqóno</div>
+        <div class="nav-links">
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Applications</a>
+            <a href="#">Experience</a>
+            <a href="#">Let's Talk</a>
         </div>
-        <h1 class="text-row">OPERATIONS</h1>
+    </nav>
 
-        <div class="hud-corner-bl"></div>
-        <div class="hud-corner-tr"></div>
-    </div>
+    <main class="hero">
+        <div class="headline-container">
+            <div class="hud-tag">ID_099 // SYSTEM_PRIMARY</div>
+            
+            <h1 class="text-row">TECHNICAL</h1>
+            <div class="window">
+                <div class="stack">
+                    <span class="text-row rotate">RESEARCH</span>
+                    <span class="text-row rotate">DATA</span>
+                    <span class="text-row rotate">BUSINESS</span>
+                    <span class="text-row rotate">PROGRAM</span>
+                    <span class="text-row rotate">STRATEGY</span>
+                    <span class="text-row rotate">PRODUCT</span>
+                    <span class="text-row rotate">RESEARCH</span>
+                </div>
+            </div>
+            <h1 class="text-row">OPERATIONS</h1>
 
-    <div class="industry-list">
-        <a href="#" class="industry-item"><span class="item-index">01 //</span> Consumer Electronics</a>
-        <a href="#" class="industry-item"><span class="item-index">02 //</span> Robotics & Autonomy</a>
-        <a href="#" class="industry-item"><span class="item-index">03 //</span> Frontier AI</a>
-        <a href="#" class="industry-item"><span class="item-index">04 //</span> Smart Infrastructure</a>
-    </div>
-</main>
+            <div class="hud-corner-bl"></div>
+            <div class="hud-corner-tr"></div>
+        </div>
+
+        <div class="industry-list">
+            <a href="#" class="industry-item"><span class="item-index">01 //</span> Consumer Electronics</a>
+            <a href="#" class="industry-item"><span class="item-index">02 //</span> Robotics & Autonomy</a>
+            <a href="#" class="industry-item"><span class="item-index">03 //</span> Frontier AI</a>
+            <a href="#" class="industry-item"><span class="item-index">04 //</span> Smart Infrastructure</a>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/simplex-noise.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
