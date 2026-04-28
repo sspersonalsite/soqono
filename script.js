@@ -1,5 +1,5 @@
 window.addEventListener("load", () => {
-    // --- 1. ELEGANT HORIZONTAL FLOWING WAVES ---
+    // --- 1. VERTICAL FLOWING WAVES (Right to Left) ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -21,31 +21,32 @@ window.addEventListener("load", () => {
     function render() {
         ctx.clearRect(0, 0, width, height);
         
-        const lineCount = 40; 
-        const step = height / lineCount;
+        const lineCount = 60; 
+        const step = width / lineCount;
         
-        ctx.lineWidth = 1.2;
+        ctx.lineWidth = 1;
         ctx.strokeStyle = '#426A5A';
-        ctx.globalAlpha = 0.18;
+        ctx.globalAlpha = 0.15;
 
-        for (let i = 0; i < lineCount; i++) {
+        for (let i = 0; i <= lineCount; i++) {
             ctx.beginPath();
-            let yBase = i * step;
+            // Start the x position based on step + a time-based offset for "flow"
+            let xBase = (i * step - (time * 1.5)) % width;
+            if (xBase < 0) xBase += width; // Wrap around to stay right-to-left
 
-            for (let x = 0; x <= width; x += 20) {
-                // Smooth Horizontal Flow
-                // x*0.001 and time*0.0015 control the "length" and "speed" of the waves
-                let noise = simplex.noise3D(x * 0.001, yBase * 0.002, time * 0.0015) * 60;
+            for (let y = 0; y <= height; y += 15) {
+                // Vertical wave noise
+                let noise = simplex.noise3D(xBase * 0.002, y * 0.002, time * 0.002) * 40;
                 
-                // Elegant Mouse Interaction
-                let dx = x - mouse.x;
-                let dy = yBase - mouse.y;
+                // Mouse gravity interaction
+                let dx = xBase - mouse.x;
+                let dy = y - mouse.y;
                 let dist = Math.sqrt(dx * dx + dy * dy);
-                let mag = Math.max(0, (350 - dist) / 350);
+                let mag = Math.max(0, (300 - dist) / 300);
                 
-                let y = yBase + noise + (dy * mag * 0.6);
+                let x = xBase + noise + (dx * mag * 0.5);
 
-                if (x === 0) ctx.moveTo(x, y);
+                if (y === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
             }
             ctx.stroke();
@@ -57,9 +58,8 @@ window.addEventListener("load", () => {
     render();
 
     // --- 2. BG BLOBS ---
-    gsap.to(".blob-1", { x: "15vw", y: "10vh", duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to(".blob-2", { x: "-10vw", y: "-15vh", duration: 25, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to(".blob-3", { x: "5vw", y: "10vh", duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(".blob-1", { x: "10vw", y: "5vh", duration: 20, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    gsap.to(".blob-2", { x: "-10vw", y: "-5vh", duration: 25, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
     // --- 3. TERMINAL SCRAMBLE ---
     const words = ["RESEARCH", "DATA", "BUSINESS", "PROGRAM", "STRATEGY", "PRODUCT"];
