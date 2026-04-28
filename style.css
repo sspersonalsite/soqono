@@ -12,14 +12,24 @@ body {
     height: 100vh;
 }
 
-/* GRADIENT MESH BACKGROUND */
-.bg-canvas {
+/* BACKGROUND SYSTEMS */
+#waveCanvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
+    pointer-events: none;
+}
+
+.bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Behind the waves */
     overflow: hidden;
 }
 
@@ -29,13 +39,12 @@ body {
     height: 70vw;
     filter: blur(120px);
     border-radius: 50%;
-    opacity: 0.4;
-    will-change: transform;
+    opacity: 0.35;
 }
 
 .blob-1 { background: #7FB685; top: -10%; left: -10%; }
 .blob-2 { background: #EF6F6C; bottom: -10%; right: -10%; }
-.blob-3 { background: #DDAE7E; top: 30%; left: 40%; width: 50vw; height: 50vw; }
+.blob-3 { background: #DDAE7E; top: 20%; left: 30%; width: 50vw; height: 50vw; }
 
 .noise-overlay {
     position: absolute;
@@ -43,16 +52,17 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.08; /* Subtle grain texture */
+    opacity: 0.08;
     pointer-events: none;
 }
 
-/* TYPOGRAPHY & LAYOUT */
+/* NAVIGATION */
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 5vw;
+    background-color: #DDAE7E;
     position: fixed;
     width: 100%;
     top: 0;
@@ -62,6 +72,7 @@ body {
 .logo { font-family: 'Archivo Black'; color: #426A5A; font-size: 1.5rem; }
 .nav-links a { margin-left: 20px; text-decoration: none; color: #426A5A; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
+/* HERO LAYOUT */
 .hero {
     display: flex;
     justify-content: space-between;
@@ -74,8 +85,6 @@ body {
     flex: 0 0 70%;
     display: flex;
     flex-direction: column;
-    /* Remove gaps so we control spacing manually */
-    gap: 0; 
 }
 
 .text-row {
@@ -85,30 +94,36 @@ body {
     text-transform: uppercase;
     letter-spacing: -0.05em;
     color: #426A5A;
-    /* Tighten line-height to remove "dead space" */
     line-height: 0.8;
     display: block;
-    margin: 0;
-    padding: 0;
+    height: 7vw; /* Fixed height for pixel-perfect rotation */
 }
 
 .window {
-    /* This height MUST be exactly what the text takes up */
-    height: 7vw; 
+    height: 7vw;
     overflow: hidden;
-    margin: 1vw 0; /* Control the vertical gap here */
-    position: relative;
+    margin: 1.5vw 0;
 }
 
 .rotate {
-    height: 7vw; /* Match the window exactly */
+    height: 7vw;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    margin: 0;
-    padding: 0;
 }
 
-.industry-list { flex: 0 0 22%; display: flex; flex-direction: column; gap: 2.5vw; margin-top: 2vw; }
-.industry-item { font-size: 1.5vw; font-weight: 700; color: #426A5A; text-decoration: none; line-height: 1.2; opacity: 0.8; transition: opacity 0.3s; }
-.industry-item:hover { opacity: 1; color: #EF6F6C; }
+/* INDUSTRY LIST */
+.industry-list {
+    flex: 0 0 22%;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5vw;
+}
+
+.industry-item {
+    font-size: 1.5vw;
+    font-weight: 700;
+    color: #426A5A;
+    text-decoration: none;
+    line-height: 1.2;
+    will-change: transform;
+}
