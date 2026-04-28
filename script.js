@@ -1,5 +1,5 @@
 window.addEventListener("load", () => {
-    // --- 1. "FABRIC IN THE WIND" WAVE ENGINE ---
+    // --- 1. "SILK FABRIC" WAVE ENGINE ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -18,36 +18,33 @@ window.addEventListener("load", () => {
     function render() {
         ctx.clearRect(0, 0, width, height);
         
-        // Use a grid of 110 lines for the "Fabric" feel
         const lineCount = 110; 
         const step = width / lineCount;
         
-        ctx.lineWidth = 1.6;
+        ctx.lineWidth = 1.8;
         ctx.strokeStyle = '#426A5A';
         ctx.globalAlpha = 0.14;
 
         for (let i = 0; i <= lineCount; i++) {
             ctx.beginPath();
-            let xGrid = i * step;
+            let xAnchor = i * step;
 
             for (let y = 0; y <= height; y += 15) {
-                // WIND LOGIC:
-                // noise3D(x, y, time) creates a continuous field.
-                // Low frequency (0.0005) makes the folds massive and soft like silk.
-                // Multiplying 'time' by 0.0015 makes the "wind" blow steadily.
-                let wave1 = simplex.noise3D(xGrid * 0.0005, y * 0.0006, time * 0.0015) * 80;
-                let wave2 = simplex.noise3D(xGrid * 0.001, y * 0.001, time * 0.002) * 20; // Subtle micro-folds
+                // FABRIC PHYSICS:
+                // We use low-frequency noise for massive "folds" (silk)
+                // We scroll the noise horizontally (time * 0.0015) to simulate wind.
+                let wave1 = simplex.noise3D(xAnchor * 0.0006, y * 0.0006, time * 0.0012) * 85;
+                let wave2 = simplex.noise3D(xAnchor * 0.0015, y * 0.0015, time * 0.002) * 20; 
                 
                 let totalNoise = wave1 + wave2;
 
-                // Mouse interaction (Fabric being pushed)
-                let dx = xGrid - mouse.x;
+                // Mouse Gravity interaction
+                let dx = xAnchor - mouse.x;
                 let dy = y - mouse.y;
                 let dist = Math.sqrt(dx * dx + dy * dy);
-                let mag = Math.max(0, (400 - dist) / 400);
+                let mag = Math.max(0, (350 - dist) / 350);
                 
-                // Final position: Grid + Noise + Mouse Displacement
-                let x = xGrid + totalNoise + (dx * mag * 0.6);
+                let x = xAnchor + totalNoise + (dx * mag * 0.55);
 
                 if (y === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
@@ -60,8 +57,8 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // --- 2. TERMINAL SCRAMBLE ROTATION ---
-    const words = ["RESEARCH", "DATA", "BUSINESS", "PROGRAM", "STRATEGY", "PRODUCT"];
+    // --- 2. TERMINAL SCRAMBLE ---
+    const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     let wordIndex = 0;
     const target = document.getElementById("scramble-target");
     const chars = "!<>-_\\/[]{}—=+*^?#________";
