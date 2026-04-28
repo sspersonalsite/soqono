@@ -8,11 +8,7 @@ body {
     background-color: #F2C57C;
     font-family: sans-serif;
     overflow: hidden;
-    width: 100vw;
-    height: 100vh;
 }
-
-/* No changes to index.html structure needed */
 
 #waveCanvas {
     position: fixed;
@@ -21,7 +17,6 @@ body {
     width: 100%;
     height: 100%;
     z-index: -1;
-    pointer-events: none;
 }
 
 .bg-canvas {
@@ -31,8 +26,8 @@ body {
     width: 100%;
     height: 100%;
     z-index: -2;
-    overflow: hidden;
 }
+
 .blob {
     position: absolute;
     width: 70vw;
@@ -46,43 +41,20 @@ body {
 .blob-2 { background: #EF6F6C; bottom: -10%; right: -10%; }
 .blob-3 { background: #DDAE7E; top: 20%; left: 30%; width: 50vw; height: 50vw; }
 
-.noise-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.06;
-    pointer-events: none;
-}
-
-/* Updated Nav Colors */
 .main-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 5vw;
-    background-color: #426A5A; /* Dark Green Bar */
+    background-color: #426A5A;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
 }
 
-.logo { 
-    font-family: 'Archivo Black'; 
-    color: #EF6F6C; /* Pink/Coral Text */
-    font-size: 1.5rem; 
-}
-
-.nav-links a { 
-    margin-left: 20px; 
-    text-decoration: none; 
-    color: #EF6F6C; /* Pink/Coral Text */
-    font-weight: 600; 
-    font-size: 0.8rem; 
-    text-transform: uppercase; 
-}
+.logo { font-family: 'Archivo Black'; color: #EF6F6C; font-size: 1.5rem; }
+.nav-links a { margin-left: 20px; text-decoration: none; color: #EF6F6C; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 
 .hero {
     display: flex;
@@ -92,83 +64,62 @@ body {
     height: 100vh;
 }
 
-.headline-container {
-    flex: 0 0 70%;
-    display: flex;
-    flex-direction: column;
-}
+.headline-container { flex: 0 0 65%; display: flex; flex-direction: column; }
+.text-row { font-family: 'Archivo Black'; font-size: 8.5vw; font-weight: 900; color: #426A5A; line-height: 0.8; height: 7vw; text-transform: uppercase; }
+.window { height: 7vw; overflow: hidden; margin: 1.5vw 0; }
+.rotate { height: 7vw; display: flex; align-items: center; }
 
-.text-row {
-    font-family: 'Archivo Black', sans-serif;
-    font-size: 8.5vw; 
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.05em;
-    color: #426A5A;
-    line-height: 0.8;
-    display: block;
-    height: 7vw;
-}
-
-.window {
-    height: 7vw;
-    overflow: hidden;
-    margin: 1.5vw 0;
-}
-
-.rotate {
-    height: 7vw;
-    display: flex;
-    align-items: center;
-}
-
+/* HUD INDUSTRY LIST STYLING */
 .industry-list {
-    flex: 0 0 22%;
+    flex: 0 0 25%;
     display: flex;
     flex-direction: column;
-    gap: 3vw;
+    gap: 1.5vw;
     margin-top: 2vw;
 }
 
 .industry-item {
     position: relative;
-    padding: 15px 20px;
-    font-size: 1.2vw;
+    padding: 20px;
+    font-size: 1.1vw;
     font-weight: 700;
     color: #426A5A;
     text-decoration: none;
-    line-height: 1.2;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     
-    /* THE GLASS CARVE EFFECT */
-    background: rgba(221, 174, 126, 0.1); /* DDAE7E with transparency */
-    backdrop-filter: blur(8px); /* Distorts the wave background behind it */
-    -webkit-backdrop-filter: blur(8px);
-    border-left: 2px solid #EF6F6C; /* Coral accent "marker" */
+    /* GLASS EFFECT */
+    background: rgba(221, 174, 126, 0.15); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     
-    transition: all 0.4s ease;
-    cursor: pointer;
+    border-left: 3px solid rgba(66, 106, 90, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
-/* Technical "Corner" Accents */
-.industry-item::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    border-top: 2px solid #426A5A;
-    border-right: 2px solid #426A5A;
+.item-index {
+    font-size: 0.7rem;
     opacity: 0.5;
+    margin-right: 10px;
+    font-family: monospace;
 }
 
-/* Hover State: The "Activation" Pulse */
+/* Hover Accent */
 .industry-item:hover {
-    background: rgba(127, 182, 133, 0.2); /* 7FB685 Vibrant Green glow */
-    color: #EF6F6C; /* Pink/Coral highlight */
-    padding-left: 30px; /* Slight shift to the right */
-    border-left: 4px solid #7FB685;
+    background: rgba(66, 106, 90, 0.1);
+    border-left: 6px solid #EF6F6C;
+    color: #EF6F6C;
+    padding-left: 30px;
+}
+
+/* Technical Corner Brackets */
+.industry-item::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 8px; height: 8px;
+    border-top: 1px solid #426A5A;
+    border-right: 1px solid #426A5A;
+    opacity: 0.4;
 }
