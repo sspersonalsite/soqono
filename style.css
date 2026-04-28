@@ -48,26 +48,32 @@ body {
     font-weight: 900;
     text-transform: uppercase;
     
-    /* VERTICAL STRETCH: achieved by huge font and tiny line-height */
+    /* Font height and horizontal bunching */
     font-size: 12vw; 
     line-height: 0.8;
-    letter-spacing: -0.06em; /* Horizontal bunching */
+    letter-spacing: -0.06em;
     
-    /* THE MASKING FIX: background-attachment: fixed is key */
+    /* THE PARALLAX SETUP */
     background-image: url('prores.png');
-    background-size: cover;
+    /* 125% allows the image to be "larger" than the screen, 
+       giving it room to move when you move the mouse */
+    background-size: 125% auto; 
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: scroll; /* Must be scroll for GSAP to move it */
     background-repeat: no-repeat;
     
+    /* The Masking */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
     
-    /* Visual separation without overlapping */
+    /* Layout spacing */
     padding: 1vw 0; 
     display: block;
+    
+    /* Smooth out any jittery movement */
+    will-change: background-position;
 }
 
 .window {
