@@ -49,8 +49,6 @@ body {
     text-transform: uppercase;
     
     /* VERTICAL STRETCH: achieved by huge font and tiny line-height */
-    transform: scaleY(2.0); /* Makes the letters twice as tall */
-    transform-origin: left center; /* Keeps them aligned to the left */
     font-size: 12vw; 
     line-height: 0.8;
     letter-spacing: -0.06em; /* Horizontal bunching */
@@ -73,13 +71,13 @@ body {
 }
 
 .window {
-    height: 15vw; /* INCREASE THIS to match your new text height */
+    height: 12vw; /* INCREASE THIS to match your new text height */
     overflow: hidden;
     margin: 2vw 0;
 }
 
 .rotate {
-    height: 15vw; /* MUST MATCH the .window height exactly */
+    height: 12vw; /* MUST MATCH the .window height exactly */
     display: flex;
     align-items: center;
     padding: 0;
