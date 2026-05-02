@@ -49,7 +49,7 @@ window.addEventListener("load", () => {
     });
 
     // Sound Engine
-    const clickSound = new Audio('click.mp3');
+    const clickSound = new Audio('click.wav');
     clickSound.volume = 0.1;
 
     function playFastClicks(duration) {
