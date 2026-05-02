@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>soqóno | Fixed Mechanical Sequence</title>
+    <title>soqóno | basic-test2</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     <style>
@@ -18,7 +18,7 @@
         .tick-credits { display: none !important; }
         .tick-flip { width: 1.2em; height: 1.5em; background-color: var(--tile-bg) !important; border-radius: 4px !important; margin: 0 0.05em; }
 
-        /* Dead-center alignment from Screenshot 2026-05-02 160554.png */
+        /* Centering Fix from Screenshot 2026-05-02 160554.png */
         .tick-flip-panel { display: grid !important; place-content: center !important; background-color: var(--tile-bg) !important; border-bottom: 1px solid rgba(0,0,0,0.4); }
         .tick-flip-text-wrapper { position: static !important; display: block !important; line-height: 1 !important; text-indent: 0 !important; }
     </style>
@@ -29,6 +29,7 @@
         <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
     </button>
 
+    <!-- The 'tick' object is passed directly into handleTickInit below -->
     <div class="tick" data-did-init="handleTickInit">
         <div data-repeat="true" data-layout="horizontal center">
             <span data-view="flip" data-transform="ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper"></span>
@@ -44,21 +45,25 @@
         document.getElementById('sound-toggle').addEventListener('click', function() {
             soundEnabled = !this.classList.toggle('is-active');
             soundEnabled = !soundEnabled; 
-            if (soundEnabled) { clickSound.play().then(() => clickSound.pause()); }
+            if (soundEnabled) { 
+                clickSound.play().then(() => {
+                    clickSound.pause();
+                    clickSound.currentTime = 0;
+                }); 
+            }
         });
 
-        function handleTickInit(el) {
-            // THE FIX: Find the actual Tick instance associated with the element
-            const tick = Tick.DOM.find(el); 
-
+        // The library provides the 'tick' instance wrapper as the first argument
+        function handleTickInit(tick) {
             const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
             const maxLen = 8;
             const prepareWord = (word) => word.padEnd(maxLen, " ");
 
+            // Set the first word
             tick.value = prepareWord(rawWords[0]);
 
-            // Now 'tick.on' will work because we are calling it on the instance
-            tick.on('update', (value) => {
+            // Attach listener to the instance for physical flips
+            tick.on('update', () => {
                 if (soundEnabled) {
                     const soundClone = clickSound.cloneNode();
                     soundClone.play().catch(() => {});
@@ -68,6 +73,7 @@
             let i = 0;
             setInterval(() => {
                 i = (i + 1) % rawWords.length;
+                // Transitioning to the next word
                 tick.value = prepareWord(rawWords[i]);
             }, 6000); 
         }
