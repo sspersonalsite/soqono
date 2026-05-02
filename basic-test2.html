@@ -7,62 +7,20 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #2B2D42;
-            --tile-bg: #1a1b2b;
-            --text-color: #EDF2F4;
-        }
-
-        body { 
-            background: var(--bg-color); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            overflow: hidden;
-            font-family: sans-serif;
-        }
-
-        /* ELEGANT SOUND TOGGLE */
-        #sound-toggle {
-            position: fixed; top: 20px; right: 20px;
-            background: transparent; border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px; border-radius: 50%; cursor: pointer;
-            z-index: 100; display: flex; align-items: center;
-        }
+        :root { --bg-color: #2B2D42; --tile-bg: #1a1b2b; --text-color: #EDF2F4; }
+        body { background: var(--bg-color); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; font-family: sans-serif; }
+        
+        #sound-toggle { position: fixed; top: 20px; right: 20px; background: transparent; border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 50%; cursor: pointer; z-index: 100; display: flex; align-items: center; }
         #sound-toggle svg { fill: #fff; width: 20px; height: 20px; opacity: 0.4; transition: opacity 0.3s; }
         #sound-toggle.is-active svg { opacity: 1; }
 
-        /* THE BOARD */
         .tick { font-size: 5.5rem; color: var(--text-color); }
         .tick-credits { display: none !important; }
 
-        /* TILE CENTERING (Reference: Screenshot 2026-05-02 160554.png) */
-        .tick-flip {
-            width: 1.2em; 
-            height: 1.5em;
-            background-color: var(--tile-bg) !important;
-            border-radius: 4px !important;
-            margin: 0 0.05em;
-        }
-
-        /* FORCE GRID CENTERING: Solves top-left and right-of-center issues */
-        .tick-flip-panel {
-            display: grid !important;
-            place-content: center !important; 
-            background-color: var(--tile-bg) !important;
-            border-bottom: 1px solid rgba(0,0,0,0.4); 
-        }
-
-        /* Override the library's absolute positioning which causes misalignment */
-        .tick-flip-text-wrapper {
-            position: static !important;
-            display: block !important;
-            line-height: 1 !important;
-            text-indent: 0 !important;
-        }
-
+        /* Tile Centering (Reference: Screenshot 2026-05-02 160554.png) */
+        .tick-flip { width: 1.2em; height: 1.5em; background-color: var(--tile-bg) !important; border-radius: 4px !important; margin: 0 0.05em; }
+        .tick-flip-panel { display: grid !important; place-content: center !important; background-color: var(--tile-bg) !important; border-bottom: 1px solid rgba(0,0,0,0.4); }
+        .tick-flip-text-wrapper { position: static !important; display: block !important; line-height: 1 !important; text-indent: 0 !important; }
         .tick-flip-shadow-top, .tick-flip-shadow-bottom { opacity: 0.2; }
     </style>
 </head>
@@ -74,55 +32,72 @@
 
     <div class="tick" id="mechanical-board">
         <div data-repeat="true" data-layout="horizontal center">
-            <span data-view="flip"></span>
+            <!-- 
+                INDEPENDENT CONTROL:
+                We add 'data-key-duration="400"' to each tile to slow down the 
+                mechanical "roll" so the user can see the letters changing.
+            -->
+            <span data-view="flip" 
+                  data-key-duration="400"
+                  data-transform="ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper"></span>
         </div>
     </div>
 
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
-        // 1. Audio Setup
         const clickSound = new Audio('click.m4a');
-        clickSound.volume = 0.15;
+        clickSound.volume = 0.12;
         let soundEnabled = false;
 
         document.getElementById('sound-toggle').onclick = function() {
             soundEnabled = !this.classList.toggle('is-active');
-            soundEnabled = !soundEnabled; // Toggle state correction
+            soundEnabled = !soundEnabled; 
             if (soundEnabled) {
-                // Unlock browser audio context
                 clickSound.play().then(() => { clickSound.pause(); clickSound.currentTime = 0; });
             }
         };
 
-        // 2. Manual Initialization (Bypassing data-did-init errors)
         const boardEl = document.getElementById('mechanical-board');
         const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
         const maxLen = 8;
         const prepareWord = (word) => word.padEnd(maxLen, " ");
 
-        // Create the instance manually
+        // Manual instance creation
         const board = Tick.DOM.create(boardEl, {
-            value: prepareWord(rawWords[0]),
-            // Define the alphabetical flip sequence here
-            transform: 'ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper'
+            value: prepareWord(rawWords[0])
         });
 
-        // 3. Sequential Mechanical Sound
-        // Because we used 'char()' in the transform, this fires for every intermediate flip
-        board.onupdate = function(value) {
+        // MECHANICAL AUDIO ENGINE
+        // This fires for EVERY intermediate letter flip, 
+        // creating the "roll" sound.
+        board.onupdate = function() {
             if (soundEnabled) {
                 const soundClone = clickSound.cloneNode();
                 soundClone.play().catch(() => {});
             }
         };
 
-        // 4. Word Rotation Loop
+        // THE INDEPENDENT STAGGER LOGIC
+        // Instead of updating the whole word at once, we update tile-by-tile
+        function updateWordIndependently(newWord) {
+            const letters = newWord.split('');
+            let currentVal = board.value.split('');
+
+            letters.forEach((char, index) => {
+                // Stagger the start of each tile by 60ms
+                setTimeout(() => {
+                    currentVal[index] = char;
+                    board.value = currentVal.join('');
+                }, index * 60); 
+            });
+        }
+
         let i = 0;
         setInterval(() => {
             i = (i + 1) % rawWords.length;
-            board.value = prepareWord(rawWords[i]);
-        }, 6000); // 6s to allow long flip sequences (like A to Z) to finish
+            updateWordIndependently(prepareWord(rawWords[i]));
+        }, 7000); // 7s to accommodate the staggered "roll"
     </script>
 </body>
 </html>
