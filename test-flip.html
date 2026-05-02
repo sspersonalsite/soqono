@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip Display Test</title>
+    <!-- CSS Dependencies -->
+    <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2B2D42; /* Matches your background[cite: 1] */
+            color: #EDF2F4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* Styling the Board[cite: 1] */
+        .tick {
+            font-size: 5rem;
+            font-weight: bold;
+        }
+
+        .tick-flip-panel {
+            background-color: #1a1b2b !important;
+            color: #EDF2F4 !important;
+            border-radius: 8px !important;
+        }
+
+        /* Hides the "Powered by" text you requested to remove */
+        .tick-credits {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tick" id="test-board">
+        <div data-repeat="true" data-layout="horizontal center">
+            <span data-view="flip"></span>
+        </div>
+    </div>
+
+    <!-- JS Dependencies -->
+    <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
+    <script>
+        // Use DOMContentLoaded to ensure the library is ready
+        document.addEventListener("DOMContentLoaded", () => {
+            const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];[cite: 2]
+            let index = 0;
+
+            // Audio setup
+            const clickSound = new Audio('click.wav');
+            clickSound.volume = 0.1;
+
+            // Initialize the board
+            const el = document.getElementById('test-board');
+            const tick = Tick.DOM.create(el, {
+                value: words[0] // Forces "RESEARCH" to show immediately
+            });
+
+            // Clatter sound engine
+            function playClatter(duration) {
+                const interval = 75;
+                let elapsed = 0;
+                const loop = setInterval(() => {
+                    // Try-catch prevents errors if the .wav file is missing during testing
+                    clickSound.cloneNode().play().catch(() => {}); 
+                    elapsed += interval;
+                    if (elapsed >= duration) clearInterval(loop);
+                }, interval);
+            }
+
+            // Rotation logic[cite: 2]
+            setInterval(() => {
+                index = (index + 1) % words.length;
+                tick.value = words[index];
+                playClatter(1000);
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
