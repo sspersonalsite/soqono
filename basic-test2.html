@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>soqóno | Realistic Mechanical Sequence</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #2B2D42;
+            --tile-bg: #1a1b2b;
+            --text-color: #EDF2F4;
+        }
+
+        body { 
+            background: var(--bg-color); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        #sound-toggle {
+            position: fixed; top: 20px; right: 20px;
+            background: transparent; border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px; border-radius: 50%; cursor: pointer;
+            z-index: 100; display: flex; align-items: center;
+        }
+
+        #sound-toggle.is-active svg { fill: #fff; opacity: 1; }
+        #sound-toggle svg { fill: #fff; width: 20px; height: 20px; opacity: 0.4; }
+
+        .tick { font-size: 5.5rem; color: var(--text-color); }
+        .tick-credits { display: none !important; }
+
+        .tick-flip {
+            width: 1.2em; height: 1.5em;
+            background-color: var(--tile-bg) !important;
+            border-radius: 4px !important;
+            margin: 0 0.05em;
+        }
+
+        /* GRID CENTERING (Matches Screenshot 2026-05-02 160554.png) */
+        .tick-flip-panel {
+            display: grid !important;
+            place-content: center !important;
+            background-color: var(--tile-bg) !important;
+            border-bottom: 1px solid rgba(0,0,0,0.4); 
+        }
+
+        .tick-flip-text-wrapper {
+            position: static !important;
+            display: block !important;
+            line-height: 1 !important;
+            text-indent: 0 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="sound-toggle" aria-label="Toggle Sound">
+        <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+    </button>
+
+    <!-- We add data-did-init to trigger the realistic sequence -->
+    <div class="tick" id="real-board" data-did-init="handleTickInit">
+        <div data-repeat="true" data-layout="horizontal center">
+            <!-- The 'data-transform' is where we define the letter sequence -->
+            <span data-view="flip" data-transform="ascii -> char -> upper"></span>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
+
+    <script>
+        const clickSound = new Audio('click.m4a');
+        clickSound.volume = 0.15;
+        let soundEnabled = false;
+
+        document.getElementById('sound-toggle').addEventListener('click', function() {
+            soundEnabled = !this.classList.toggle('is-active');
+            soundEnabled = !soundEnabled; // Correcting toggle state
+            if (soundEnabled) { clickSound.play().then(() => clickSound.pause()); }
+        });
+
+        function handleTickInit(tick) {
+            // 1. Define the "Full Reel" of characters on a physical flap
+            const charSet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+
+            const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
+            const maxLen = 8;
+            const prepareWord = (word) => word.padEnd(maxLen, " ");
+
+            // 2. Configure the flip view for realistic stepping
+            // This forces the tile to flip through the charSet to reach its target
+            Tick.helper.setup(tick.element, {
+                value: prepareWord(rawWords[0]),
+                didInit: (t) => {
+                    // Set realistic animation speed (lower = slower/more mechanical)
+                    t.root.setAttribute('data-key-duration', '400'); 
+                }
+            });
+
+            // Sound logic: Play a click for EVERY flap change
+            tick.on('update', (value) => {
+                if (soundEnabled) {
+                    const soundClone = clickSound.cloneNode();
+                    soundClone.play().catch(() => {});
+                }
+            });
+
+            let i = 0;
+            setInterval(() => {
+                i = (i + 1) % rawWords.length;
+                // Transitioning to the next word
+                tick.value = prepareWord(rawWords[i]);
+            }, 5000); // Longer interval to allow for long flip sequences
+        }
+    </script>
+</body>
+</html>
