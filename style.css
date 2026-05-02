@@ -37,7 +37,6 @@ body {
 .nav-links a:hover, .footer-email:hover { color: #bc674b; }
 .nav-divider { color: #8D99AE; margin: 0 10px; opacity: 0.4; font-family: 'Space Mono'; }
 
-/* HERO LAYOUT */
 .hero {
     display: flex; justify-content: center; align-items: flex-start;
     min-height: 100vh; padding-top: 130px; padding-bottom: 120px;
@@ -55,7 +54,7 @@ body {
     background: rgba(141, 153, 174, 0.03);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(141, 153, 174, 0.1);
-    display: flex; flex-direction: column; gap: 1.5rem; /* Gap provides breathing room for text rows */
+    display: flex; flex-direction: column; gap: 1.5rem;
 }
 
 .hud-tag { position: absolute; top: 25px; left: 30px; font-size: 0.65rem; color: #bc674b; letter-spacing: 2px; }
@@ -67,10 +66,23 @@ body {
     text-transform: uppercase; font-weight: 700; white-space: nowrap;
 }
 
-.window { display: flex; align-items: center; height: 1.1em; color: #8D99AE; }
+.window { display: flex; align-items: center; height: 1.2em; color: #8D99AE; overflow: visible; }
+
+/* TICK FLIP CUSTOM STYLING */
+.tick {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+}
+.tick-flip-panel {
+    background-color: #1a1b2b !important;
+    color: #EDF2F4 !important;
+    border-radius: 4px !important;
+}
+.tick-flip-spacer {
+    background-color: rgba(0,0,0,0.3) !important;
+}
 
 .industry-list { display: flex; flex-direction: column; gap: 15px; }
-
 .industry-item {
     display: flex; align-items: flex-start; padding: 1.6rem;
     background: rgba(141, 153, 174, 0.05);
@@ -78,54 +90,20 @@ body {
     border-left: 4px solid rgba(141, 153, 174, 0.2);
     text-decoration: none; transition: 0.3s ease;
 }
-
 .item-index { font-size: 0.7rem; color: #bc674b; font-weight: 700; margin-right: 15px; margin-top: 4px; }
-.item-text {
-        font-size: clamp(0.9rem, 1.2vw, 1.4rem);
-            color: #8D99AE; font-weight: 700;
-                text-transform: uppercase; line-height: 1.2;
-                }
-
-                .industry-item:hover { border-left-color: #bc674b; background: rgba(239, 35, 60, 0.05); }
-                .industry-item:hover .item-text { color: #EDF2F4; }
-}
+.item-text { font-size: clamp(0.9rem, 1.2vw, 1.4rem); color: #8D99AE; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+.industry-item:hover { border-left-color: #bc674b; background: rgba(239, 35, 60, 0.05); }
+.industry-item:hover .item-text { color: #EDF2F4; }
 
 .hud-corner-tr { position: absolute; top: 0; right: 0; width: 25px; height: 25px; border-top: 1.5px solid #bc674b; border-right: 1.5px solid #bc674b; }
 .hud-corner-bl { position: absolute; bottom: 0; left: 0; width: 25px; height: 25px; border-bottom: 1.5px solid #bc674b; border-left: 1.5px solid #bc674b; }
 
-/* --- MOBILE & TABLET MEDIA QUERY --- */
 @media (max-width: 1024px) {
-    .main-nav {
-        flex-direction: column;
-        gap: 12px;
-        padding: 15px 5vw;
-    }
-
-    .nav-links {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        gap: 5px;
-    }
-
-    .hero { padding-top: 170px; } /* Extra space for the stacked header */
-    
-    .hero-inner {
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-        max-width: 650px;
-        gap: 40px;
-    }
-    
-    .headline-container {
-        width: 100%;
-        padding: 60px 25px 40px 25px;
-    }
-    
-    .text-row {
-        font-size: clamp(1.8rem, 11vw, 4.5rem);
-    }
-    
+    .main-nav { flex-direction: column; gap: 12px; padding: 15px 5vw; }
+    .nav-links { display: flex; justify-content: center; width: 100%; gap: 5px; }
+    .hero { padding-top: 170px; }
+    .hero-inner { flex-direction: column; align-items: stretch; width: 100%; max-width: 650px; gap: 40px; }
+    .headline-container { width: 100%; padding: 60px 25px 40px 25px; }
+    .text-row { font-size: clamp(1.8rem, 11vw, 4.5rem); }
     .industry-list { width: 100%; }
 }
