@@ -3,84 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flip Display Test</title>
-    <!-- CSS Dependencies -->
-    <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
+    <title>Mechanical Board Test</title>
     <style>
+        :root {
+            --bg-color: #2B2D42;
+            --flap-bg: #1a1b2b;
+            --text-color: #EDF2F4;
+        }
+
         body {
-            background-color: #2B2D42; /* Matches your background[cite: 1] */
-            color: #EDF2F4;
+            background-color: var(--bg-color);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: sans-serif;
+            font-family: 'Courier New', Courier, monospace;
         }
 
-        /* Styling the Board[cite: 1] */
-        .tick {
-            font-size: 5rem;
+        .board {
+            display: flex;
+            gap: 4px;
+        }
+
+        .flap {
+            position: relative;
+            width: 60px;
+            height: 90px;
+            background-color: var(--flap-bg);
+            border-radius: 4px;
+            font-size: 70px;
             font-weight: bold;
+            color: var(--text-color);
+            text-align: center;
+            line-height: 90px;
+            perspective: 200px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        .tick-flip-panel {
-            background-color: #1a1b2b !important;
-            color: #EDF2F4 !important;
-            border-radius: 8px !important;
+        /* The horizontal divider line */
+        .flap::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0,0,0,0.5);
+            z-index: 5;
         }
 
-        /* Hides the "Powered by" text you requested to remove */
-        .tick-credits {
-            display: none !important;
+        /* Animation class */
+        .flipping {
+            animation: flipAnim 0.15s ease-in;
+        }
+
+        @keyframes flipAnim {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(-90deg); background: #333; }
+            100% { transform: rotateX(0deg); }
         }
     </style>
 </head>
 <body>
 
-    <div class="tick" id="test-board">
-        <div data-repeat="true" data-layout="horizontal center">
-            <span data-view="flip"></span>
-        </div>
+    <div class="board" id="flap-board">
+        <!-- Flaps will be generated here -->
     </div>
 
-    <!-- JS Dependencies -->
-    <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
     <script>
-        // Use DOMContentLoaded to ensure the library is ready
-        document.addEventListener("DOMContentLoaded", () => {
-            const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];[cite: 2]
-            let index = 0;
+        const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];[cite: 2]
+        const chars = " ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let currentWordIndex = 0;
+        const board = document.getElementById('flap-board');
+        const clickSound = new Audio('click.wav');
+        clickSound.volume = 0.1;
 
-            // Audio setup
-            const clickSound = new Audio('click.wav');
-            clickSound.volume = 0.1;
-
-            // Initialize the board
-            const el = document.getElementById('test-board');
-            const tick = Tick.DOM.create(el, {
-                value: words[0] // Forces "RESEARCH" to show immediately
-            });
-
-            // Clatter sound engine
-            function playClatter(duration) {
-                const interval = 75;
-                let elapsed = 0;
-                const loop = setInterval(() => {
-                    // Try-catch prevents errors if the .wav file is missing during testing
-                    clickSound.cloneNode().play().catch(() => {}); 
-                    elapsed += interval;
-                    if (elapsed >= duration) clearInterval(loop);
-                }, interval);
+        // 1. Create the initial flaps
+        function createFlaps(word) {
+            board.innerHTML = '';
+            for (let i = 0; i < 10; i++) { // Fixed 10 character width
+                const flap = document.createElement('div');
+                flap.className = 'flap';
+                flap.innerText = word[i] || ' ';
+                board.appendChild(flap);
             }
+        }
 
-            // Rotation logic[cite: 2]
-            setInterval(() => {
-                index = (index + 1) % words.length;
-                tick.value = words[index];
-                playClatter(1000);
-            }, 3500);
-        });
+        // 2. The logic to flip a single character to its target
+        function flipLetter(flapElement, targetChar) {
+            let currentChar = flapElement.innerText;
+            if (currentChar === targetChar) return;
+
+            let currentIndex = chars.indexOf(currentChar);
+            let nextIndex = (currentIndex + 1) % chars.length;
+            let nextChar = chars[nextIndex];
+
+            // Visual Flip
+            flapElement.classList.remove('flipping');
+            void flapElement.offsetWidth; // Trigger reflow
+            flapElement.classList.add('flipping');
+            
+            flapElement.innerText = nextChar;
+
+            // Play Sound
+            clickSound.cloneNode().play().catch(() => {});
+
+            // Repeat until match
+            setTimeout(() => {
+                flipLetter(flapElement, targetChar);
+            }, 100); 
+        }
+
+        function updateBoard() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            const targetWord = words[currentWordIndex];
+            const flaps = document.querySelectorAll('.flap');
+
+            flaps.forEach((flap, i) => {
+                const targetChar = targetWord[i] || ' ';
+                // Add slight delay per flap for "ripple" effect
+                setTimeout(() => {
+                    flipLetter(flap, targetChar);
+                }, i * 50);
+            });
+        }
+
+        // Initialize
+        createFlaps(words[0]);
+        setInterval(updateBoard, 3500);
     </script>
 </body>
 </html>
