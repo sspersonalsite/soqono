@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>soqóno | Technical Research Operations</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
+    <!-- 1. ADD TICK CSS -->
+    <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=39.0">
 </head>
 <body>
@@ -25,20 +27,24 @@
             <span class="nav-divider">//</span>
             <a href="mailto:team@soqono.com">CONTACT: TEAM@SOQONO.COM</a>
         </div>
-        </div>
     </nav>
 
     <main class="hero">
         <div class="hero-inner">
-        <div class="headline-container">
-            <div class="hud-tag">GLOBAL PARTNER // NEXT-GEN TECH</div>
-            
-            <h1 class="text-row">TECHNICAL</h1>
-            <div class="window">
-                <span class="text-row" id="scramble-target">RESEARCH</span>
+            <div class="headline-container">
+                <div class="hud-tag">GLOBAL PARTNER // NEXT-GEN TECH</div>
+                
+                <h1 class="text-row">TECHNICAL</h1>
+                <div class="window">
+                    <!-- 2. UPDATED FLIP BOARD STRUCTURE -->
+                    <div class="tick" id="scramble-target" data-did-init="setupFlip">
+                        <div data-repeat="true">
+                            <span data-view="flip"></span>
+                        </div>
+                    </div>
+                </div>
+                <h1 class="text-row">OPERATIONS</h1>
             </div>
-            <h1 class="text-row">OPERATIONS</h1>
-        </div>
 
             <div class="industry-list">
                 <a href="#" class="industry-item">
@@ -67,12 +73,13 @@
             <span class="nav-divider" style="margin-left:15px">//</span> 
             <span style="opacity:0.5">NO-COOKIE SITE</span>
         </div>
-        <div class="footer-right" id="local-clock">
-        </div>
+        <div class="footer-right" id="local-clock"></div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simplex-noise@2.4.0/simplex-noise.min.js"></script>
+    <!-- 3. ADD TICK JS -->
+    <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
