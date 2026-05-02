@@ -24,7 +24,7 @@
             color: #EDF2F4; 
         }
 
-        /* Get rid of the "Powered by PQINA" text as requested */
+        /* Get rid of the "Powered by PQINA" text as requested[cite: 1] */
         .tick-credits { 
             display: none !important; 
         }
@@ -40,18 +40,18 @@
 
         .tick-flip-panel {
             background-color: #1a1b2b !important;
-            border-bottom: 1px solid rgba(0,0,0,0.4); /* Split line effect */
+            border-bottom: 1px solid rgba(0,0,0,0.4); 
         }
 
         .tick-flip-shadow-top, 
         .tick-flip-shadow-bottom {
-            opacity: 0.2; /* Softens the shadow for a cleaner tech aesthetic */
+            opacity: 0.2; 
         }
     </style>
 </head>
 <body>
 
-    <!-- 3. The HTML Template for the Flip Display -->
+    <!-- 3. The HTML Template for the Flip Display[cite: 3] -->
     <div class="tick" id="test-board" data-did-init="handleTickInit">
         <div data-repeat="true" data-layout="horizontal center">
             <span data-view="flip"></span>
@@ -63,43 +63,49 @@
 
     <script>
         function handleTickInit(tick) {
-            // Setup the Audio - uses your verified wav link
+            // Setup the Audio
             const clickSound = new Audio('click.wav');
             clickSound.volume = 0.15;
 
-            // List of words to rotate through
+            // List of words
             const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
-            const maxLen = 8; // Length of longest word (RESEARCH/STRATEGY)
+            const maxLen = 8; 
 
-            // Left-justifies word and fills remaining slots with blank tiles
             const prepareWord = (word) => {
                 return word.padEnd(maxLen, " ");
             };
 
-            // SOUND ENGINE: Fires on every flip event[cite: 3]
-            tick.on('update', function(value) {
-                // Clone node allows sounds to stack into a "clatter"[cite: 2]
-                const soundClone = clickSound.cloneNode();
-                soundClone.play().catch(e => {
-                    // Logs if browser blocks autoplay before user interaction
-                    console.log("Waiting for user interaction to enable audio...");
-                });
-            });
-
-            // Set initial word
+            // Initial value
             tick.value = prepareWord(rawWords[0]);
 
-            // Rotation loop
+            // 5. FIXED SOUND ENGINE: 
+            // We use a separate interval to trigger the clatter sound during flips
+            function playClatter() {
+                const soundClone = clickSound.cloneNode();
+                soundClone.play().catch(() => {
+                    console.log("Interaction required for audio");
+                });
+            }
+
+            // Word rotation loop
             let i = 0;
             setInterval(function() {
                 i = (i + 1) % rawWords.length;
                 tick.value = prepareWord(rawWords[i]);
+                
+                // Play a series of clicks to match the flipping animation
+                let clatterCount = 0;
+                const clatterInterval = setInterval(() => {
+                    playClatter();
+                    clatterCount++;
+                    if (clatterCount > 10) clearInterval(clatterInterval);
+                }, 80); 
             }, 3500);
         }
 
-        // Add a listener to handle the browser's autoplay block[cite: 2]
+        // Handle autoplay permissions[cite: 2]
         document.body.addEventListener('click', function() {
-            console.log("Audio context resumed via user interaction.");
+            console.log("Audio Enabled");
         }, { once: true });
     </script>
 </body>
