@@ -2,18 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PQINA Basic Test - Fixed</title>
+    <title>PQINA Basic Test - Animation Fix</title>
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     <style>
         body { background: #2B2D42; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .tick { font-size: 5rem; font-family: sans-serif; color: white; }
-        .tick-credits { display: none !important; } /* Get rid of PQINA credit[cite: 1] */
+        .tick-credits { display: none !important; } /* Removes "Powered by PQINA"[cite: 1] */
+        
+        /* Optional: Makes the flaps look more like your screenshot "Screenshot 2026-05-02 151723.jpg" */
+        .tick-flip-panel { background-color: #1a1b2b !important; }
     </style>
 </head>
 <body>
 
-    <!-- The data-value here ensures the library has a starting point -->
-    <div class="tick" id="test-board" data-value="RESEARCH">
+    <!-- The 'data-did-init' attribute is a more reliable way to start the animation -->
+    <div class="tick" id="test-board" data-value="RESEARCH" data-did-init="handleTickInit">
         <div data-repeat="true" data-layout="horizontal center">
             <span data-view="flip"></span>
         </div>
@@ -22,35 +25,19 @@
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Check if library exists
-            if (typeof Tick === 'undefined') {
-                console.error("Tick library not loaded");
-                return;
-            }
+        // We define the initialization function that 'data-did-init' calls
+        function handleTickInit(tick) {
+            console.log("Tick engine successfully started!");
 
-            // Reference the element[cite: 3]
-            const boardElement = document.getElementById('test-board');
+            const words = ["RESEARCH", "PROGRAM", "STRATEGY", "PRODUCT"];[cite: 2]
+            let i = 0;
 
-            // Initialize and catch the instance
-            const tickInstance = Tick.DOM.create(boardElement);
-
-            // Verify the instance exists before trying to use .value
-            if (tickInstance) {
-                console.log("Tick initialized successfully");
-                
-                const words = ["RESEARCH", "PROGRAM", "STRATEGY"];
-                let i = 0;
-
-                setInterval(() => {
-                    i = (i + 1) % words.length;
-                    // This was the line failing; now protected by the if(tickInstance) check[cite: 2]
-                    tickInstance.value = words[i];
-                }, 3000);
-            } else {
-                console.error("Tick failed to create instance. Check HTML structure.");
-            }
-        });
+            setInterval(() => {
+                i = (i + 1) % words.length;
+                // Transition to the next word
+                tick.value = words[i];
+            }, 3000);
+        }
     </script>
 </body>
 </html>
