@@ -45,7 +45,6 @@
             margin: 0 0.05em;
         }
 
-        /* GRID CENTERING (Matches Screenshot 2026-05-02 160554.png) */
         .tick-flip-panel {
             display: grid !important;
             place-content: center !important;
@@ -67,11 +66,15 @@
         <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
     </button>
 
-    <!-- We add data-did-init to trigger the realistic sequence -->
+    <!-- 
+      THE MECHANICAL ENGINE:
+      The 'data-transform' now explicitly lists the characters to flip through.
+    -->
     <div class="tick" id="real-board" data-did-init="handleTickInit">
         <div data-repeat="true" data-layout="horizontal center">
-            <!-- The 'data-transform' is where we define the letter sequence -->
-            <span data-view="flip" data-transform="ascii -> char -> upper"></span>
+            <span data-view="flip" 
+                  data-transform="ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper">
+            </span>
         </div>
     </div>
 
@@ -84,29 +87,20 @@
 
         document.getElementById('sound-toggle').addEventListener('click', function() {
             soundEnabled = !this.classList.toggle('is-active');
-            soundEnabled = !soundEnabled; // Correcting toggle state
+            soundEnabled = !soundEnabled; 
             if (soundEnabled) { clickSound.play().then(() => clickSound.pause()); }
         });
 
         function handleTickInit(tick) {
-            // 1. Define the "Full Reel" of characters on a physical flap
-            const charSet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-
             const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
             const maxLen = 8;
             const prepareWord = (word) => word.padEnd(maxLen, " ");
 
-            // 2. Configure the flip view for realistic stepping
-            // This forces the tile to flip through the charSet to reach its target
-            Tick.helper.setup(tick.element, {
-                value: prepareWord(rawWords[0]),
-                didInit: (t) => {
-                    // Set realistic animation speed (lower = slower/more mechanical)
-                    t.root.setAttribute('data-key-duration', '400'); 
-                }
-            });
+            // Initial value
+            tick.value = prepareWord(rawWords[0]);
 
-            // Sound logic: Play a click for EVERY flap change
+            // SOUND ENGINE: Fires on every physical flip
+            // This listener hooks into the transition of each tile.
             tick.on('update', (value) => {
                 if (soundEnabled) {
                     const soundClone = clickSound.cloneNode();
@@ -117,9 +111,8 @@
             let i = 0;
             setInterval(() => {
                 i = (i + 1) % rawWords.length;
-                // Transitioning to the next word
                 tick.value = prepareWord(rawWords[i]);
-            }, 5000); // Longer interval to allow for long flip sequences
+            }, 5000); 
         }
     </script>
 </body>
