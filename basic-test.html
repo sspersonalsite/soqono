@@ -3,74 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>soqóno | Mechanical Display</title>
+    <title>soqóno | Interactive Display</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     
-   <style>
-    body { 
-        background: #2B2D42; 
-        display: flex; 
-        flex-direction: column;
-        justify-content: center; 
-        align-items: center; 
-        height: 100vh; 
-        margin: 0; 
-        overflow: hidden;
-        font-family: sans-serif;
-    }
+    <style>
+        :root {
+            --bg-color: #2B2D42;
+            --tile-bg: #1a1b2b;
+            --text-color: #EDF2F4;
+        }
 
-    #audio-gate {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.9); color: white;
-        display: flex; justify-content: center; align-items: center;
-        z-index: 9999; cursor: pointer; text-transform: uppercase;
-        letter-spacing: 2px; font-weight: bold;
-    }
+        body { 
+            background: var(--bg-color); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+            overflow: hidden;
+            font-family: sans-serif;
+        }
 
-    .tick { 
-        font-size: 5.5rem; 
-        color: #EDF2F4; 
-    }
+        /* ELEGANT SOUND TOGGLE */
+        #sound-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .tick-credits { display: none !important; }
+        #sound-toggle:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--text-color);
+        }
 
-    /* TILE CONTAINER */
-    .tick-flip {
-        width: 1.2em; 
-        height: 1.5em;
-        background-color: #1a1b2b !important;
-        border-radius: 4px !important;
-        margin: 0 0.05em;
-    }
+        #sound-toggle svg {
+            fill: var(--text-color);
+            width: 20px;
+            height: 20px;
+            opacity: 0.5;
+        }
 
-    /* THE FIX: Force the internal panels to use Grid Centering */
-    .tick-flip-panel {
-        display: grid !important;
-        place-content: center !important; /* Centers both horizontally and vertically */
-        background-color: #1a1b2b !important;
-        border-bottom: 1px solid rgba(0,0,0,0.4); 
-    }
+        #sound-toggle.is-active svg {
+            opacity: 1;
+        }
 
-    /* 
-       THE CRITICAL OVERRIDE: 
-       The library uses position:absolute which causes the "top-left" jump.
-       We set it to 'static' so it obeys the Grid 'place-content' rule.
-    */
-    .tick-flip-text-wrapper {
-        position: static !important;
-        display: block !important;
-        line-height: 1 !important;
-        text-indent: 0 !important;
-    }
+        /* MECHANICAL BOARD STYLING */
+        .tick { 
+            font-size: 5.5rem; 
+            color: var(--text-color); 
+        }
 
-    .tick-flip-shadow-top, .tick-flip-shadow-bottom { opacity: 0.2; }
-</style>
-    
+        .tick-credits { display: none !important; }
+
+        .tick-flip {
+            width: 1.2em; 
+            height: 1.5em;
+            background-color: var(--tile-bg) !important;
+            border-radius: 4px !important;
+            margin: 0 0.05em;
+        }
+
+        /* GRID CENTERING (Screenshot 2026-05-02 160554.png Fix) */
+        .tick-flip-panel {
+            display: grid !important;
+            place-content: center !important;
+            background-color: var(--tile-bg) !important;
+            border-bottom: 1px solid rgba(0,0,0,0.4); 
+        }
+
+        .tick-flip-text-wrapper {
+            position: static !important;
+            display: block !important;
+            line-height: 1 !important;
+            text-indent: 0 !important;
+        }
+
+        .tick-flip-shadow-top, .tick-flip-shadow-bottom { opacity: 0.2; }
+    </style>
 </head>
 <body>
 
-    <div id="audio-gate">Click to Start Mechanical Display</div>
+    <!-- Subtle Icon Toggle -->
+    <button id="sound-toggle" aria-label="Toggle Sound">
+        <svg id="icon-mute" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+    </button>
 
     <div class="tick" id="test-board" data-did-init="handleTickInit">
         <div data-repeat="true" data-layout="horizontal center">
@@ -81,29 +108,35 @@
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
-        const AUDIO_URL = 'click.m4a'; 
-        const clickSound = new Audio(AUDIO_URL);
+        const clickSound = new Audio('click.m4a');
         clickSound.volume = 0.2;
+        
+        let soundEnabled = false;
 
-        const gate = document.getElementById('audio-gate');
-        gate.addEventListener('click', () => {
-            clickSound.play().then(() => {
-                clickSound.pause(); 
-                gate.style.display = 'none';
-            }).catch(err => console.error("Audio Load Error:", err));
+        // Toggle Logic
+        const toggleBtn = document.getElementById('sound-toggle');
+        toggleBtn.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            toggleBtn.classList.toggle('is-active', soundEnabled);
+            
+            // Interaction "unlocks" the audio for the browser
+            if (soundEnabled) {
+                clickSound.play().then(() => {
+                    clickSound.pause();
+                    clickSound.currentTime = 0;
+                });
+            }
         });
 
         function handleTickInit(tick) {
             const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
-            const maxLen = 8; 
-
-            const prepareWord = (word) => {
-                return word.padEnd(maxLen, " ");
-            };
+            const maxLen = 8;
+            const prepareWord = (word) => word.padEnd(maxLen, " ");
 
             tick.value = prepareWord(rawWords[0]);
 
             function playClatter() {
+                if (!soundEnabled) return;
                 const soundClone = clickSound.cloneNode();
                 soundClone.play().catch(() => {});
             }
@@ -113,12 +146,15 @@
                 i = (i + 1) % rawWords.length;
                 tick.value = prepareWord(rawWords[i]);
                 
-                let clatterCount = 0;
-                const clatterInterval = setInterval(() => {
-                    playClatter();
-                    clatterCount++;
-                    if (clatterCount > 12) clearInterval(clatterInterval);
-                }, 75); 
+                // Only clatter if user enabled sound
+                if (soundEnabled) {
+                    let count = 0;
+                    const clatter = setInterval(() => {
+                        playClatter();
+                        count++;
+                        if (count > 10) clearInterval(clatter);
+                    }, 70);
+                }
             }, 3500);
         }
     </script>
