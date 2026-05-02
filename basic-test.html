@@ -2,20 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PQINA Basic Test - Animation Fix</title>
+    <title>PQINA Basic Test - Fixed Syntax</title>
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     <style>
         body { background: #2B2D42; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .tick { font-size: 5rem; font-family: sans-serif; color: white; }
-        .tick-credits { display: none !important; } /* Removes "Powered by PQINA"[cite: 1] */
-        
-        /* Optional: Makes the flaps look more like your screenshot "Screenshot 2026-05-02 151723.jpg" */
+        .tick-credits { display: none !important; }
         .tick-flip-panel { background-color: #1a1b2b !important; }
     </style>
 </head>
 <body>
 
-    <!-- The 'data-did-init' attribute is a more reliable way to start the animation -->
     <div class="tick" id="test-board" data-value="RESEARCH" data-did-init="handleTickInit">
         <div data-repeat="true" data-layout="horizontal center">
             <span data-view="flip"></span>
@@ -25,16 +22,12 @@
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
-        // We define the initialization function that 'data-did-init' calls
         function handleTickInit(tick) {
-            console.log("Tick engine successfully started!");
-
-            const words = ["RESEARCH", "PROGRAM", "STRATEGY", "PRODUCT"];[cite: 2]
+            const words = ["RESEARCH", "PROGRAM", "STRATEGY", "PRODUCT"];
             let i = 0;
 
-            setInterval(() => {
+            setInterval(function() {
                 i = (i + 1) % words.length;
-                // Transition to the next word
                 tick.value = words[i];
             }, 3000);
         }
