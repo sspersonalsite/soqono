@@ -2,58 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PQINA Absolute Basic Test</title>
-    <!-- 1. The minimal CSS for the flip effect -->
+    <title>PQINA Basic Test - Fixed</title>
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     <style>
         body { background: #2B2D42; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        
-        /* 2. Target the board specifically to ensure it has size */
-        .tick {
-            font-size: 5rem;
-            font-family: sans-serif;
-        }
-
-        /* 3. Your request: Remove the PQINA branding[cite: 1] */
-        .tick-credits {
-            display: none !important;
-        }
+        .tick { font-size: 5rem; font-family: sans-serif; color: white; }
+        .tick-credits { display: none !important; } /* Get rid of PQINA credit[cite: 1] */
     </style>
 </head>
 <body>
 
-    <!-- 4. The required HTML structure for the library to "hook" into[cite: 3] -->
-    <div class="tick" id="test-board">
+    <!-- The data-value here ensures the library has a starting point -->
+    <div class="tick" id="test-board" data-value="RESEARCH">
         <div data-repeat="true" data-layout="horizontal center">
             <span data-view="flip"></span>
         </div>
     </div>
 
-    <!-- 5. The Library Script -->
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
-        // 6. The absolute simplest JS initialization
         document.addEventListener("DOMContentLoaded", function() {
-            
-            // Check if the library actually loaded
+            // Check if library exists
             if (typeof Tick === 'undefined') {
-                document.body.innerHTML = "<h1 style='color:white'>Library Failed to Load from Unpkg</h1>";
+                console.error("Tick library not loaded");
                 return;
             }
 
-            // Create the instance
-            const board = Tick.DOM.create(document.getElementById('test-board'), {
-                value: 'RESEARCH'
-            });
+            // Reference the element[cite: 3]
+            const boardElement = document.getElementById('test-board');
 
-            // Basic rotation test
-            const words = ["RESEARCH", "PROGRAM", "DATA"];
-            let i = 0;
-            setInterval(() => {
-                i = (i + 1) % words.length;
-                board.value = words[i];
-            }, 3000);
+            // Initialize and catch the instance
+            const tickInstance = Tick.DOM.create(boardElement);
+
+            // Verify the instance exists before trying to use .value
+            if (tickInstance) {
+                console.log("Tick initialized successfully");
+                
+                const words = ["RESEARCH", "PROGRAM", "STRATEGY"];
+                let i = 0;
+
+                setInterval(() => {
+                    i = (i + 1) % words.length;
+                    // This was the line failing; now protected by the if(tickInstance) check[cite: 2]
+                    tickInstance.value = words[i];
+                }, 3000);
+            } else {
+                console.error("Tick failed to create instance. Check HTML structure.");
+            }
         });
     </script>
 </body>
