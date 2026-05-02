@@ -1,5 +1,5 @@
 window.addEventListener("load", () => {
-    // --- WAVE CANVAS ENGINE ---
+    // 1. WAVE CANVAS ENGINE
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -38,22 +38,22 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // --- MECHANICAL DISPLAY LOGIC ---
+    // 2. MECHANICAL DISPLAY (FLIP BOARD)
     const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     let wordIndex = 0;
-    
-    // Initialize Tick
-    const target = document.getElementById("scramble-target");
-    const tickInstance = Tick.DOM.create(target, {
+
+    // Load the audio
+    const clickSound = new Audio('click.mp3');
+    clickSound.volume = 0.1;
+
+    // Setup the Tick Flip Instance
+    const board = Tick.DOM.create(document.getElementById('flip-board'), {
         value: words[0]
     });
 
-    // Sound Engine
-    const clickSound = new Audio('click.wav');
-    clickSound.volume = 0.1;
-
-    function playFastClicks(duration) {
-        const interval = 70; // High speed for "rat-tat-tat" effect
+    // Sound engine for the "rat-tat-tat" effect
+    function playMechanicalClatter(duration) {
+        const interval = 75; // speed of each click in ms
         let elapsed = 0;
         const loop = setInterval(() => {
             clickSound.cloneNode().play();
@@ -62,15 +62,21 @@ window.addEventListener("load", () => {
         }, interval);
     }
 
-    function updateBoard() {
+    function rotateWords() {
         wordIndex = (wordIndex + 1) % words.length;
-        tickInstance.value = words[wordIndex];
-        playFastClicks(900); // Plays clicks for roughly the duration of the flip
+        const nextWord = words[wordIndex];
+        
+        // Update the visual board
+        board.value = nextWord;
+        
+        // Trigger sound effect for roughly 1 second during transition
+        playMechanicalClatter(1000);
     }
-    
-    setInterval(updateBoard, 3500);
 
-    // --- UTILITIES (CLOCK & BLOBS) ---
+    // Interval to change words
+    setInterval(rotateWords, 3500);
+
+    // 3. UTILITIES (CLOCK & BLOBS)
     function updateClock() {
         const clock = document.getElementById('local-clock');
         if (!clock) return;
