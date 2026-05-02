@@ -42,18 +42,18 @@ window.addEventListener("load", () => {
     const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     let wordIndex = 0;
 
-    // Load the audio
-    const clickSound = new Audio('click.mp3');
+    // UPDATED AUDIO: Reference click.wav in your root folder
+    const clickSound = new Audio('click.wav');
     clickSound.volume = 0.1;
 
-    // Setup the Tick Flip Instance
-    const board = Tick.DOM.create(document.getElementById('flip-board'), {
-        value: words[0]
+    // Initialize Flip Board
+    const boardElement = document.getElementById('flip-board');
+    const tickInstance = Tick.DOM.create(boardElement, {
+        value: words[0] // Ensures "RESEARCH" is the starting word
     });
 
-    // Sound engine for the "rat-tat-tat" effect
     function playMechanicalClatter(duration) {
-        const interval = 75; // speed of each click in ms
+        const interval = 75; 
         let elapsed = 0;
         const loop = setInterval(() => {
             clickSound.cloneNode().play();
@@ -66,14 +66,14 @@ window.addEventListener("load", () => {
         wordIndex = (wordIndex + 1) % words.length;
         const nextWord = words[wordIndex];
         
-        // Update the visual board
-        board.value = nextWord;
+        // Update Tick instance
+        tickInstance.value = nextWord;
         
-        // Trigger sound effect for roughly 1 second during transition
+        // Play audio clatter
         playMechanicalClatter(1000);
     }
 
-    // Interval to change words
+    // Cycle words every 3.5 seconds
     setInterval(rotateWords, 3500);
 
     // 3. UTILITIES (CLOCK & BLOBS)
