@@ -17,11 +17,10 @@
         .tick { font-size: 5.5rem; color: var(--text-color); }
         .tick-credits { display: none !important; }
 
-        /* Tile Centering (Reference: Screenshot 2026-05-02 160554.png) */
+        /* Centering Fix (Screenshot 2026-05-02 160554.png) */
         .tick-flip { width: 1.2em; height: 1.5em; background-color: var(--tile-bg) !important; border-radius: 4px !important; margin: 0 0.05em; }
         .tick-flip-panel { display: grid !important; place-content: center !important; background-color: var(--tile-bg) !important; border-bottom: 1px solid rgba(0,0,0,0.4); }
         .tick-flip-text-wrapper { position: static !important; display: block !important; line-height: 1 !important; text-indent: 0 !important; }
-        .tick-flip-shadow-top, .tick-flip-shadow-bottom { opacity: 0.2; }
     </style>
 </head>
 <body>
@@ -32,72 +31,95 @@
 
     <div class="tick" id="mechanical-board">
         <div data-repeat="true" data-layout="horizontal center">
-            <!-- 
-                INDEPENDENT CONTROL:
-                We add 'data-key-duration="400"' to each tile to slow down the 
-                mechanical "roll" so the user can see the letters changing.
-            -->
-            <span data-view="flip" 
-                  data-key-duration="400"
-                  data-transform="ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper"></span>
+            <span data-view="flip"></span>
         </div>
     </div>
 
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
+        // 1. Audio Engine
         const clickSound = new Audio('click.m4a');
-        clickSound.volume = 0.12;
+        clickSound.volume = 0.15;
         let soundEnabled = false;
 
         document.getElementById('sound-toggle').onclick = function() {
             soundEnabled = !this.classList.toggle('is-active');
-            soundEnabled = !soundEnabled; 
+            soundEnabled = !soundEnabled;
             if (soundEnabled) {
                 clickSound.play().then(() => { clickSound.pause(); clickSound.currentTime = 0; });
             }
         };
 
-        const boardEl = document.getElementById('mechanical-board');
+        function playClick() {
+            if (!soundEnabled) return;
+            const s = clickSound.cloneNode();
+            s.volume = 0.15;
+            s.play().catch(() => {});
+        }
+
+        // 2. Mechanical Logic
+        const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"; 
         const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
         const maxLen = 8;
         const prepareWord = (word) => word.padEnd(maxLen, " ");
 
-        // Manual instance creation
+        const boardEl = document.getElementById('mechanical-board');
         const board = Tick.DOM.create(boardEl, {
-            value: prepareWord(rawWords[0])
+            value: " ".repeat(maxLen)
         });
 
-        // MECHANICAL AUDIO ENGINE
-        // This fires for EVERY intermediate letter flip, 
-        // creating the "roll" sound.
-        board.onupdate = function() {
-            if (soundEnabled) {
-                const soundClone = clickSound.cloneNode();
-                soundClone.play().catch(() => {});
-            }
-        };
+        let currentStringArray = " ".repeat(maxLen).split("");
 
-        // THE INDEPENDENT STAGGER LOGIC
-        // Instead of updating the whole word at once, we update tile-by-tile
-        function updateWordIndependently(newWord) {
-            const letters = newWord.split('');
-            let currentVal = board.value.split('');
+        /**
+         * Logic: For each tile, flip through the alphabet one-by-one 
+         * until it reaches the target character.
+         */
+        function rotateTileToTarget(index, targetChar) {
+            const stepInterval = 70; // Speed of the physical flip
 
-            letters.forEach((char, index) => {
-                // Stagger the start of each tile by 60ms
+            const runner = setInterval(() => {
+                let currentChar = currentStringArray[index];
+                let currentIndex = charSet.indexOf(currentChar);
+                let targetIndex = charSet.indexOf(targetChar);
+
+                if (currentChar === targetChar) {
+                    clearInterval(runner);
+                    return;
+                }
+
+                // Move to next char in the reel
+                let nextIndex = (currentIndex + 1) % charSet.length;
+                currentStringArray[index] = charSet[nextIndex];
+                
+                // Update the board and play sound
+                board.value = currentStringArray.join("");
+                playClick();
+
+            }, stepInterval);
+        }
+
+        function updateWholeBoard(newWord) {
+            const targetChars = newWord.toUpperCase().split("");
+            
+            targetChars.forEach((char, i) => {
+                // Stagger the start of each tile journey
                 setTimeout(() => {
-                    currentVal[index] = char;
-                    board.value = currentVal.join('');
-                }, index * 60); 
+                    rotateTileToTarget(i, char);
+                }, i * 150); 
             });
         }
 
-        let i = 0;
+        // Start the loop
+        let wordIndex = 0;
+        
+        // Initial kick-off
+        setTimeout(() => updateWholeBoard(prepareWord(rawWords[0])), 1000);
+
         setInterval(() => {
-            i = (i + 1) % rawWords.length;
-            updateWordIndependently(prepareWord(rawWords[i]));
-        }, 7000); // 7s to accommodate the staggered "roll"
+            wordIndex = (wordIndex + 1) % rawWords.length;
+            updateWholeBoard(prepareWord(rawWords[wordIndex]));
+        }, 8000); // 8s to allow full alphabetical rotations
     </script>
 </body>
 </html>
