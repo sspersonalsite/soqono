@@ -73,12 +73,20 @@ body {
     font-size: clamp(2rem, 7.5vw, 8.5rem);
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
+    line-height: 1;
 }
+
+/* HIDE BRANDING */
+.tick-credits {
+    display: none !important;
+}
+
 .tick-flip-panel {
     background-color: #1a1b2b !important;
     color: #EDF2F4 !important;
     border-radius: 4px !important;
 }
+
 .tick-flip-spacer {
     background-color: rgba(0,0,0,0.3) !important;
 }
