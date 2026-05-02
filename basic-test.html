@@ -1,80 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Mechanical Board - Independent Tiles</title>
-    <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
-    <style>
-        body { 
-            background: #2B2D42; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-        }
+function handleTickInit(tick) {
+    // 1. Setup the Audio Object
+    // Ensure this path is correct relative to your test.html
+    const clickSound = new Audio('click.wav');
+    clickSound.volume = 0.15; // Adjusted for a subtle mechanical feel
 
-        /* 1. Force the board to use the Space Grotesk look from your screenshot */
-        .tick { 
-            font-size: 5rem; 
-            font-family: sans-serif; 
-            color: white; 
-        }
+    const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
+    const maxLen = 8; 
 
-        /* 2. Remove PQINA branding */
-        .tick-credits { 
-            display: none !important; 
-        }
+    const prepareWord = (word) => {
+        return word.padEnd(maxLen, " ");
+    };
 
-        /* 3. This CSS forces each letter into its own independent mechanical tile */
-        .tick-flip {
-            width: 1.1em; /* Fixed width per tile */
-            height: 1.5em;
-            background-color: #1a1b2b !important;
-            border-radius: 4px !important;
-            margin: 0 0.05em; /* Spacing between tiles */
-        }
+    // 2. THE SOUND ENGINE
+    // This 'update' listener fires whenever the tiles change[cite: 2, 3]
+    tick.on('update', function(value) {
+        // To simulate a real board, we play a quick 'clatter' 
+        // because multiple tiles are flipping at once.
+        playMechanicalEffect();
+    });
 
-        /* Matches the mechanical panel color from Screenshot 2026-05-02 151723.jpg */
-        .tick-flip-panel {
-            background-color: #1a1b2b !important;
-        }
-    </style>
-</head>
-<body>
+    function playMechanicalEffect() {
+        // We clone the audio so multiple "clicks" can overlap 
+        // without cutting each other off.
+        const soundClone = clickSound.cloneNode();
+        soundClone.play().catch(e => {
+            console.log("Autoplay blocked. Click anywhere on the page to enable sound.");
+        });
+    }
 
-    <!-- 4. The HTML template for 8 independent slots -->
-    <div class="tick" id="test-board" data-did-init="handleTickInit">
-        <div data-repeat="true" data-layout="horizontal center">
-            <span data-view="flip"></span>
-        </div>
-    </div>
+    // Set initial word
+    tick.value = prepareWord(rawWords[0]);
 
-    <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
-
-    <script>
-        function handleTickInit(tick) {
-            // Your words
-            const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
-            const maxLen = 8; // Length of the longest word (RESEARCH/STRATEGY)
-
-            // 5. Function to pad words with spaces so they are all 8 characters[cite: 2]
-            // This keeps the tiles from jumping around when the word changes.
-            const prepareWord = (word) => {
-                return word.padEnd(maxLen, " ");
-            };
-
-            // Set the initial word
-            tick.value = prepareWord(rawWords[0]);
-
-            let i = 0;
-            setInterval(function() {
-                i = (i + 1) % rawWords.length;
-                
-                // Update with the padded word[cite: 2, 3]
-                tick.value = prepareWord(rawWords[i]);
-            }, 3000);
-        }
-    </script>
-</body>
-</html>
+    let i = 0;
+    setInterval(function() {
+        i = (i + 1) % rawWords.length;
+        tick.value = prepareWord(rawWords[i]);
+    }, 3000);
+}
