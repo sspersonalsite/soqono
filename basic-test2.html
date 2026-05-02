@@ -3,61 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>soqóno | Realistic Mechanical Sequence</title>
+    <title>soqóno | Fixed Mechanical Sequence</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
-    
     <style>
-        :root {
-            --bg-color: #2B2D42;
-            --tile-bg: #1a1b2b;
-            --text-color: #EDF2F4;
-        }
-
-        body { 
-            background: var(--bg-color); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            overflow: hidden;
-            font-family: sans-serif;
-        }
-
-        #sound-toggle {
-            position: fixed; top: 20px; right: 20px;
-            background: transparent; border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px; border-radius: 50%; cursor: pointer;
-            z-index: 100; display: flex; align-items: center;
-        }
-
-        #sound-toggle.is-active svg { fill: #fff; opacity: 1; }
+        :root { --bg-color: #2B2D42; --tile-bg: #1a1b2b; --text-color: #EDF2F4; }
+        body { background: var(--bg-color); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; font-family: sans-serif; }
+        
+        #sound-toggle { position: fixed; top: 20px; right: 20px; background: transparent; border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 50%; cursor: pointer; z-index: 100; display: flex; align-items: center; }
         #sound-toggle svg { fill: #fff; width: 20px; height: 20px; opacity: 0.4; }
+        #sound-toggle.is-active svg { opacity: 1; }
 
         .tick { font-size: 5.5rem; color: var(--text-color); }
         .tick-credits { display: none !important; }
+        .tick-flip { width: 1.2em; height: 1.5em; background-color: var(--tile-bg) !important; border-radius: 4px !important; margin: 0 0.05em; }
 
-        .tick-flip {
-            width: 1.2em; height: 1.5em;
-            background-color: var(--tile-bg) !important;
-            border-radius: 4px !important;
-            margin: 0 0.05em;
-        }
-
-        .tick-flip-panel {
-            display: grid !important;
-            place-content: center !important;
-            background-color: var(--tile-bg) !important;
-            border-bottom: 1px solid rgba(0,0,0,0.4); 
-        }
-
-        .tick-flip-text-wrapper {
-            position: static !important;
-            display: block !important;
-            line-height: 1 !important;
-            text-indent: 0 !important;
-        }
+        /* Dead-center alignment from Screenshot 2026-05-02 160554.png */
+        .tick-flip-panel { display: grid !important; place-content: center !important; background-color: var(--tile-bg) !important; border-bottom: 1px solid rgba(0,0,0,0.4); }
+        .tick-flip-text-wrapper { position: static !important; display: block !important; line-height: 1 !important; text-indent: 0 !important; }
     </style>
 </head>
 <body>
@@ -66,23 +29,16 @@
         <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
     </button>
 
-    <!-- 
-      THE MECHANICAL ENGINE:
-      The 'data-transform' now explicitly lists the characters to flip through.
-    -->
-    <div class="tick" id="real-board" data-did-init="handleTickInit">
+    <div class="tick" data-did-init="handleTickInit">
         <div data-repeat="true" data-layout="horizontal center">
-            <span data-view="flip" 
-                  data-transform="ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper">
-            </span>
+            <span data-view="flip" data-transform="ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper"></span>
         </div>
     </div>
 
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
-
     <script>
         const clickSound = new Audio('click.m4a');
-        clickSound.volume = 0.15;
+        clickSound.volume = 0.12;
         let soundEnabled = false;
 
         document.getElementById('sound-toggle').addEventListener('click', function() {
@@ -91,16 +47,17 @@
             if (soundEnabled) { clickSound.play().then(() => clickSound.pause()); }
         });
 
-        function handleTickInit(tick) {
+        function handleTickInit(el) {
+            // THE FIX: Find the actual Tick instance associated with the element
+            const tick = Tick.DOM.find(el); 
+
             const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
             const maxLen = 8;
             const prepareWord = (word) => word.padEnd(maxLen, " ");
 
-            // Initial value
             tick.value = prepareWord(rawWords[0]);
 
-            // SOUND ENGINE: Fires on every physical flip
-            // This listener hooks into the transition of each tile.
+            // Now 'tick.on' will work because we are calling it on the instance
             tick.on('update', (value) => {
                 if (soundEnabled) {
                     const soundClone = clickSound.cloneNode();
@@ -112,7 +69,7 @@
             setInterval(() => {
                 i = (i + 1) % rawWords.length;
                 tick.value = prepareWord(rawWords[i]);
-            }, 5000); 
+            }, 6000); 
         }
     </script>
 </body>
