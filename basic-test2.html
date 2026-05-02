@@ -6,7 +6,6 @@
     <title>soqóno | basic-test2</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
-    
     <style>
         :root {
             --bg-color: #2B2D42;
@@ -25,12 +24,12 @@
             font-family: sans-serif;
         }
 
-        /* SOUND TOGGLE ICON */
+        /* ELEGANT SOUND TOGGLE */
         #sound-toggle {
             position: fixed; top: 20px; right: 20px;
             background: transparent; border: 1px solid rgba(255,255,255,0.2);
             padding: 10px; border-radius: 50%; cursor: pointer;
-            z-index: 100; display: flex; align-items: center; justify-content: center;
+            z-index: 100; display: flex; align-items: center;
         }
         #sound-toggle svg { fill: #fff; width: 20px; height: 20px; opacity: 0.4; transition: opacity 0.3s; }
         #sound-toggle.is-active svg { opacity: 1; }
@@ -39,7 +38,7 @@
         .tick { font-size: 5.5rem; color: var(--text-color); }
         .tick-credits { display: none !important; }
 
-        /* TILE STYLING & CENTERING (Fix for Screenshot 2026-05-02 160554.png) */
+        /* TILE CENTERING (Reference: Screenshot 2026-05-02 160554.png) */
         .tick-flip {
             width: 1.2em; 
             height: 1.5em;
@@ -48,15 +47,17 @@
             margin: 0 0.05em;
         }
 
+        /* FORCE GRID CENTERING: Solves top-left and right-of-center issues */
         .tick-flip-panel {
             display: grid !important;
-            place-content: center !important; /* Force letter to dead center */
+            place-content: center !important; 
             background-color: var(--tile-bg) !important;
             border-bottom: 1px solid rgba(0,0,0,0.4); 
         }
 
+        /* Override the library's absolute positioning which causes misalignment */
         .tick-flip-text-wrapper {
-            position: static !important; /* Prevents top-left jumping */
+            position: static !important;
             display: block !important;
             line-height: 1 !important;
             text-indent: 0 !important;
@@ -71,7 +72,6 @@
         <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
     </button>
 
-    <!-- MANUAL INIT: We removed data-did-init to control the timing ourselves -->
     <div class="tick" id="mechanical-board">
         <div data-repeat="true" data-layout="horizontal center">
             <span data-view="flip"></span>
@@ -81,54 +81,48 @@
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
-        // 1. Setup Audio
+        // 1. Audio Setup
         const clickSound = new Audio('click.m4a');
         clickSound.volume = 0.15;
         let soundEnabled = false;
 
-        document.getElementById('sound-toggle').addEventListener('click', function() {
+        document.getElementById('sound-toggle').onclick = function() {
             soundEnabled = !this.classList.toggle('is-active');
-            soundEnabled = !soundEnabled; // Fix logic state
-            if (soundEnabled) { 
+            soundEnabled = !soundEnabled; // Toggle state correction
+            if (soundEnabled) {
+                // Unlock browser audio context
                 clickSound.play().then(() => { clickSound.pause(); clickSound.currentTime = 0; });
             }
+        };
+
+        // 2. Manual Initialization (Bypassing data-did-init errors)
+        const boardEl = document.getElementById('mechanical-board');
+        const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
+        const maxLen = 8;
+        const prepareWord = (word) => word.padEnd(maxLen, " ");
+
+        // Create the instance manually
+        const board = Tick.DOM.create(boardEl, {
+            value: prepareWord(rawWords[0]),
+            // Define the alphabetical flip sequence here
+            transform: 'ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper'
         });
 
-        // 2. Manual Initialization (The Error Fix)
-        const boardElement = document.getElementById('mechanical-board');
-        
-        // We create the instance manually so we can define the transform and listeners
-        const tickInstance = Tick.DOM.create(boardElement, {
-            value: '        ', // Start with 8 spaces
-            didInit: function(tick) {
-                const rawWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
-                const maxLen = 8;
-                const prepareWord = (word) => word.padEnd(maxLen, " ");
-
-                // A. Define the sequential flipping logic (Char Reel)
-                // This forces the board to flip through the alphabet
-                tick.transform = 'ascii -> char( ABCDEFGHIJKLMNOPQRSTUVWXYZ) -> upper';
-
-                // B. Initial Word
-                tick.value = prepareWord(rawWords[0]);
-
-                // C. Sound on every mechanical step
-                // 'update' fires for every single character change in the sequence
-                tick.on('update', () => {
-                    if (soundEnabled) {
-                        const soundClone = clickSound.cloneNode();
-                        soundClone.play().catch(() => {});
-                    }
-                });
-
-                // D. The Word Rotation Loop
-                let i = 0;
-                setInterval(() => {
-                    i = (i + 1) % rawWords.length;
-                    tick.value = prepareWord(rawWords[i]);
-                }, 6000); 
+        // 3. Sequential Mechanical Sound
+        // Because we used 'char()' in the transform, this fires for every intermediate flip
+        board.onupdate = function(value) {
+            if (soundEnabled) {
+                const soundClone = clickSound.cloneNode();
+                soundClone.play().catch(() => {});
             }
-        });
+        };
+
+        // 4. Word Rotation Loop
+        let i = 0;
+        setInterval(() => {
+            i = (i + 1) % rawWords.length;
+            board.value = prepareWord(rawWords[i]);
+        }, 6000); // 6s to allow long flip sequences (like A to Z) to finish
     </script>
 </body>
 </html>
