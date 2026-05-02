@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>soqóno | Mechanical Display</title>
-    
-    <!-- FIX: This stops the favicon.ico 404 error -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
-    <!-- PQINA Flip Library CSS -->
     <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
     
     <style>
@@ -41,20 +37,33 @@
 
         /* ALIGNMENT FIX: Dead-center characters within tiles */
         .tick-flip {
-            width: 1.1em; 
+            width: 1.2em; /* Slightly wider for better balance */
             height: 1.5em;
             background-color: #1a1b2b !important;
             border-radius: 4px !important;
             margin: 0 0.05em;
         }
 
-        /* Standard Flex centering to fix right-of-center issues */
+        /* 
+           STRICT CENTERING OVERRIDES 
+           We use !important to ensure we override the library's internal logic 
+        */
         .tick-flip-panel {
             display: flex !important;
             justify-content: center !important;
             align-items: center !important;
+            text-align: center !important;
+            text-indent: 0 !important; /* Fixes right-shift from letter-spacing */
+            line-height: 1 !important;
             background-color: #1a1b2b !important;
             border-bottom: 1px solid rgba(0,0,0,0.4); 
+        }
+
+        /* Ensures the text itself doesn't have internal padding */
+        .tick-flip-text {
+            left: 0 !important;
+            right: 0 !important;
+            margin: auto !important;
         }
 
         .tick-flip-shadow-top, .tick-flip-shadow-bottom { opacity: 0.2; }
@@ -73,14 +82,12 @@
     <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 
     <script>
-        // UPDATED: Now pointing to click.m4a
         const AUDIO_URL = 'click.m4a'; 
         const clickSound = new Audio(AUDIO_URL);
         clickSound.volume = 0.2;
 
         const gate = document.getElementById('audio-gate');
         gate.addEventListener('click', () => {
-            // Unlocks the audio context for the browser
             clickSound.play().then(() => {
                 clickSound.pause(); 
                 gate.style.display = 'none';
@@ -95,7 +102,6 @@
                 return word.padEnd(maxLen, " ");
             };
 
-            // Set starting word immediately
             tick.value = prepareWord(rawWords[0]);
 
             function playClatter() {
@@ -108,7 +114,6 @@
                 i = (i + 1) % rawWords.length;
                 tick.value = prepareWord(rawWords[i]);
                 
-                // Rapid clicks to simulate mechanical movement
                 let clatterCount = 0;
                 const clatterInterval = setInterval(() => {
                     playClatter();
