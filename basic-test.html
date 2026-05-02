@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PQINA Absolute Basic Test</title>
+    <!-- 1. The minimal CSS for the flip effect -->
+    <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
+    <style>
+        body { background: #2B2D42; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        
+        /* 2. Target the board specifically to ensure it has size */
+        .tick {
+            font-size: 5rem;
+            font-family: sans-serif;
+        }
+
+        /* 3. Your request: Remove the PQINA branding[cite: 1] */
+        .tick-credits {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 4. The required HTML structure for the library to "hook" into[cite: 3] -->
+    <div class="tick" id="test-board">
+        <div data-repeat="true" data-layout="horizontal center">
+            <span data-view="flip"></span>
+        </div>
+    </div>
+
+    <!-- 5. The Library Script -->
+    <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
+
+    <script>
+        // 6. The absolute simplest JS initialization
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Check if the library actually loaded
+            if (typeof Tick === 'undefined') {
+                document.body.innerHTML = "<h1 style='color:white'>Library Failed to Load from Unpkg</h1>";
+                return;
+            }
+
+            // Create the instance
+            const board = Tick.DOM.create(document.getElementById('test-board'), {
+                value: 'RESEARCH'
+            });
+
+            // Basic rotation test
+            const words = ["RESEARCH", "PROGRAM", "DATA"];
+            let i = 0;
+            setInterval(() => {
+                i = (i + 1) % words.length;
+                board.value = words[i];
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
