@@ -3,56 +3,52 @@
 body {
     background-color: #2B2D42;
     font-family: 'Space Mono', monospace;
+    color: #EDF2F4;
     overflow: hidden;
     width: 100vw; height: 100vh;
 }
-
-#waveCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
 .grain-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
     opacity: 0.08; pointer-events: none; filter: invert(1);
+    z-index: 10;
 }
 
 #sound-toggle {
     position: fixed; top: 20px; right: 20px;
     background: transparent; border: 1px solid rgba(255,255,255,0.2);
-    padding: 10px; border-radius: 50%; cursor: pointer; z-index: 2000;
+    padding: 10px; border-radius: 50%; cursor: pointer; z-index: 100;
 }
-#sound-toggle svg { fill: #fff; width: 20px; height: 20px; opacity: 0.4; }
+#sound-toggle svg { fill: #fff; width: 20px; height: 20px; opacity: 0.4; transition: opacity 0.3s; }
 #sound-toggle.is-active svg { opacity: 1; }
-
-.main-footer {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 5vw; background-color: #1a1b2b;
-    position: fixed; bottom: 0; width: 100%; color: #bc674b; 
-    font-size: 0.65rem; border-top: 1px solid rgba(141, 153, 174, 0.1);
-}
 
 .hero {
     display: flex; justify-content: center; align-items: center;
-    height: 100vh; width: 100%;
+    height: 100vh; width: 100vw;
 }
 
 .headline-container {
-    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
 }
 
-/* TICK STYLING */
+/* Tick Row Styling */
 .tick-row {
     font-family: 'Space Grotesk', sans-serif !important;
-    font-size: clamp(2rem, 8vw, 8rem) !important;
-    font-weight: 700 !important;
+    font-size: clamp(2rem, 8vw, 7.5rem);
+    font-weight: 700;
 }
 
+/* Library Tile Overrides */
 .tick-flip {
     background-color: #1a1b2b !important;
     border-radius: 4px !important;
-    color: #EDF2F4 !important;
     margin: 0 0.05em !important;
 }
 
-.tick-flip-panel {
-    background-color: #1a1b2b !important;
+.main-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 5vw; background-color: #1a1b2b;
+    position: fixed; bottom: 0; width: 100%; 
+    color: #bc674b; font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.1);
 }
