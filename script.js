@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
     const playClick = () => { 
         if (soundEnabled) { 
             const s = clickSound.cloneNode(); 
-            s.volume = 0.12; 
+            s.volume = 0.1; 
             s.play().catch(() => {}); 
         } 
     };
@@ -25,6 +25,7 @@ window.addEventListener("load", () => {
     const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     
+    // Config: Fixed length of 10 for all rows to lock the sign width
     const rows = [
         { id: 'tick-technical', word: 'TECHNICAL', len: 10 },
         { id: 'tick-research', word: 'RESEARCH', len: 10 },
@@ -63,16 +64,14 @@ window.addEventListener("load", () => {
                         playClick();
                     }
                 }, 40);
-            }, i * 85);
+            }, i * 80);
         });
     }
 
-    // Initial Trigger
     setTimeout(() => {
         controllers.forEach(c => flipToWord(c, c.word));
-    }, 1200);
+    }, 1500);
 
-    // Loop Research Row
     let wordIdx = 0;
     setInterval(() => {
         wordIdx = (wordIdx + 1) % researchWords.length;
