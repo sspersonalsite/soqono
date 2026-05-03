@@ -16,7 +16,7 @@ window.addEventListener("load", () => {
     const playClick = () => { 
         if (soundEnabled) { 
             const s = clickSound.cloneNode(); 
-            s.volume = 0.15; 
+            s.volume = 0.12; 
             s.play().catch(() => {}); 
         } 
     };
@@ -25,7 +25,6 @@ window.addEventListener("load", () => {
     const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     
-    // Config: Fixed length of 10 for all rows
     const rows = [
         { id: 'tick-technical', word: 'TECHNICAL', len: 10 },
         { id: 'tick-research', word: 'RESEARCH', len: 10 },
@@ -34,15 +33,20 @@ window.addEventListener("load", () => {
 
     const controllers = rows.map(r => {
         const el = document.getElementById(r.id);
-        // Inject the required structure for the library
+        if (!el) return null;
+        
+        // Build inner HTML for the library
         el.innerHTML = '<div data-repeat="true" aria-hidden="true"><span data-view="flip"></span></div>';
         
-        // Initialize the Tick instance
+        // Initialize instance
         const instance = Tick.DOM.create(el, { value: " ".repeat(r.len) });
         return { ...r, instance, current: " ".repeat(r.len).split("") };
-    });
+    }).filter(c => c !== null);
 
     function flipToWord(ctrl, targetWord) {
+        // ULTIMATE FAILSAFE: Check if the instance exists AND the value property is available
+        if (!ctrl.instance || ctrl.instance.value === undefined) return;
+
         const targetArr = targetWord.padEnd(ctrl.len, " ").toUpperCase().split("");
         
         targetArr.forEach((char, i) => {
@@ -52,29 +56,33 @@ window.addEventListener("load", () => {
                         clearInterval(runner);
                         return;
                     }
-                    const nextIdx = (charSet.indexOf(ctrl.current[i]) + 1) % charSet.length;
+                    const currChar = ctrl.current[i];
+                    const nextIdx = (charSet.indexOf(currChar) + 1) % charSet.length;
                     ctrl.current[i] = charSet[nextIdx];
                     
-                    // Safe update
-                    if (ctrl.instance) {
+                    // Final check before pushing to DOM
+                    if (ctrl.instance && ctrl.instance.value !== undefined) {
                         ctrl.instance.value = ctrl.current.join("");
                         playClick();
                     }
                 }, 40);
-            }, i * 100);
+            }, i * 80);
         });
     }
 
-    // Start initial animations after a small delay
+    // Start with a 1-second delay to ensure Tick library is 100% ready
     setTimeout(() => {
         controllers.forEach(c => flipToWord(c, c.word));
-    }, 1000);
+    }, 1200);
 
-    // Loop the Research line (Row index 1)
+    // Loop the middle row (RESEARCH)
     let wordIdx = 0;
     setInterval(() => {
         wordIdx = (wordIdx + 1) % researchWords.length;
-        flipToWord(controllers[1], researchWords[wordIdx]);
+        // The research row is at index 1 in our controllers array
+        if (controllers[1]) {
+            flipToWord(controllers[1], researchWords[wordIdx]);
+        }
     }, 8000);
 
     // 3. Simple Clock
