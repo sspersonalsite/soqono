@@ -1,6 +1,6 @@
 window.addEventListener("load", () => {
     // 1. Audio Logic with Concurrency Limiter
-    const clickSound = new Audio('ai_click_short.m4a');
+    const clickSound = new Audio('ai_click_long.m4a');
     let soundEnabled = false;
     let activeSounds = 0;
     const MAX_CONCURRENT_SOUNDS = 3; // Prevents "audio mess"
