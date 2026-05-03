@@ -1,6 +1,5 @@
 window.addEventListener("load", () => {
     // --- 1. AUDIO ENGINE ---
-    // Ensure 'click2.m4a' is in your root folder
     const clickSound = new Audio('click2.m4a');
     clickSound.volume = 0.15;
     let soundEnabled = false;
@@ -9,13 +8,12 @@ window.addEventListener("load", () => {
     if (soundBtn) {
         soundBtn.onclick = function() {
             soundEnabled = !this.classList.toggle('is-active');
-            soundEnabled = !soundEnabled; // Toggle boolean
+            soundEnabled = !soundEnabled; // Toggle boolean state
             if (soundEnabled) {
-                // Unlock audio context on user gesture
                 clickSound.play().then(() => { 
                     clickSound.pause(); 
                     clickSound.currentTime = 0; 
-                }).catch(e => console.log("Audio unlock failed", e));
+                }).catch(() => {});
             }
         };
     }
@@ -23,24 +21,25 @@ window.addEventListener("load", () => {
     function playClick() {
         if (!soundEnabled) return;
         const s = clickSound.cloneNode();
-        s.volume = 0.15;
+        s.volume = 0.1;
         s.play().catch(() => {});
     }
 
-    // --- 2. SPLIT FLAP ENGINE ---
+    // --- 2. MECHANICAL FLAP ENGINE ---
     const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     
     const config = [
-        { id: 'tick-technical', target: "TECHNICAL", len: 10, loop: false },
-        { id: 'tick-research', target: "RESEARCH", len: 8, loop: true },
-        { id: 'tick-operations', target: "OPERATIONS", len: 10, loop: false }
+        { id: 'tick-technical', target: "TECHNICAL", len: 10 },
+        { id: 'tick-research', target: "RESEARCH", len: 8 },
+        { id: 'tick-operations', target: "OPERATIONS", len: 10 }
     ];
 
     const controllers = config.map(item => {
         const el = document.getElementById(item.id);
         if (!el) return null;
-        const instance = Tick.DOM.create(el, { value: " ".repeat(item.len) });
+        // Initialize Tick instance
+        const instance = Tick.DOM.create(el);
         return { 
             ...item, 
             instance, 
@@ -48,10 +47,14 @@ window.addEventListener("load", () => {
         };
     }).filter(x => x !== null);
 
-    function rotateTile(controller, targetWord) {
+    function rotateTo(controller, targetWord) {
+        if (!controller.instance) return;
+
         const targetChars = targetWord.padEnd(controller.len, " ").toUpperCase().split("");
         
         targetChars.forEach((targetChar, i) => {
+            if (i >= controller.len) return; // Prevent index out of bounds
+
             setTimeout(() => {
                 const runner = setInterval(() => {
                     let currentChar = controller.currentArr[i];
@@ -64,25 +67,31 @@ window.addEventListener("load", () => {
 
                     let nextIdx = (currIdx + 1) % charSet.length;
                     controller.currentArr[i] = charSet[nextIdx];
-                    controller.instance.value = controller.currentArr.join("");
-                    playClick();
-                }, 60); // Flip speed
-            }, i * 120); // Stagger letters
+                    
+                    // The Safety Guard: only update if instance still exists
+                    if (controller.instance) {
+                        controller.instance.value = controller.currentArr.join("");
+                        playClick();
+                    }
+                }, 40); 
+            }, i * 100); 
         });
     }
 
-    // Initial Trigger
-    controllers.forEach(c => setTimeout(() => rotateTile(c, c.target), 500));
+    // Initial load flip for all three lines
+    controllers.forEach(c => {
+        setTimeout(() => rotateTo(c, c.target), 600);
+    });
 
-    // Continuous Loop for Research
-    let researchIdx = 0;
+    // Continuous loop for the middle row
+    let wordIndex = 0;
     setInterval(() => {
-        researchIdx = (researchIdx + 1) % researchWords.length;
-        const researchRow = controllers.find(c => c.id === 'tick-research');
-        if (researchRow) rotateTile(researchRow, researchWords[researchIdx]);
+        wordIndex = (wordIndex + 1) % researchWords.length;
+        const resLine = controllers.find(c => c.id === 'tick-research');
+        if (resLine) rotateTo(resLine, researchWords[wordIndex]);
     }, 8000);
 
-    // --- 3. WAVE & UI ---
+    // --- 3. WAVE CANVAS ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -120,6 +129,7 @@ window.addEventListener("load", () => {
     }
     render();
 
+    // --- 4. CLOCK & GSAP ---
     function updateClock() {
         const clock = document.getElementById('local-clock');
         if (!clock) return;
