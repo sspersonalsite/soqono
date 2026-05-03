@@ -1,5 +1,88 @@
 window.addEventListener("load", () => {
-    // --- 1. WAVE CANVAS ENGINE ---
+    // --- 1. AUDIO ENGINE ---
+    // Ensure 'click2.m4a' is in your root folder
+    const clickSound = new Audio('click2.m4a');
+    clickSound.volume = 0.15;
+    let soundEnabled = false;
+
+    const soundBtn = document.getElementById('sound-toggle');
+    if (soundBtn) {
+        soundBtn.onclick = function() {
+            soundEnabled = !this.classList.toggle('is-active');
+            soundEnabled = !soundEnabled; // Toggle boolean
+            if (soundEnabled) {
+                // Unlock audio context on user gesture
+                clickSound.play().then(() => { 
+                    clickSound.pause(); 
+                    clickSound.currentTime = 0; 
+                }).catch(e => console.log("Audio unlock failed", e));
+            }
+        };
+    }
+
+    function playClick() {
+        if (!soundEnabled) return;
+        const s = clickSound.cloneNode();
+        s.volume = 0.15;
+        s.play().catch(() => {});
+    }
+
+    // --- 2. SPLIT FLAP ENGINE ---
+    const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
+    
+    const config = [
+        { id: 'tick-technical', target: "TECHNICAL", len: 10, loop: false },
+        { id: 'tick-research', target: "RESEARCH", len: 8, loop: true },
+        { id: 'tick-operations', target: "OPERATIONS", len: 10, loop: false }
+    ];
+
+    const controllers = config.map(item => {
+        const el = document.getElementById(item.id);
+        if (!el) return null;
+        const instance = Tick.DOM.create(el, { value: " ".repeat(item.len) });
+        return { 
+            ...item, 
+            instance, 
+            currentArr: " ".repeat(item.len).split("") 
+        };
+    }).filter(x => x !== null);
+
+    function rotateTile(controller, targetWord) {
+        const targetChars = targetWord.padEnd(controller.len, " ").toUpperCase().split("");
+        
+        targetChars.forEach((targetChar, i) => {
+            setTimeout(() => {
+                const runner = setInterval(() => {
+                    let currentChar = controller.currentArr[i];
+                    let currIdx = charSet.indexOf(currentChar);
+
+                    if (currentChar === targetChar) {
+                        clearInterval(runner);
+                        return;
+                    }
+
+                    let nextIdx = (currIdx + 1) % charSet.length;
+                    controller.currentArr[i] = charSet[nextIdx];
+                    controller.instance.value = controller.currentArr.join("");
+                    playClick();
+                }, 60); // Flip speed
+            }, i * 120); // Stagger letters
+        });
+    }
+
+    // Initial Trigger
+    controllers.forEach(c => setTimeout(() => rotateTile(c, c.target), 500));
+
+    // Continuous Loop for Research
+    let researchIdx = 0;
+    setInterval(() => {
+        researchIdx = (researchIdx + 1) % researchWords.length;
+        const researchRow = controllers.find(c => c.id === 'tick-research');
+        if (researchRow) rotateTile(researchRow, researchWords[researchIdx]);
+    }, 8000);
+
+    // --- 3. WAVE & UI ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -21,7 +104,6 @@ window.addEventListener("load", () => {
         ctx.lineWidth = 1.0;
         ctx.strokeStyle = '#8D99AE'; 
         ctx.globalAlpha = 0.04;
-
         for (let i = 0; i <= lineCount; i++) {
             ctx.beginPath();
             for (let y = 0; y <= height; y += 20) {
@@ -38,67 +120,13 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // --- 2. MECHANICAL SPLIT FLAP LOGIC ---
-    const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
-    
-    // Configuration for the 3 rows
-    const rows = [
-        { id: 'tick-technical', target: "TECHNICAL", len: 10, loop: false },
-        { id: 'tick-research', target: "RESEARCH", len: 8, loop: true },
-        { id: 'tick-operations', target: "OPERATIONS", len: 10, loop: false }
-    ];
-
-    const controllers = rows.map(config => {
-        const el = document.getElementById(config.id);
-        const instance = Tick.DOM.create(el, { value: " ".repeat(config.len) });
-        return { ...config, instance, current: " ".repeat(config.len).split("") };
-    });
-
-    function flipTo(controller, targetWord) {
-        const paddedTarget = targetWord.padEnd(controller.len, " ").toUpperCase();
-        const targetChars = paddedTarget.split("");
-
-        targetChars.forEach((char, i) => {
-            setTimeout(() => {
-                const runner = setInterval(() => {
-                    let curr = controller.current[i];
-                    let currIdx = charSet.indexOf(curr);
-                    let targetIdx = charSet.indexOf(char);
-
-                    if (curr === char) {
-                        clearInterval(runner);
-                        return;
-                    }
-
-                    let nextIdx = (currIdx + 1) % charSet.length;
-                    controller.current[i] = charSet[nextIdx];
-                    controller.instance.value = controller.current.join("");
-                }, 50); // Speed of flap
-            }, i * 80); // Stagger letters
-        });
-    }
-
-    // Initial Load Flip
-    controllers.forEach(c => {
-        setTimeout(() => flipTo(c, c.target), 600);
-    });
-
-    // Research Row Loop
-    let wordIndex = 0;
-    setInterval(() => {
-        wordIndex = (wordIndex + 1) % researchWords.length;
-        const resController = controllers.find(c => c.id === 'tick-research');
-        flipTo(resController, researchWords[wordIndex]);
-    }, 6000);
-
-    // --- 3. UI EXTRAS (Clock & Blobs) ---
     function updateClock() {
         const clock = document.getElementById('local-clock');
         if (!clock) return;
         const now = new Date();
-        const options = { timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-        const ptTime = new Intl.DateTimeFormat('en-US', options).format(now);
+        const ptTime = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        }).format(now);
         clock.innerText = `PT ${ptTime}`;
     }
     setInterval(updateClock, 1000);
