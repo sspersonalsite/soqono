@@ -1,5 +1,5 @@
 window.addEventListener("load", () => {
-    // --- 1. AUDIO ENGINE ---
+    // --- AUDIO ENGINE ---
     const clickSound = new Audio('click2.m4a');
     clickSound.volume = 0.15;
     let soundEnabled = false;
@@ -8,12 +8,9 @@ window.addEventListener("load", () => {
     if (soundBtn) {
         soundBtn.onclick = function() {
             soundEnabled = !this.classList.toggle('is-active');
-            soundEnabled = !soundEnabled; // Toggle boolean state
+            soundEnabled = !soundEnabled;
             if (soundEnabled) {
-                clickSound.play().then(() => { 
-                    clickSound.pause(); 
-                    clickSound.currentTime = 0; 
-                }).catch(() => {});
+                clickSound.play().then(() => { clickSound.pause(); clickSound.currentTime = 0; }).catch(() => {});
             }
         };
     }
@@ -25,7 +22,7 @@ window.addEventListener("load", () => {
         s.play().catch(() => {});
     }
 
-    // --- 2. MECHANICAL FLAP ENGINE ---
+    // --- MECHANICAL FLAP ENGINE ---
     const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     
@@ -35,25 +32,25 @@ window.addEventListener("load", () => {
         { id: 'tick-operations', target: "OPERATIONS", len: 10 }
     ];
 
+    // Initialize controllers with instances
     const controllers = config.map(item => {
         const el = document.getElementById(item.id);
         if (!el) return null;
-        // Initialize Tick instance
-        const instance = Tick.DOM.create(el);
         return { 
             ...item, 
-            instance, 
+            instance: Tick.DOM.create(el), 
             currentArr: " ".repeat(item.len).split("") 
         };
     }).filter(x => x !== null);
 
     function rotateTo(controller, targetWord) {
+        // FAILSAFE: Ensure the instance exists before proceeding
         if (!controller.instance) return;
 
         const targetChars = targetWord.padEnd(controller.len, " ").toUpperCase().split("");
         
         targetChars.forEach((targetChar, i) => {
-            if (i >= controller.len) return; // Prevent index out of bounds
+            if (i >= controller.len) return;
 
             setTimeout(() => {
                 const runner = setInterval(() => {
@@ -68,8 +65,8 @@ window.addEventListener("load", () => {
                     let nextIdx = (currIdx + 1) % charSet.length;
                     controller.currentArr[i] = charSet[nextIdx];
                     
-                    // The Safety Guard: only update if instance still exists
-                    if (controller.instance) {
+                    // ULTIMATE FAILSAFE check inside the interval
+                    if (controller.instance && typeof controller.instance.value !== 'undefined') {
                         controller.instance.value = controller.currentArr.join("");
                         playClick();
                     }
@@ -78,20 +75,19 @@ window.addEventListener("load", () => {
         });
     }
 
-    // Initial load flip for all three lines
-    controllers.forEach(c => {
-        setTimeout(() => rotateTo(c, c.target), 600);
-    });
+    // Initial load flip with a generous delay to ensure library is fully hooked
+    setTimeout(() => {
+        controllers.forEach(c => rotateTo(c, c.target));
+    }, 1000);
 
-    // Continuous loop for the middle row
-    let wordIndex = 0;
+    // Continuous loop for Research row
     setInterval(() => {
-        wordIndex = (wordIndex + 1) % researchWords.length;
+        const wordIndex = (Math.floor(Date.now() / 8000) % researchWords.length);
         const resLine = controllers.find(c => c.id === 'tick-research');
         if (resLine) rotateTo(resLine, researchWords[wordIndex]);
     }, 8000);
 
-    // --- 3. WAVE CANVAS ---
+    // --- WAVE CANVAS ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -107,16 +103,14 @@ window.addEventListener("load", () => {
     let time = 0;
     function render() {
         ctx.clearRect(0, 0, width, height);
-        const lineCount = 300; 
-        const margin = width * 0.4;
-        const step = (width + margin * 2) / lineCount;
+        const step = (width + (width * 0.4) * 2) / 300;
         ctx.lineWidth = 1.0;
         ctx.strokeStyle = '#8D99AE'; 
         ctx.globalAlpha = 0.04;
-        for (let i = 0; i <= lineCount; i++) {
+        for (let i = 0; i <= 300; i++) {
             ctx.beginPath();
             for (let y = 0; y <= height; y += 20) {
-                let xBase = (i * step) - margin;
+                let xBase = (i * step) - (width * 0.4);
                 let noise = simplex.noise3D(xBase * 0.0008, y * 0.0006, time * 0.005) * 500;
                 let x = xBase + noise;
                 if (y === 0) ctx.moveTo(x, y);
@@ -129,14 +123,13 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // --- 4. CLOCK & GSAP ---
+    // --- CLOCK & GSAP ---
     function updateClock() {
         const clock = document.getElementById('local-clock');
         if (!clock) return;
-        const now = new Date();
         const ptTime = new Intl.DateTimeFormat('en-US', {
             timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-        }).format(now);
+        }).format(new Date());
         clock.innerText = `PT ${ptTime}`;
     }
     setInterval(updateClock, 1000);
