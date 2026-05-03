@@ -1,9 +1,11 @@
 window.addEventListener("load", () => {
-    // 1. Audio Logic
+    // 1. Audio Logic with Concurrency Limiter
     const clickSound = new Audio('click2.m4a');
     let soundEnabled = false;
-    const soundBtn = document.getElementById('sound-toggle');
+    let activeSounds = 0;
+    const MAX_CONCURRENT_SOUNDS = 3; // Prevents "audio mess"
 
+    const soundBtn = document.getElementById('sound-toggle');
     if (soundBtn) {
         soundBtn.onclick = function() {
             soundEnabled = this.classList.toggle('is-active');
@@ -14,10 +16,12 @@ window.addEventListener("load", () => {
     }
 
     const playClick = () => { 
-        if (soundEnabled) { 
+        if (soundEnabled && activeSounds < MAX_CONCURRENT_SOUNDS) { 
+            activeSounds++;
             const s = clickSound.cloneNode(); 
-            s.volume = 0.1; 
-            s.play().catch(() => {}); 
+            s.volume = 0.08; 
+            s.onended = () => activeSounds--;
+            s.play().catch(() => { activeSounds--; }); 
         } 
     };
 
@@ -25,7 +29,6 @@ window.addEventListener("load", () => {
     const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
     
-    // Config: Fixed length of 10 for all rows to lock the sign width
     const rows = [
         { id: 'tick-technical', word: 'TECHNICAL', len: 10 },
         { id: 'tick-research', word: 'RESEARCH', len: 10 },
@@ -35,7 +38,6 @@ window.addEventListener("load", () => {
     const controllers = rows.map(r => {
         const el = document.getElementById(r.id);
         if (!el) return null;
-        
         el.innerHTML = '<div data-repeat="true" aria-hidden="true"><span data-view="flip"></span></div>';
         const instance = Tick.DOM.create(el, { value: " ".repeat(r.len) });
         return { ...r, instance, current: " ".repeat(r.len).split("") };
@@ -43,12 +45,10 @@ window.addEventListener("load", () => {
 
     function flipToWord(ctrl, targetWord) {
         if (!ctrl.instance || ctrl.instance.value === undefined) return;
-
         const targetArr = targetWord.padEnd(ctrl.len, " ").toUpperCase().split("");
         
         targetArr.forEach((char, i) => {
             if (i >= ctrl.len) return;
-
             setTimeout(() => {
                 const runner = setInterval(() => {
                     if (ctrl.current[i] === char) {
@@ -63,14 +63,14 @@ window.addEventListener("load", () => {
                         ctrl.instance.value = ctrl.current.join("");
                         playClick();
                     }
-                }, 40);
-            }, i * 80);
+                }, 45); // Smooth flip speed
+            }, i * 90);
         });
     }
 
     setTimeout(() => {
         controllers.forEach(c => flipToWord(c, c.word));
-    }, 1500);
+    }, 1200);
 
     let wordIdx = 0;
     setInterval(() => {
