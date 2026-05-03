@@ -4,46 +4,53 @@ body {
     background-color: #2B2D42;
     font-family: 'Space Mono', monospace;
     color: #EDF2F4;
-    overflow: hidden;
+    overflow-x: hidden;
     width: 100vw; height: 100vh;
 }
 
 .grain-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-image: url("https://grainy-gradients.vercel.app/noise.svg");
     opacity: 0.08; pointer-events: none; filter: invert(1);
-    z-index: 10;
+    z-index: 100;
 }
+
+.main-nav {
+    position: fixed; top: 0; width: 100%; padding: 20px 5vw;
+    z-index: 10; background: rgba(26, 27, 43, 0.5);
+}
+.logo { font-family: 'Space Grotesk'; font-size: 1.2rem; font-weight: 700; color: #EDF2F4; }
 
 #sound-toggle {
     position: fixed; top: 20px; right: 20px;
     background: transparent; border: 1px solid rgba(255,255,255,0.2);
-    padding: 10px; border-radius: 50%; cursor: pointer; z-index: 100;
+    padding: 10px; border-radius: 50%; cursor: pointer; z-index: 1000;
 }
 #sound-toggle svg { fill: #fff; width: 20px; height: 20px; opacity: 0.4; transition: opacity 0.3s; }
 #sound-toggle.is-active svg { opacity: 1; }
 
 .hero {
     display: flex; justify-content: center; align-items: center;
-    height: 100vh; width: 100vw;
+    height: 100vh; width: 100vw; padding: 0 5vw;
 }
 
 .headline-container {
-    display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+    display: flex; flex-direction: column; align-items: center; 
+    gap: 1.5rem; min-height: 300px; justify-content: center;
 }
 
-/* Tick Row Styling */
 .tick-row {
     font-family: 'Space Grotesk', sans-serif !important;
-    font-size: clamp(2rem, 8vw, 7.5rem);
+    font-size: clamp(1.5rem, 8vw, 7rem);
     font-weight: 700;
+    min-height: 1.2em; /* Prevents collapse if empty */
 }
 
-/* Library Tile Overrides */
+/* Library Styling */
 .tick-flip {
     background-color: #1a1b2b !important;
     border-radius: 4px !important;
-    margin: 0 0.05em !important;
+    margin: 0 0.03em !important;
 }
 
 .main-footer {
