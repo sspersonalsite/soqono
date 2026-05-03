@@ -11,8 +11,6 @@
     <style>.tick-credits { display: none !important; }</style>
 </head>
 <body>
-    <div class="grain-overlay"></div>
-
     <button id="sound-toggle" aria-label="Toggle Sound">
         <svg viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM3 9v6h4l5 5V4L7 9H3z"/></svg>
     </button>
@@ -30,19 +28,19 @@
 
     <main class="hero">
         <div class="mechanical-sign">
-            <div class="hud-tag">SYSTEM STATUS: OPERATIONAL</div>
             <div class="headline-container">
                 <div id="tick-technical" class="tick-row"></div>
                 <div id="tick-research" class="tick-row"></div>
                 <div id="tick-operations" class="tick-row"></div>
             </div>
-            <div class="hud-corner-tr"></div>
-            <div class="hud-corner-bl"></div>
         </div>
     </main>
 
     <footer class="main-footer">
-        <div class="footer-left">BASED IN CALIFORNIA // COPYRIGHT 2026 // NO-COOKIE SITE</div>
+        <div class="footer-left">
+            BASED IN CALIFORNIA // COPYRIGHT 2026 // 
+            <span class="cookie-text">NO-COOKIE SITE</span>
+        </div>
         <div id="local-clock" class="footer-right"></div>
     </footer>
 
