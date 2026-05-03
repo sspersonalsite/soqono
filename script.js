@@ -1,5 +1,5 @@
 window.addEventListener("load", () => {
-    // 1. WAVE CANVAS ENGINE
+    // --- 1. WAVE CANVAS ENGINE ---
     const canvas = document.getElementById('waveCanvas');
     const ctx = canvas.getContext('2d');
     const simplex = new SimplexNoise();
@@ -38,50 +38,68 @@ window.addEventListener("load", () => {
     }
     render();
 
-    // 2. MECHANICAL DISPLAY (FLIP BOARD)
-    const words = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
-    let wordIndex = 0;
+    // --- 2. MECHANICAL SPLIT FLAP LOGIC ---
+    const charSet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const researchWords = ["RESEARCH", "DATA", "PROGRAM", "STRATEGY", "PRODUCT"];
+    
+    // Configuration for the 3 rows
+    const rows = [
+        { id: 'tick-technical', target: "TECHNICAL", len: 10, loop: false },
+        { id: 'tick-research', target: "RESEARCH", len: 8, loop: true },
+        { id: 'tick-operations', target: "OPERATIONS", len: 10, loop: false }
+    ];
 
-    // UPDATED AUDIO: Reference click.wav in your root folder
-    const clickSound = new Audio('click.wav');
-    clickSound.volume = 0.1;
-
-    // Initialize Flip Board
-    const boardElement = document.getElementById('flip-board');
-    const tickInstance = Tick.DOM.create(boardElement, {
-        value: words[0] // Ensures "RESEARCH" is the starting word
+    const controllers = rows.map(config => {
+        const el = document.getElementById(config.id);
+        const instance = Tick.DOM.create(el, { value: " ".repeat(config.len) });
+        return { ...config, instance, current: " ".repeat(config.len).split("") };
     });
 
-    function playMechanicalClatter(duration) {
-        const interval = 75; 
-        let elapsed = 0;
-        const loop = setInterval(() => {
-            clickSound.cloneNode().play();
-            elapsed += interval;
-            if (elapsed >= duration) clearInterval(loop);
-        }, interval);
+    function flipTo(controller, targetWord) {
+        const paddedTarget = targetWord.padEnd(controller.len, " ").toUpperCase();
+        const targetChars = paddedTarget.split("");
+
+        targetChars.forEach((char, i) => {
+            setTimeout(() => {
+                const runner = setInterval(() => {
+                    let curr = controller.current[i];
+                    let currIdx = charSet.indexOf(curr);
+                    let targetIdx = charSet.indexOf(char);
+
+                    if (curr === char) {
+                        clearInterval(runner);
+                        return;
+                    }
+
+                    let nextIdx = (currIdx + 1) % charSet.length;
+                    controller.current[i] = charSet[nextIdx];
+                    controller.instance.value = controller.current.join("");
+                }, 50); // Speed of flap
+            }, i * 80); // Stagger letters
+        });
     }
 
-    function rotateWords() {
-        wordIndex = (wordIndex + 1) % words.length;
-        const nextWord = words[wordIndex];
-        
-        // Update Tick instance
-        tickInstance.value = nextWord;
-        
-        // Play audio clatter
-        playMechanicalClatter(1000);
-    }
+    // Initial Load Flip
+    controllers.forEach(c => {
+        setTimeout(() => flipTo(c, c.target), 600);
+    });
 
-    // Cycle words every 3.5 seconds
-    setInterval(rotateWords, 3500);
+    // Research Row Loop
+    let wordIndex = 0;
+    setInterval(() => {
+        wordIndex = (wordIndex + 1) % researchWords.length;
+        const resController = controllers.find(c => c.id === 'tick-research');
+        flipTo(resController, researchWords[wordIndex]);
+    }, 6000);
 
-    // 3. UTILITIES (CLOCK & BLOBS)
+    // --- 3. UI EXTRAS (Clock & Blobs) ---
     function updateClock() {
         const clock = document.getElementById('local-clock');
         if (!clock) return;
+        const now = new Date();
         const options = { timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-        clock.innerText = `PT ${new Intl.DateTimeFormat('en-US', options).format(new Date())}`;
+        const ptTime = new Intl.DateTimeFormat('en-US', options).format(now);
+        clock.innerText = `PT ${ptTime}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
