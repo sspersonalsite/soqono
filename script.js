@@ -498,18 +498,18 @@ document.getElementById('themeSwitch').addEventListener('click', function() {
 
 // ───── Program cards ─────
 var PROGRAMS = [
-  { domain:'Health Wearables',   title:'Sensor validation for a smartwatch targeting residents living above 10,000 feet.',                                      stat:'2',       unit:'continents' },
-  { domain:'AV / Mobility',      title:'Ground-up PMO build for a multi-party autonomous vehicle fleet operation, from program design to live operations.',     stat:'0 to 1',  unit:'program' },
-  { domain:'Computer Vision',    title:'Global biometric dataset across demographics and conditions for a facial recognition algorithm.',                        stat:'10',      unit:'global locations' },
+  { domain:'Health Wearables', title:'Smartwatch health sensor validation conducted with permanent residents at extreme altitude.',                             stat:'10,000+', unit:'feet' },
+  { domain:'AV / Robotics',      title:'Ground-up PMO build for a multi-party autonomous vehicle fleet operation, from program design to live operations.',     stat:'0 to 1',  unit:'depot launch' },
+  { domain:'Consumer HW',        title:'Global biometric dataset across demographics and conditions for a facial recognition algorithm.',                       stat:'10',      unit:'global locations' },
   { domain:'Consumer HW',        title:'High-fidelity audio and video capture program for an unannounced consumer product.',                                    stat:'4,000',   unit:'participants' },
   { domain:'AR / VR',            title:'High-fidelity 3D interior capture of luxury residences for a next-gen VR system.',                                      stat:'24hr',    unit:'per-location capture window' },
-  { domain:'Biometrics',         title:'Fingerprint data collection across diverse skin conditions. Domestic operations during COVID.',                          stat:'3',       unit:'markets' },
-  { domain:'AV / Mobility',      title:'Mileage data throughput overhaul for a next-gen autonomous vehicle platform.',                                          stat:'50x',     unit:'mileage increase · 6 weeks' },
-  { domain:'Multimodal AI',      title:'Multilingual personal data collection with encrypted pipelines for a global AI rollout.',                               stat:'Dozens',  unit:'languages and dialects' },
-  { domain:'Consumer HW',        title:'Prototype smart glasses and camera-enabled audio wearable evaluation across custom indoor and outdoor environments.',    stat:'500',     unit:'participants' },
+  { domain:'Biometrics',         title:'Fingerprint data collection across diverse skin conditions. Domestic operations during COVID.',                         stat:'4',       unit:'unique environments' },
+  { domain:'AV / Robotics',      title:'Mileage data throughput overhaul for a next-gen autonomous vehicle platform.',                                          stat:'50x',     unit:'mileage increase · 6 weeks' },
+  { domain:'Multimodal AI',      title:'Multilingual personal data collection with encrypted pipelines for a global AI rollout.',                               stat:'25',      unit:'languages and dialects' },
+  { domain:'Consumer HW',        title:'Prototype smart glasses and camera-enabled audio wearable evaluation across custom indoor and outdoor environments.',   stat:'500',     unit:'participants' },
   { domain:'AR / VR',            title:'Global public-space spatial data collection for early-stage AR prototype development.',                                 stat:'6',       unit:'markets · 4 continents' },
-  { domain:'Micromobility',      title:'Real-world final validation of a new micromobility product using pre-production hardware across varied and harsh conditions.', stat:'NDA', unit:'' },
-  { domain:'Smartphone Imaging', title:'Low-light photography dataset collected with professional photographers across global markets.',                         stat:'7',       unit:'markets · 4 continents' },
+  { domain:'Micromobility',      title:'Real-world final validation of a new micromobility product using pre-production hardware across markets.',              stat:'2,000',   unit:'public miles' },
+  { domain:'Consumer HW',        title:'Low-light photography ground truth dataset collected with professional photographers across global markets.',           stat:'7',       unit:'markets · 2 continents' },
 ];
 
 function _shuffle(arr) {
