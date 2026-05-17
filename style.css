@@ -207,8 +207,8 @@ body.nav-dark nav { color: var(--ink); }
   color: var(--hero-ink); max-width: 900px; opacity: .9; font-weight: 300;
 }
 .hero-content .lead em {
-  font-family: 'Inter Tight', sans-serif; font-style: italic; font-weight: 500;
-  color: var(--accent-2); transition: color .55s ease;
+  font-style: italic; color: var(--accent); font-weight: 500;
+  transition: color .55s ease;
 }
 
 .hero-foot {
