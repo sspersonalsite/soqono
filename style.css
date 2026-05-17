@@ -356,8 +356,10 @@ body.nav-dark nav { color: var(--ink); }
 }
 .prog-card {
   background: var(--bg-paper); padding: 28px 26px 32px;
+  display: flex; flex-direction: column;
   transition: background-color .55s ease;
 }
+.prog-stat { margin-top: auto; }
 .prog-meta {
   font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
   letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
