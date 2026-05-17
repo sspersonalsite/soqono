@@ -1,11 +1,16 @@
 // ───── Copy email to clipboard ─────
-function copyEmail() {
+function copyEmail(e) {
   navigator.clipboard.writeText('team@soqono.com');
   var toast = document.getElementById('copyToast');
   if (!toast) return;
+  // Position above the cursor
+  var x = e.clientX, y = e.clientY;
+  toast.style.left = x + 'px';
+  toast.style.top  = (y - 36) + 'px';
+  toast.style.transform = 'translateX(-50%)';
   toast.classList.add('visible');
   clearTimeout(toast._t);
-  toast._t = setTimeout(function() { toast.classList.remove('visible'); }, 2200);
+  toast._t = setTimeout(function() { toast.classList.remove('visible'); }, 2000);
 }
 
 // ───── Theme switcher ─────
