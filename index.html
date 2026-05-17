@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soqono — Technical Operations</title>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="atomic">
+
+  <nav>
+    <div class="left">
+      <button class="theme-switch" id="themeSwitch" aria-label="Cycle color theme" title="Click to cycle color theme"></button>
+      <a href="#" class="brand">Soqono</a>
+    </div>
+    <div class="center">
+      <a href="#what">What</a>
+      <span class="sep">|</span>
+      <a href="#where">Where</a>
+      <span class="sep">|</span>
+      <a href="#who">Who</a>
+    </div>
+    <div class="right">
+      <a href="mailto:team@soqono.com">team@soqono.com</a>
+    </div>
+  </nav>
+
+  <header class="hero" data-nav="light">
+    <canvas id="heroCanvas"></canvas>
+    <div class="grain"></div>
+    <div class="vignette"></div>
+
+    <div class="hero-content">
+      <div class="imprint">
+        <span class="line"></span>
+      </div>
+      <h1>
+        <span class="row">Technical</span>
+        <span class="row"><span class="rotor" id="rotor">Research</span></span>
+        <span class="row">Operations</span>
+      </h1>
+      <div class="imprint">
+        <span class="line"></span>
+      </div>
+      <p class="lead">
+        We run the programs that don't have a playbook yet.
+      </p>
+      <p class="hero-sub">
+        Protocol design. Recruiting. Site management. Data delivery.<br>
+        From prototype to field in weeks, not quarters.
+      </p>
+      <a class="hero-cta" href="mailto:team@soqono.com">Get in touch →</a>
+    </div>
+
+    <div class="hero-foot">
+      <div class="scroll-group">
+        <span>Scroll</span>
+        <span class="arrow"></span>
+      </div>
+      <div>Based in California</div>
+    </div>
+  </header>
+
+  <!-- WHAT WE DO -->
+  <section class="deck-band" id="what" data-nav="dark">
+    <div class="frame">
+      <div class="lead-row">
+        <div class="label">— What We Do</div>
+        <p>
+          We're the operations layer underneath frontier products. We don't write the model, design the chip,
+          or build the robot — we run the <em>field programs</em> that turn the prototype into something
+          the team can actually evaluate. Protocol then recruit then run sites then ship dataset.
+        </p>
+      </div>
+      <div class="caps-grid">
+        <div class="cap-card">
+          <div class="cap-ref"><span class="cap-num">001</span> Field</div>
+          <h3>Custom Field Execution</h3>
+          <p>Hardware data collection, prototype evaluation, structured user studies, longitudinal cohorts. We write the protocol, recruit the participants, run the sites, and ship the dataset.</p>
+        </div>
+        <div class="cap-card">
+          <div class="cap-ref"><span class="cap-num">002</span> Program</div>
+          <h3>Embedded PMs &amp; Ops Staff</h3>
+          <p>Strategy stays in-house. Bandwidth comes from us. We embed PMs, ops leads, and field staff who have already shipped this kind of work — no ramp time, no handholding.</p>
+        </div>
+        <div class="cap-card">
+          <div class="cap-ref"><span class="cap-num">003</span> Frontier</div>
+          <h3>Frontier-Tech Programs</h3>
+          <p>Humanoids. Autonomy. Multimodal AI. Pre-release hardware. NDA-grade environments with proven information security practices. We've been here before.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHERE WE WORK -->
+  <section class="where-band" id="where" data-nav="light">
+    <div class="frame">
+      <div class="section-eyebrow">— Where We Work</div>
+    </div>
+    <div class="frame">
+      <div class="where-map-wrap">
+        <canvas id="mapCanvas" width="1400" height="700"></canvas>
+        <div class="map-dots" id="mapDots"></div>
+      </div>
+    </div>
+    <div class="frame where-foot">
+      <div class="how-grid">
+        <div class="how-item">
+          <h3>Global Scale</h3>
+          <p>We maintain a vetted bench of field operators, data collectors, and program managers across North America, Europe, and select Asia-Pacific markets. We can staff a site in a new market faster than most teams can write the job description.</p>
+        </div>
+        <div class="how-item">
+          <h3>Lab &amp; Field Spaces</h3>
+          <p>Access to configurable lab environments and real-world field sites — parking structures, residential streets, commercial kitchens, and more — without the overhead of standing up your own facility.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED PROGRAMS -->
+  <section class="programs-band" id="programs" data-nav="dark">
+    <div class="frame">
+      <div class="section-eyebrow">— Selected Programs</div>
+      <div class="prog-grid" id="progGrid"></div>
+    </div>
+  </section>
+
+  <!-- WHO WE ARE + PEOPLE (combined dark section) -->
+  <section class="who-people-band" id="who" data-nav="light">
+    <div class="frame">
+      <div class="wp-inner">
+        <div class="wp-text">
+          <div class="section-eyebrow">— Who We Are</div>
+          <p class="who-body">
+            Soqono is a small team with large-program experience. We've run field operations at scale inside
+            and alongside companies like <em>Exponent, Cruise, and Bird</em> — building the muscle memory for
+            frontier work that traditional research agencies don't have.
+            One vendor, one owner, one number to call.
+          </p>
+          <a class="wp-email" href="mailto:team@soqono.com">team@soqono.com →</a>
+        </div>
+        <div class="portraits-grid">
+          <div class="portrait-card">
+            <div class="portrait-img"></div>
+            <div class="portrait-name">Name</div>
+            <div class="portrait-title">Title</div>
+          </div>
+          <div class="portrait-card">
+            <div class="portrait-img"></div>
+            <div class="portrait-name">Name</div>
+            <div class="portrait-title">Title</div>
+          </div>
+          <div class="portrait-card">
+            <div class="portrait-img"></div>
+            <div class="portrait-name">Name</div>
+            <div class="portrait-title">Title</div>
+          </div>
+          <div class="portrait-card">
+            <div class="portrait-img"></div>
+            <div class="portrait-name">Name</div>
+            <div class="portrait-title">Title</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer data-nav="light">
+    <div class="frame">
+      <div>© 2026 Soqono <span class="sep">|</span> <a href="terms.html">Terms</a> <span class="sep">|</span> <a href="privacy.html">Privacy</a></div>
+    </div>
+  </footer>
+
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+    <p class="cookie-text">We use cookies to analyze usage. <a href="privacy.html">Privacy</a></p>
+    <div class="cookie-actions">
+      <button class="cookie-btn decline" id="cookieDecline">Decline</button>
+      <button class="cookie-btn accept" id="cookieAccept">Accept</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
