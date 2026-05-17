@@ -498,18 +498,18 @@ document.getElementById('themeSwitch').addEventListener('click', function() {
 
 // ───── Program cards ─────
 var PROGRAMS = [
-  { domain:'Robotics',       title:'Longitudinal cohort program for a humanoid platform.',                  stat:'1,240',  unit:'in-person sessions' },
-  { domain:'Consumer HW',    title:'Field evaluation of an unannounced wearable. NDA.',                     stat:'7',      unit:'weeks · concept to field' },
-  { domain:'AV / Mobility',  title:'In-region operations footprint, autonomy program.',                     stat:'3',      unit:'countries · 1 contract' },
-  { domain:'Multimodal AI',  title:'Structured evaluation study for a pre-release AI assistant.',           stat:'180',    unit:'participants' },
-  { domain:'Consumer HW',    title:'Pre-production feedback program for a next-gen display device.',        stat:'12',     unit:'week sprint' },
-  { domain:'Robotics',       title:'Multi-site field build-out for a mobile robotics platform.',            stat:'6',      unit:'city footprint' },
-  { domain:'AV / Mobility',  title:'Driver monitoring system evaluation, on-road cohort.',                 stat:'NDA',    unit:'' },
-  { domain:'Industrial',     title:'Site evaluation for an industrial automation platform. NDA.',           stat:'NDA',    unit:'' },
-  { domain:'Embodied AI',    title:'Human–robot interaction research, longitudinal protocol.',              stat:'400+',   unit:'sessions logged' },
-  { domain:'AV / Mobility',  title:'Autonomous last-mile delivery operations pilot.',                       stat:'4',      unit:'markets · 1 quarter' },
-  { domain:'Consumer HW',    title:'AR wearable usability evaluation, pre-release.',                        stat:'320',    unit:'usability sessions' },
-  { domain:'Frontier AI',    title:'Red-team and structured feedback program for a pre-release foundation model.', stat:'NDA', unit:'' },
+  { domain:'Health Wearables',   title:'Sensor validation for a smartwatch targeting residents living above 10,000 feet.',                                      stat:'2',       unit:'continents' },
+  { domain:'AV / Mobility',      title:'Ground-up PMO build for a multi-party autonomous vehicle fleet operation, from program design to live operations.',     stat:'0 to 1',  unit:'program' },
+  { domain:'Computer Vision',    title:'Global biometric dataset across demographics and conditions for a facial recognition algorithm.',                        stat:'10',      unit:'global locations' },
+  { domain:'Consumer HW',        title:'High-fidelity audio and video capture program for an unannounced consumer product.',                                    stat:'4,000',   unit:'participants' },
+  { domain:'AR / VR',            title:'High-fidelity 3D interior capture of luxury residences for a next-gen VR system.',                                      stat:'24hr',    unit:'per-location capture window' },
+  { domain:'Biometrics',         title:'Fingerprint data collection across diverse skin conditions. Domestic operations during COVID.',                          stat:'3',       unit:'markets' },
+  { domain:'AV / Mobility',      title:'Mileage data throughput overhaul for a next-gen autonomous vehicle platform.',                                          stat:'50x',     unit:'mileage increase · 6 weeks' },
+  { domain:'Multimodal AI',      title:'Multilingual personal data collection with encrypted pipelines for a global AI rollout.',                               stat:'Dozens',  unit:'languages and dialects' },
+  { domain:'Consumer HW',        title:'Prototype smart glasses and camera-enabled audio wearable evaluation across custom indoor and outdoor environments.',    stat:'500',     unit:'participants' },
+  { domain:'AR / VR',            title:'Global public-space spatial data collection for early-stage AR prototype development.',                                 stat:'6',       unit:'markets · 4 continents' },
+  { domain:'Micromobility',      title:'Real-world final validation of a new micromobility product using pre-production hardware across varied and harsh conditions.', stat:'NDA', unit:'' },
+  { domain:'Smartphone Imaging', title:'Low-light photography dataset collected with professional photographers across global markets.',                         stat:'7',       unit:'markets · 4 continents' },
 ];
 
 function _shuffle(arr) {
