@@ -282,7 +282,7 @@ body.nav-dark nav { color: var(--ink); }
 }
 .caps-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
-  border-top: 1px solid var(--rule); margin-top: 80px;
+  margin-top: 0;
   transition: border-color .55s ease;
 }
 .cap-card {
@@ -462,6 +462,18 @@ footer a:hover { opacity: 1; }
 
 /* Pause scroll-arrow CSS animation when tab is hidden */
 .tab-hidden .arrow { animation-play-state: paused; }
+
+/* ───── COPY TOAST ───── */
+.copy-toast {
+  position: fixed; bottom: 24px; left: 50%; z-index: 200;
+  transform: translateX(-50%) translateY(calc(100% + 16px));
+  opacity: 0; background: var(--ink); color: var(--bg);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .18em; text-transform: uppercase;
+  padding: 10px 18px; white-space: nowrap; pointer-events: none;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .25s ease;
+}
+.copy-toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
 
 /* ───── COOKIE BANNER ───── */
 .cookie-banner {

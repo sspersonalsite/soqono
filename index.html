@@ -23,7 +23,7 @@
       <a href="#who">Who</a>
     </div>
     <div class="right">
-      <a href="mailto:team@soqono.com" onclick="navigator.clipboard.writeText('team@soqono.com'); return false;">team@soqono.com</a>
+      <a href="mailto:team@soqono.com" onclick="copyEmail(); return false;">team@soqono.com</a>
     </div>
   </nav>
 
@@ -50,7 +50,7 @@
       <p class="hero-sub">
         Hard goals. Prototype hardware. Ambiguous briefs. Engineering PhDs. <br> Production and UX staff. Custom-built programs. Real-world results.
       </p>
-      <a class="hero-cta" href="mailto:team@soqono.com" onclick="navigator.clipboard.writeText('team@soqono.com'); return false;">Get in touch →</a>
+      <a class="hero-cta" href="mailto:team@soqono.com" onclick="copyEmail(); return false;">Get in touch →</a>
     </div>
 
     <div class="hero-foot">
@@ -137,7 +137,7 @@
 
             <p>One team. One contract. One number to call.</p>
           </p>
-          <a class="wp-email" href="mailto:team@soqono.com" onclick="navigator.clipboard.writeText('team@soqono.com'); return false;">team@soqono.com →</a>
+          <a class="wp-email" href="mailto:team@soqono.com" onclick="copyEmail(); return false;">team@soqono.com →</a>
         </div>
         <div class="portraits-grid">
           <div class="portrait-card">
@@ -170,6 +170,8 @@
       <div>© 2026 Soqono <span class="sep">|</span> <a href="terms.html">Terms</a> <span class="sep">|</span> <a href="privacy.html">Privacy</a></div>
     </div>
   </footer>
+
+  <div class="copy-toast" id="copyToast">Email copied</div>
 
   <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
     <p class="cookie-text">We use cookies to analyze usage. <a href="privacy.html">Privacy</a></p>

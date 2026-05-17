@@ -1,3 +1,13 @@
+// ───── Copy email to clipboard ─────
+function copyEmail() {
+  navigator.clipboard.writeText('team@soqono.com');
+  var toast = document.getElementById('copyToast');
+  if (!toast) return;
+  toast.classList.add('visible');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function() { toast.classList.remove('visible'); }, 2200);
+}
+
 // ───── Theme switcher ─────
 // Cycles through 9 color themes on click of the colored dot next to "Soqono".
 const THEMES = [
