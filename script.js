@@ -72,6 +72,7 @@ function onScroll() {
   });
   var isDark = active ? active.dataset.nav === 'dark' : false;
   document.body.classList.toggle('nav-dark', isDark);
+  _nav.classList.toggle('scrolled', window.scrollY > 0);
 }
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
