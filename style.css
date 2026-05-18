@@ -541,3 +541,43 @@ body[data-page="legal"] nav .center { display: none; }
   .wp-inner { grid-template-columns: 1fr; gap: 48px; }
   .portraits-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* mob-br: visible only on small mobile — hidden everywhere else */
+.mob-br { display: none; }
+
+/* ───── SMALL MOBILE (phones) ───── */
+@media (max-width: 540px) {
+  .frame { padding: 0 20px; }
+
+  /* Nav: keep stacked layout from 860px breakpoint, just tighten padding */
+  nav { padding: 14px 20px; }
+
+  /* Hero: svh avoids iOS Safari toolbar eating into the viewport */
+  .hero { height: 100svh; min-height: 0; }
+
+  .hero-content {
+    padding: 40px 20px 0;
+    justify-content: center;
+  }
+  /* Decorative 900px lines overflow on narrow screens */
+  .hero-content .imprint { display: none; }
+  .hero-content h1 {
+    font-size: clamp(52px, 13.5vw, 68px);
+    margin-bottom: 20px;
+  }
+  .hero-content .lead { font-size: 18px; max-width: 100%; }
+  .hero-content .hero-sub {
+    font-size: 11px;
+    letter-spacing: 0;
+    margin-top: 14px;
+    margin-bottom: 28px;
+  }
+  /* Show the mobile line-break tags */
+  .mob-br { display: inline; }
+  .hero-foot { left: 20px; right: 20px; bottom: 18px; align-items: center; }
+
+  /* Section vertical rhythm — slightly tighter on phones */
+  .deck-band       { padding: 72px 0 60px; }
+  .programs-band   { padding: 72px 0 80px; }
+  .who-people-band { padding: 80px 0 80px; }
+}
