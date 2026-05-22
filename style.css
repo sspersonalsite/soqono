@@ -181,7 +181,7 @@ body.nav-dark nav { color: var(--ink); }
 }
 .vignette {
   position: absolute; inset: 0; pointer-events: none; z-index: 3;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,5,10,.38) 90%),
+  background: radial-gradient(ellipse at center, transparent 10%, rgba(0,5,10,.38) 90%),
               linear-gradient(to bottom, rgba(0,5,10,0) 60%, rgba(0,5,10,.5) 100%);
 }
 
@@ -501,6 +501,11 @@ body.nav-dark nav { color: var(--ink); }
 .portraits-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
 }
+
+/* ══ PORTRAITS HIDDEN — remove the two lines below when staff info is ready ══ */
+.portraits-grid { display: none !important; }
+.wp-inner { grid-template-columns: 1fr !important; }
+/* ══════════════════════════════════════════════════════════════════════════════ */
 .portrait-img {
   width: 100%; aspect-ratio: 3/4;
   background: rgba(255,255,255,.1);
