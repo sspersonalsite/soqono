@@ -99,7 +99,7 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 30;
   padding: 16px 42px;
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-  color: var(--hero-ink); pointer-events: none;
+  color: var(--bg-light); pointer-events: none;
   transition: color .55s ease, background .35s ease, box-shadow .35s ease;
 }
 nav .left,
@@ -157,7 +157,7 @@ body.nav-dark nav { color: var(--ink); }
 .hero {
   height: 100vh; min-height: 760px;
   position: relative; overflow: hidden;
-  color: var(--hero-ink); background: var(--hero-bg);
+  color: var(--bg-light); background: var(--hero-bg);
   transition: background-color .55s ease;
 }
 #heroCanvas {
@@ -181,14 +181,14 @@ body.nav-dark nav { color: var(--ink); }
 }
 .vignette {
   position: absolute; inset: 0; pointer-events: none; z-index: 3;
-  background: radial-gradient(ellipse at center, transparent 35%, rgba(0,5,10,.5) 90%),
-              linear-gradient(to bottom, rgba(0,5,10,0) 55%, rgba(0,5,10,.6) 100%);
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,5,10,.38) 90%),
+              linear-gradient(to bottom, rgba(0,5,10,0) 60%, rgba(0,5,10,.5) 100%);
 }
 
 .hero-content {
   position: relative; z-index: 4; height: 100%;
   display: flex; flex-direction: column; justify-content: center;
-  padding: 0 60px; max-width: 1280px; margin: 0 auto;
+  padding: 0 clamp(60px, 6vw, 120px); max-width: 1280px; margin: 0 auto;
 }
 .hero-content .imprint {
   display: inline-flex; gap: 14px; align-items: center; align-self: flex-start;
@@ -203,8 +203,8 @@ body.nav-dark nav { color: var(--ink); }
 .hero-content h1 {
   font-family: 'Inter Tight', sans-serif; font-weight: 300;
   font-size: clamp(48px, 8vw, 128px); line-height: 1; letter-spacing: -.035em;
-  color: var(--hero-ink); margin-bottom: 36px;
-  text-shadow: 0 4px 60px rgba(0,5,10,.4);
+  color: var(--bg-light); margin-bottom: 36px;
+  text-shadow: 0 2px 24px rgba(0,5,10,.75), 0 4px 80px rgba(0,5,10,.55);
 }
 .hero-content h1 .row { display: block; }
 
@@ -213,17 +213,18 @@ body.nav-dark nav { color: var(--ink); }
   color: inherit;
   font-weight: inherit;
   font-style: normal;
-  transition: filter .3s ease, color .3s ease, opacity .3s ease;
+  transition: filter .5s ease, color .5s ease, opacity .5s ease;
 }
 .hero-content h1 .rotor.soft {
-  filter: blur(6px);
+  filter: blur(8px);
   color: var(--accent-2);
-  opacity: .85;
+  opacity: .7;
 }
 
 .hero-content .lead {
-  font-size: 21px; line-height: 1.45;
-  color: var(--hero-ink); max-width: 900px; opacity: .9; font-weight: 300;
+  font-size: 26px; line-height: 1.45;
+  color: var(--bg-light); max-width: 900px; opacity: .9; font-weight: 300;
+  text-shadow: 0 1px 20px rgba(0,5,10,.8), 0 2px 48px rgba(0,5,10,.6);
 }
 .hero-content .lead em {
   font-style: italic; color: var(--accent); font-weight: 500;
@@ -231,9 +232,9 @@ body.nav-dark nav { color: var(--ink); }
 }
 
 .hero-foot {
-  position: absolute; bottom: 36px; left: 60px; right: 60px; z-index: 5;
+  position: absolute; bottom: 36px; left: 36px; right: 36px; z-index: 5;
   display: flex; justify-content: space-between; align-items: end;
-  color: var(--hero-ink); opacity: .78;
+  color: var(--bg-light); opacity: .78;
   font-family: 'JetBrains Mono', monospace; font-size: 11px;
   letter-spacing: .22em; text-transform: uppercase;
   pointer-events: none;
@@ -251,21 +252,30 @@ body.nav-dark nav { color: var(--ink); }
 }
 
 /* ───── HERO ADDITIONS ───── */
+.hero-divider {
+  width: 40px; height: 1px;
+  background: rgba(255,255,255,.22);
+  margin: 22px 0;
+}
 .hero-content .hero-sub {
-  font-size: 14px; line-height: 1.7;
-  color: var(--hero-ink); opacity: .6; font-weight: 400;
-  font-family: 'JetBrains Mono', monospace; letter-spacing: .05em;
-  margin-top: 20px; margin-bottom: 42px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; line-height: 2;
+  color: var(--bg-light); opacity: .65; font-weight: 400;
+  letter-spacing: .22em; text-transform: uppercase;
+  margin-top: 0; margin-bottom: 42px;
+  text-shadow: 0 1px 20px rgba(0,5,10,.9), 0 2px 40px rgba(0,5,10,.75);
 }
 .hero-content .hero-sub em {
-  font-style: italic; color: var(--accent); font-weight: 500; opacity: 1;
-  transition: color .55s ease;
+  font-style: italic; font-weight: 500;
+  background: var(--rotor-grad);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding: 0 .12em .08em 0; margin: 0 -.12em -.08em 0;
 }
 .hero-content .hero-cta {
   display: inline-block; align-self: flex-start;
   font-family: 'JetBrains Mono', monospace; font-size: 12px;
   letter-spacing: .22em; text-transform: uppercase;
-  color: var(--hero-ink); text-decoration: none;
+  color: var(--bg-light); text-decoration: none;
   border: 1px solid rgba(255,255,255,.32); padding: 14px 24px;
   transition: border-color .2s ease, background .2s ease;
 }
@@ -325,26 +335,35 @@ body.nav-dark nav { color: var(--ink); }
   font-size: 22px; letter-spacing: -.012em; line-height: 1.25;
   color: var(--ink); margin-bottom: 12px;
 }
-.cap-card p { color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; }
+.cap-card p { color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
 
-/* ───── WHERE WE WORK ───── */
+/* ───── WHERE WE WORK (light) ───── */
 .where-band {
-  background: var(--ink); padding-top: 80px;
+  background: var(--bg-paper); padding-top: 80px;
   transition: background-color .55s ease;
 }
-.where-band .section-eyebrow { color: var(--accent-2); margin-bottom: 36px; }
-.where-map-wrap { position: relative; width: 100%; line-height: 0; }
+.where-band .section-eyebrow { color: var(--accent); margin-bottom: 40px; }
+.where-map-wrap {
+  position: relative; width: 100%; line-height: 0;
+  overflow: hidden;
+  /* 2.4:1 crops to ~−60°S — fully below Tierra del Fuego (−55°S) and just
+     inside the −62° draw clip, removing the blank white gap without cutting coastlines */
+  aspect-ratio: 2.4 / 1;
+}
 #mapCanvas { width: 100%; height: auto; display: block; }
-.map-dots { position: absolute; inset: 0; pointer-events: none; }
+.map-dots {
+  /* Must match canvas intrinsic ratio (2:1), not the cropped wrapper,
+     so dot percentages align with canvas coordinates */
+  position: absolute; top: 0; left: 0;
+  width: 100%; aspect-ratio: 2 / 1;
+  pointer-events: none;
+}
 .map-dot {
   position: absolute; border-radius: 50%;
-  background: radial-gradient(circle at center,
-    var(--dot-color, var(--accent)) 0%,
-    transparent 70%
-  );
-  box-shadow: none;
+  background: var(--dot-color, var(--accent));
+  border: 2px solid var(--bg-paper);
   transform: translate(-50%, -50%);
-  transition: transform .18s ease;
+  transition: transform .18s ease, border-color .55s ease;
   pointer-events: auto; cursor: default;
 }
 .map-dot:hover { transform: translate(-50%,-50%) scale(1.8); z-index: 5; }
@@ -360,37 +379,64 @@ body.nav-dark nav { color: var(--ink); }
   transition: opacity .15s ease;
 }
 .map-dot:hover::after { opacity: 1; }
-.where-foot { padding-bottom: 80px; }
-.where-band .how-grid { border-top-color: rgba(255,255,255,.1); }
-.where-band .how-item { border-left-color: rgba(255,255,255,.1); border-bottom-color: rgba(255,255,255,.1); }
-.where-band .how-item h3 { color: var(--hero-ink); }
-.where-band .how-item p { color: rgba(255,255,255,.52); }
+.where-foot { padding-top: 48px; padding-bottom: 80px; }
+/* where-band is now light — grid borders use theme rule color */
+.where-band .how-grid { border-top-color: var(--rule); }
+.where-band .how-item { border-left-color: var(--rule); border-bottom-color: var(--rule); }
+.where-band .how-item h3 { color: var(--ink); }
+.where-band .how-item p { color: var(--ink-soft); }
 
-/* ───── PROGRAMS ───── */
+/* ───── HOW WE DELIVER / PROGRAMS (dark) ───── */
 .programs-band {
-  background: var(--bg-paper); padding: 90px 0 100px;
+  background: var(--ink); padding: 80px 0 80px;
   transition: background-color .55s ease;
 }
+.programs-band .section-eyebrow { color: var(--accent-2); }
+.prog-sublabel {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(255,255,255,.38);
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 0;
+}
+.prog-lead {
+  font-family: 'Inter Tight', sans-serif; font-weight: 300;
+  font-size: clamp(18px, 2vw, 26px); line-height: 1.35;
+  letter-spacing: -.012em; color: var(--ink);
+  max-width: 48ch; margin-bottom: 48px;
+}
+.prog-card.prog-hidden { display: none; }
+.prog-expand-btn {
+  display: block; width: 100%; margin-top: 1px;
+  padding: 18px; background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1); border-top: none;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--accent-2); cursor: pointer;
+  transition: background .18s ease, color .18s ease, border-color .55s ease;
+}
+.prog-expand-btn:hover { background: rgba(255,255,255,.08); }
 .prog-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.08);
   transition: background-color .55s ease, border-color .55s ease;
 }
 .prog-card {
-  background: var(--bg-paper); padding: 28px 26px 32px;
+  background: var(--ink); padding: 28px 26px 32px;
   display: flex; flex-direction: column;
   transition: background-color .55s ease;
 }
 .prog-stat { margin-top: auto; }
 .prog-meta {
   font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--muted);
+  letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.35);
   margin-bottom: 10px;
 }
 .prog-card h4 {
   font-family: 'Inter Tight', sans-serif; font-weight: 500;
-  font-size: 17px; line-height: 1.35; color: var(--ink);
+  font-size: 17px; line-height: 1.35; color: var(--bg-light);
   margin-bottom: 12px;
 }
 .prog-stat {
@@ -400,7 +446,7 @@ body.nav-dark nav { color: var(--ink); }
 }
 .prog-unit {
   font-family: 'JetBrains Mono', monospace; font-size: 10px;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+  letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.35);
   font-style: normal; display: block; margin-top: 3px; font-weight: 400;
 }
 
@@ -420,7 +466,7 @@ body.nav-dark nav { color: var(--ink); }
   font-size: 22px; letter-spacing: -.012em; line-height: 1.25;
   color: var(--ink); margin-bottom: 12px;
 }
-.how-item p { color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; }
+.how-item p { color: var(--ink-soft); font-size: 15px; line-height: 1.55; }
 
 /* ───── WHO WE ARE + PEOPLE (combined dark section) ───── */
 .who-people-band {
@@ -435,7 +481,7 @@ body.nav-dark nav { color: var(--ink); }
 .who-body {
   font-family: 'Inter Tight', sans-serif; font-weight: 300;
   font-size: clamp(20px, 2.4vw, 30px); line-height: 1.3;
-  letter-spacing: -.022em; max-width: 26ch; color: inherit;
+  letter-spacing: -.022em; max-width: 38ch; color: inherit;
 }
 .who-body em {
   font-style: italic; font-weight: 500;
@@ -558,13 +604,25 @@ body[data-page="legal"] nav .center { display: none; }
   .prog-grid { grid-template-columns: 1fr; }
   .how-grid { grid-template-columns: 1fr; }
   .how-item { border-left: none; border-top: 1px solid var(--rule); }
-  .where-band .how-item { border-top-color: rgba(255,255,255,.1); }
+  /* where-band is now light, so rule color is the same as other light sections */
   .wp-inner { grid-template-columns: 1fr; gap: 48px; }
   .portraits-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Section vertical rhythm — rein in the desktop values at tablet sizes */
+  .section-eyebrow               { margin-bottom: 28px; }
+  .where-band .section-eyebrow   { margin-bottom: 28px; }
+  .deck-band                     { padding: 72px 0 56px; }
+  .deck-band .lead-row           { padding-bottom: 40px; }
+  .programs-band                 { padding: 56px 0 64px; }
+  .where-band                    { padding-top: 48px; }
+  .where-foot                    { padding-top: 36px; padding-bottom: 48px; }
+  .who-people-band               { padding: 72px 0 72px; }
+  .cap-card                      { padding: 28px 24px 32px; }
+  .how-item                      { padding: 28px 24px 32px; }
 }
 
-/* mob-br: visible only on small mobile — hidden everywhere else */
-.mob-br { display: none; }
+/* mob-br: line breaks shown on all screen sizes */
+.hero-content .imprint { display: none; }
 
 /* ───── SMALL MOBILE (phones) ───── */
 @media (max-width: 540px) {
@@ -581,25 +639,34 @@ body[data-page="legal"] nav .center { display: none; }
     padding: 40px 20px 0;
     justify-content: center;
   }
-  /* Decorative 900px lines overflow on narrow screens */
-  .hero-content .imprint { display: none; }
   .hero-content h1 {
     font-size: clamp(52px, 13.5vw, 68px);
     margin-bottom: 20px;
   }
   .hero-content .lead { font-size: 18px; max-width: 100%; }
   .hero-content .hero-sub {
-    font-size: 11px;
-    letter-spacing: 0;
-    margin-top: 14px;
-    margin-bottom: 28px;
+    font-size: 10.5px;
+    letter-spacing: .14em;
+    margin-bottom: 24px;
   }
-  /* Show the mobile line-break tags */
-  .mob-br { display: inline; }
+  .hero-divider { margin: 16px 0; }
   .hero-foot { left: 20px; right: 20px; bottom: 18px; align-items: center; }
 
-  /* Section vertical rhythm — slightly tighter on phones */
-  .deck-band       { padding: 72px 0 60px; }
-  .programs-band   { padding: 72px 0 80px; }
-  .who-people-band { padding: 80px 0 80px; }
+  /* Section vertical rhythm — tighter on phones */
+  .deck-band       { padding: 48px 0 40px; }
+  .programs-band   { padding: 48px 0 48px; }
+  .who-people-band { padding: 56px 0 56px; }
+  .where-band      { padding-top: 40px; }
+
+  /* Tighten internal section spacing */
+  .section-eyebrow                { margin-bottom: 18px; }
+  .where-band .section-eyebrow    { margin-bottom: 18px; }
+  .deck-band .lead-row            { padding-bottom: 24px; }
+  .caps-grid              { margin-top: 0; }
+  .cap-card               { padding: 24px 20px 28px; }
+  .where-foot             { padding-top: 28px; padding-bottom: 36px; }
+  .how-item               { padding: 24px 20px 28px; }
+  .prog-card              { padding: 20px 18px 24px; }
+
+
 }

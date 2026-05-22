@@ -1,9 +1,15 @@
 // ───── Copy email to clipboard ─────
 function copyEmail(e) {
-  navigator.clipboard.writeText('team@soqono.com');
+  e.preventDefault();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText('team@soqono.com').catch(function() {
+      window.location.href = 'mailto:team@soqono.com';
+    });
+  } else {
+    window.location.href = 'mailto:team@soqono.com';
+  }
   var toast = document.getElementById('copyToast');
   if (!toast) return;
-  // Position above the cursor
   var x = e.clientX, y = e.clientY;
   toast.style.left = x + 'px';
   toast.style.top  = (y - 36) + 'px';
@@ -89,8 +95,8 @@ if (rotor) setInterval(function () {
     wi = (wi + 1) % words.length;
     rotor.textContent = words[wi];
     rotor.classList.remove('soft');
-  }, 300);
-}, 3200);
+  }, 500);
+}, 2700);
 
 // ───── Hero canvas — blobs + ribbons at 5 fps ─────
 // Replaces 8 separate filter:blur() / mix-blend-mode divs (~1.5 GB GPU).
@@ -141,17 +147,17 @@ var BLOB_OPACITY = .9;
 //            Colours are defined per-theme at the top of style.css.
 var _blobs = [
   // red top left
-  { x:0.16, y:0.24, r:200, dur: 50000, tx: 0.1, ty: 0.15, cv:'--blob1' },
+  { x:0.16, y:0.24, r:200, dur: 52000, tx: 0.1, ty: 0.15, cv:'--blob1' },
   // yellow right
-  { x:0.892, y:.4, r:200, dur: 50000, tx:-0.2, ty: 0.12, cv:'--blob2' },
+  { x:0.892, y:.4, r:200, dur: 47000, tx:-0.2, ty: 0.12, cv:'--blob2' },
   // blue bottom left
-  { x:0.3, y:.740, r:120, dur:50000, tx: 0.14, ty:-0.1, cv:'--blob3' },
+  { x:0.3, y:.740, r:120, dur: 61000, tx: 0.14, ty:-0.1, cv:'--blob3' },
   // blue bottom right
-  { x:0.75, y:0.82, r:150, dur: 50000, tx:-0.1, ty:-0.15, cv:'--blob4' },
+  { x:0.75, y:0.82, r:150, dur: 44000, tx:-0.1, ty:-0.15, cv:'--blob4' },
   // yellow center
-  { x:0.5, y:0.5, r:172, dur: 50000, tx: .08, ty: 0.14, cv:'--blob5' },
+  { x:0.5, y:0.5, r:172, dur: 67000, tx: .08, ty: 0.14, cv:'--blob5' },
   // red center right
-  { x:0.646, y:0.6, r:146, dur: 50000, tx:-0.12, ty: 0.07, cv:'--blob6' },
+  { x:0.6, y:0.70, r:146, dur: 55000, tx:-0.12, ty: 0.07, cv:'--blob6' },
 ];
 
 // ── Ribbons ──────────────────────────────────────────────────────────────
@@ -163,8 +169,8 @@ var _blobs = [
 //  dur — animation cycle in ms
 //  cv  — CSS custom property for the ribbon colour (rgba, semi-transparent)
 var _ribbons = [
-  { y:0.30, h:0.40, dur:50000, ty:0, cv:'--ribbon1' },
-  { y:0.612, h:0.40, dur:50000, ty:0, cv:'--ribbon2' },
+  { y:0.30, h:0.40, dur:57000, ty:0, cv:'--ribbon1' },
+  { y:0.612, h:0.40, dur:43000, ty:0, cv:'--ribbon2' },
 ];
 
 // ╔══════════════════════════════════════════════════════════════════════╗
@@ -270,14 +276,14 @@ var MAP_LOCS = [
   { n:'Johannesburg',     lat:-26.20, lon:28.04,   c:3, k:2 },
   { n:'Kyoto',            lat:35.01,  lon:135.77,  c:1, k:0 },
   { n:'London',           lat:51.51,  lon:0.13,    c:3, k:2 },
-  { n:'Los Angeles',      lat:34.05,  lon:-118.24, c:6, k:1 },
+  { n:'Los Angeles',      lat:34.05,  lon:-118.24, c:4, k:1 },
   { n:'Madrid',           lat:40.42,  lon:-3.70,   c:1, k:0 },
   { n:'Miami',            lat:25.77,  lon:-80.19,  c:1, k:0 },
   { n:'Milan',            lat:45.46,  lon:9.19,    c:1, k:0 },
   { n:'Montréal',         lat:45.50,  lon:-73.57,  c:1, k:0 },
   { n:'Mumbai',           lat:19.08,  lon:72.88,   c:3, k:2 },
   { n:'New Delhi',        lat:28.61,  lon:77.21,   c:3, k:2 },
-  { n:'New York',         lat:40.71,  lon:-74.01,  c:6, k:1 },
+  { n:'New York',         lat:40.71,  lon:-74.01,  c:4, k:1 },
   { n:'Paris',            lat:48.85,  lon:2.35,    c:1, k:0 },
   { n:'Philadelphia',     lat:39.95,  lon:-75.17,  c:3, k:2 },
   { n:'Phoenix',          lat:33.45,  lon:-112.07, c:1, k:0 },
@@ -297,10 +303,11 @@ var _mapTopo = null;
 
 // ── Style 1: organic line art — Catmull-Rom smooth strokes, no fill ──────────
 // Tuning constants:
-var MAP_STROKE_W       = 1.4;   // coastline line weight
+var MAP_STROKE_W       = 1.2;   // coastline line weight
 var MAP_OPACITY        = .3;  // stroke opacity
 var MAP_SUBSAMPLE      = 8;     // take every Nth arc point (higher = simpler curves)
-var MAP_SOUTH_CLIP_LAT = -58;   // clip below this latitude (removes Antarctica)
+var MAP_SOUTH_CLIP_LAT = -62;   // clip below this latitude (removes Antarctica; covers Tierra del Fuego at ~−55°S)
+var MAP_SEAM_LON       = -169;  // longitude at left/right edge — set between Russia (~168°E) and Alaska (~168°W)
 var MAP_DOT_BASE       = 10;     // dot base size in px
 var MAP_DOT_MULT       = 5;     // extra px per project-count unit
 
@@ -321,7 +328,10 @@ function _drawMapLand() {
   var t = _mapTopo.transform, sc = t.scale, tr = t.translate;
 
   function toPx(bx, by) {
-    return [(bx * sc[0] + tr[0] + 180) / 360 * W, (90 - (by * sc[1] + tr[1])) / 180 * H];
+    var lon = bx * sc[0] + tr[0];
+    var x = ((lon - MAP_SEAM_LON + 360) % 360) / 360 * W;
+    var y = (90 - (by * sc[1] + tr[1])) / 180 * H;
+    return [x, y];
   }
 
   function getArcPts(arcIdx) {
@@ -380,8 +390,14 @@ function _drawMapLand() {
     }
   }
 
-  ctx.strokeStyle = 'rgba(255,255,255,' + MAP_OPACITY + ')';
-  ctx.lineWidth   = MAP_STROKE_W;
+  // Auto-adapt stroke color to light or dark section background
+  var _whereBg = getComputedStyle(canvas.closest ? canvas.closest('.where-band') || document.documentElement : document.documentElement).backgroundColor;
+  var _rgb = _whereBg.match(/\d+/g);
+  var _lum = _rgb && _rgb.length >= 3 ? (0.299 * _rgb[0] + 0.587 * _rgb[1] + 0.114 * _rgb[2]) / 255 : 0;
+  ctx.strokeStyle = _lum > 0.5
+    ? 'rgba(0,0,0,' + MAP_OPACITY + ')'
+    : 'rgba(255,255,255,' + MAP_OPACITY + ')';
+  ctx.lineWidth   = window.innerWidth <= 540 ? MAP_STROKE_W * 6 : MAP_STROKE_W;
   ctx.lineJoin    = 'round';
   ctx.lineCap     = 'round';
   ctx.stroke();
@@ -393,7 +409,7 @@ function _drawMapLand() {
 // minimum amount needed, so geographic positions are preserved as much as possible.
 // Larger dots move less (force is split inversely proportional to radius).
 var MAP_DOT_PAD   = 1;    // px gap added on top of the visual radius threshold
-var MAP_GRAD_FADE = 0.70; // must match 'transparent 70%' in .map-dot CSS gradient
+var MAP_GRAD_FADE = 0.95; // solid dots — visible edge is at full element radius
 var MAP_SEP_ITERS = 150;  // simulation iterations (exits early once stable)
 
 function _separateDots(locs) {
@@ -401,10 +417,13 @@ function _separateDots(locs) {
   var W = (canvas && canvas.offsetWidth)  || 1200;
   var H = (canvas && canvas.offsetHeight) || 600;
 
+  var _isMob2  = window.innerWidth <= 540;
+  var _dotBase = _isMob2 ? 5 : MAP_DOT_BASE;
+  var _dotMult = _isMob2 ? 3 : MAP_DOT_MULT;
   var pos = locs.map(function(loc) {
-    var size = MAP_DOT_BASE + loc.c * MAP_DOT_MULT;
+    var size = _dotBase + loc.c * _dotMult;
     return {
-      x: (loc.lon + 180) / 360 * W,
+      x: ((loc.lon - MAP_SEAM_LON + 360) % 360) / 360 * W,
       y: (90 - loc.lat) / 180 * H,
       r: size / 2
     };
@@ -457,12 +476,17 @@ function _renderMapDots() {
   ];
   var positions = _separateDots(MAP_LOCS);
 
+  // Smaller dots on mobile — map canvas is much smaller so default sizes crowd
+  var isMob  = window.innerWidth <= 540;
+  var dotBase = isMob ? 5  : MAP_DOT_BASE;
+  var dotMult = isMob ? 3  : MAP_DOT_MULT;
+
   // Sort largest-first, then assign ascending z-index so large dots are always
   // behind small dots regardless of browser paint order.
   var dots = MAP_LOCS.map(function(loc, idx) {
-    var size = Math.round(MAP_DOT_BASE + loc.c * MAP_DOT_MULT);
+    var size = Math.round(dotBase + loc.c * dotMult);
     var pos  = positions[idx];
-    var col  = colors[loc.k % colors.length];
+    var col  = colors[2]; // all dots use blob3 (cyan)
     return { loc: loc, pos: pos, size: size, col: col };
   });
   dots.sort(function(a, b) { return b.size - a.size; }); // largest first → lowest z
@@ -525,9 +549,11 @@ function _shuffle(arr) {
 (function renderPrograms() {
   var grid = document.getElementById('progGrid');
   if (!grid) return;
-  _shuffle(PROGRAMS).forEach(function (p) {
+  var isMobile = window.innerWidth <= 540;
+  var SHOW_INITIAL = 6;
+  _shuffle(PROGRAMS).forEach(function (p, idx) {
     var card = document.createElement('div');
-    card.className = 'prog-card';
+    card.className = 'prog-card' + (isMobile && idx >= SHOW_INITIAL ? ' prog-hidden' : '');
     var statHtml = p.stat === 'NDA'
       ? '<div class="prog-stat">NDA</div>'
       : '<div class="prog-stat">' + p.stat + '<span class="prog-unit">' + p.unit + '</span></div>';
@@ -537,6 +563,18 @@ function _shuffle(arr) {
       statHtml;
     grid.appendChild(card);
   });
+  if (isMobile && PROGRAMS.length > SHOW_INITIAL) {
+    var btn = document.createElement('button');
+    btn.className = 'prog-expand-btn';
+    btn.innerHTML = 'Show more programs →';
+    btn.addEventListener('click', function () {
+      grid.querySelectorAll('.prog-hidden').forEach(function (c) {
+        c.classList.remove('prog-hidden');
+      });
+      btn.parentNode.removeChild(btn);
+    });
+    grid.insertAdjacentElement('afterend', btn);
+  }
 })();
 } // ─── end main-page only ───
 
