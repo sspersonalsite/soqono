@@ -596,20 +596,47 @@ function _updateFavicon() {
   var sz = 64;
   var cv = document.createElement('canvas');
   cv.width = sz; cv.height = sz;
-  var cx = cv.getContext('2d');
-  var col = getComputedStyle(document.body).getPropertyValue('--accent-2').trim() || '#ffd700';
-  var mid = sz / 2, r = sz * 0.28;
-  // outer glow
-  cx.globalAlpha = 0.28;
-  cx.shadowColor = col; cx.shadowBlur = 0;
-  cx.fillStyle = col;
-  cx.beginPath(); cx.arc(mid, mid, r + sz * 0.18, 0, Math.PI * 2); cx.fill();
-  // mid glow
-  cx.globalAlpha = 0.55;
-  cx.beginPath(); cx.arc(mid, mid, r + sz * 0.08, 0, Math.PI * 2); cx.fill();
-  // core dot
-  cx.globalAlpha = 1;
-  cx.beginPath(); cx.arc(mid, mid, r, 0, Math.PI * 2); cx.fill();
+  var ctx = cv.getContext('2d');
+
+  var st  = getComputedStyle(document.body);
+  var c1  = st.getPropertyValue('--blob3').trim()    || '#00d4d4'; // cyan ring
+  var c2  = st.getPropertyValue('--accent').trim()   || '#ff3838'; // accent ring
+  var c3  = st.getPropertyValue('--accent-2').trim() || '#ffd700'; // accent-2 ring
+
+  // Three rings — same positions as the SVG theme-switch button
+  var rings = [
+    { cx: 32,    cy: 30.17, col: c1 },
+    { cx: 34.89, cy: 35.17, col: c2 },
+    { cx: 29.11, cy: 35.17, col: c3 },
+  ];
+  var r = 20;
+
+  // Screen compositing so overlapping rings brighten each other
+  ctx.globalCompositeOperation = 'screen';
+
+  rings.forEach(function(ring) {
+    var x = ring.cx, y = ring.cy, col = ring.col;
+
+    // Thick outer glow
+    ctx.globalAlpha = 0.10;
+    ctx.lineWidth   = 12;
+    ctx.strokeStyle = col;
+    ctx.shadowColor = col; ctx.shadowBlur = 8;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+
+    // Mid glow
+    ctx.globalAlpha = 0.30;
+    ctx.lineWidth   = 4.5;
+    ctx.shadowBlur  = 3;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+
+    // Crisp thin ring
+    ctx.globalAlpha = 1;
+    ctx.lineWidth   = 1.5;
+    ctx.shadowBlur  = 0;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+  });
+
   var link = document.querySelector('link[rel="icon"]');
   if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
   link.type = 'image/png';

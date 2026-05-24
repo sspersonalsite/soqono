@@ -12,7 +12,26 @@
 
   <nav>
     <div class="left">
-      <button class="theme-switch" id="themeSwitch" aria-label="Colorways" title="Click to cycle color theme"></button>
+      <button class="theme-switch" id="themeSwitch" aria-label="Colorways" title="Click to cycle color theme">
+        <svg width="30" height="30" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+          <defs>
+            <filter id="tsRingBlur" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="5"/>
+            </filter>
+          </defs>
+          <g style="isolation:isolate">
+            <circle cx="32"    cy="30.17" r="20" fill="none" stroke-width="12"  opacity="0.10" filter="url(#tsRingBlur)" style="stroke:var(--blob3);mix-blend-mode:screen"/>
+            <circle cx="32"    cy="30.17" r="20" fill="none" stroke-width="4.5" opacity="0.30" style="stroke:var(--blob3);filter:blur(1.5px);mix-blend-mode:screen"/>
+            <circle cx="32"    cy="30.17" r="20" fill="none" stroke-width="1.5" style="stroke:var(--blob3);mix-blend-mode:screen"/>
+            <circle cx="34.89" cy="35.17" r="20" fill="none" stroke-width="12"  opacity="0.10" filter="url(#tsRingBlur)" style="stroke:var(--accent);mix-blend-mode:screen"/>
+            <circle cx="34.89" cy="35.17" r="20" fill="none" stroke-width="4.5" opacity="0.30" style="stroke:var(--accent);filter:blur(1.5px);mix-blend-mode:screen"/>
+            <circle cx="34.89" cy="35.17" r="20" fill="none" stroke-width="1.5" style="stroke:var(--accent);mix-blend-mode:screen"/>
+            <circle cx="29.11" cy="35.17" r="20" fill="none" stroke-width="12"  opacity="0.10" filter="url(#tsRingBlur)" style="stroke:var(--accent-2);mix-blend-mode:screen"/>
+            <circle cx="29.11" cy="35.17" r="20" fill="none" stroke-width="4.5" opacity="0.30" style="stroke:var(--accent-2);filter:blur(1.5px);mix-blend-mode:screen"/>
+            <circle cx="29.11" cy="35.17" r="20" fill="none" stroke-width="1.5" style="stroke:var(--accent-2);mix-blend-mode:screen"/>
+          </g>
+        </svg>
+      </button>
       <a href="#" class="brand">Soqono</a>
     </div>
     <div class="center">
