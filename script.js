@@ -593,49 +593,31 @@ function _shuffle(arr) {
 // Draws the theme-switch dot (glowing circle in --accent-2) onto a canvas
 // and sets it as the page favicon. Re-runs on every theme change.
 function _updateFavicon() {
-  var sz = 64;
-  var cv = document.createElement('canvas');
+  var sz  = 64;
+  var cv  = document.createElement('canvas');
   cv.width = sz; cv.height = sz;
   var ctx = cv.getContext('2d');
 
-  var st  = getComputedStyle(document.body);
-  var c1  = st.getPropertyValue('--blob3').trim()    || '#00d4d4'; // cyan ring
-  var c2  = st.getPropertyValue('--accent').trim()   || '#ff3838'; // accent ring
-  var c3  = st.getPropertyValue('--accent-2').trim() || '#ffd700'; // accent-2 ring
+  var st = getComputedStyle(document.body);
+  var c1 = st.getPropertyValue('--blob3').trim()    || '#00d4d4';
+  var c2 = st.getPropertyValue('--accent').trim()   || '#ff3838';
+  var c3 = st.getPropertyValue('--accent-2').trim() || '#ffd700';
 
-  // Three rings — same positions as the SVG theme-switch button
-  var rings = [
-    { cx: 32,    cy: 30.17, col: c1 },
-    { cx: 34.89, cy: 35.17, col: c2 },
-    { cx: 29.11, cy: 35.17, col: c3 },
-  ];
-  var r = 20;
+  // Teal background
+  ctx.fillStyle = '#001e1e';
+  ctx.fillRect(0, 0, sz, sz);
 
-  // Screen compositing so overlapping rings brighten each other
-  ctx.globalCompositeOperation = 'screen';
-
-  rings.forEach(function(ring) {
-    var x = ring.cx, y = ring.cy, col = ring.col;
-
-    // Thick outer glow
-    ctx.globalAlpha = 0.10;
-    ctx.lineWidth   = 12;
-    ctx.strokeStyle = col;
-    ctx.shadowColor = col; ctx.shadowBlur = 8;
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
-
-    // Mid glow
-    ctx.globalAlpha = 0.30;
-    ctx.lineWidth   = 4.5;
-    ctx.shadowBlur  = 3;
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
-
-    // Crisp thin ring
-    ctx.globalAlpha = 1;
-    ctx.lineWidth   = 1.5;
-    ctx.shadowBlur  = 0;
-    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
-  });
+  // Tricolor bar: centered, full width, 28% of height
+  var barH = Math.round(sz * 0.28);
+  var barY = Math.round((sz - barH) / 2);
+  var segs = [[c1, 0.33], [c2, 0.34], [c3, 0.33]];
+  var x = 0;
+  for (var i = 0; i < segs.length; i++) {
+    ctx.fillStyle = segs[i][0];
+    var w = sz * segs[i][1];
+    ctx.fillRect(x, barY, w, barH);
+    x += w;
+  }
 
   var link = document.querySelector('link[rel="icon"]');
   if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
