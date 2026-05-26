@@ -662,3 +662,55 @@ _updateFavicon();
 })();
 
 
+
+// ───── Nav SVG wordmark: position tricolor rule under SOQONO text ─────
+// Uses getBBox() after fonts settle so the rule aligns to actual rendered width.
+function positionNavRule() {
+  var t   = document.getElementById('navLogoText');
+  var svg = document.getElementById('navLogo');
+  var g   = document.getElementById('navLogoRule');
+  if (!t || !svg || !g) return;
+
+  var b   = t.getBBox();           // actual ink bounding box
+  var gap = 2.5;
+  var rh  = 1.5;
+  var ry  = b.y + b.height + gap;
+
+  // Tricolor: cyan 33%, red 34%, gold 33%
+  var ps  = [0.33, 0.34, 0.33];
+  var rx  = b.x;
+  var rs  = g.querySelectorAll('rect');
+  for (var i = 0; i < 3; i++) {
+    var w = b.width * ps[i];
+    rs[i].setAttribute('x', rx);
+    rs[i].setAttribute('y', ry);
+    rs[i].setAttribute('width', w);
+    rs[i].setAttribute('height', rh);
+    rx += w;
+  }
+
+  // Crop viewBox tightly to content
+  var pad = 1;
+  var vx  = b.x  - pad;
+  var vy  = b.y  - pad;
+  var vw  = b.width  + pad * 2;
+  var vh  = ry + rh + pad - vy;
+  svg.setAttribute('viewBox', vx + ' ' + vy + ' ' + vw + ' ' + vh);
+  svg.setAttribute('width',  vw);
+  svg.setAttribute('height', vh);
+}
+
+document.fonts.ready.then(positionNavRule);
+
+// Keyboard activation for the "Based in California" theme toggle
+// (role="button" div needs explicit keydown → click forwarding)
+(function() {
+  var el = document.getElementById('themeSwitch');
+  if (!el) return;
+  el.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      el.click();
+    }
+  });
+})();
