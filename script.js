@@ -478,8 +478,8 @@ function _renderMapDots() {
 
   // Smaller dots on mobile — map canvas is much smaller so default sizes crowd
   var isMob  = window.innerWidth <= 540;
-  var dotBase = isMob ? 5  : MAP_DOT_BASE;
-  var dotMult = isMob ? 3  : MAP_DOT_MULT;
+  var dotBase = isMob ? 5 : MAP_DOT_BASE;
+  var dotMult = isMob ? 3 : MAP_DOT_MULT;
 
   // Sort largest-first, then assign ascending z-index so large dots are always
   // behind small dots regardless of browser paint order.
@@ -712,6 +712,7 @@ document.fonts.ready.then(positionNavRule);
     if (item.email) a.addEventListener('click', copyEmail);
     menu.appendChild(a);
   });
+
 
   function closeMenu() {
     document.body.classList.remove('menu-open');

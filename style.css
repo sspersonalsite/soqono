@@ -502,14 +502,48 @@ body.menu-open .mobile-menu { display: flex; }
 
 .who-people-band .section-eyebrow { color: var(--accent-2); }
 .wp-inner {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+  display: flex; flex-direction: column; gap: 56px;
 }
 .wp-text { padding-top: 4px; }
+.wp-lead {
+  display: grid; grid-template-columns: 220px 1fr; gap: 48px; align-items: start;
+}
+.wp-lead .section-eyebrow { padding-top: 8px; }
 .who-body {
   font-family: 'Inter Tight', sans-serif; font-weight: 300;
   font-size: clamp(20px, 2.4vw, 30px); line-height: 1.3;
-  letter-spacing: -.022em; max-width: 38ch; color: inherit;
+  letter-spacing: -.022em; color: inherit;
 }
+
+/* ───── HAMBURGER / MOBILE MENU ───── */
+.nav-hamburger {
+  display: none; background: none; border: none; cursor: pointer;
+  color: inherit; pointer-events: auto;
+  flex-direction: column; gap: 5px; align-items: center; justify-content: center;
+  width: 28px; height: 28px; padding: 0; flex-shrink: 0;
+}
+.nav-hamburger span {
+  display: block; width: 18px; height: 1.5px; background: currentColor;
+  transition: transform .2s ease, opacity .2s ease;
+}
+body.menu-open .nav-hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+body.menu-open .nav-hamburger span:nth-child(2) { opacity: 0; }
+body.menu-open .nav-hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 20;
+  background: var(--hero-bg);
+  flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+}
+body.menu-open .mobile-menu { display: flex; }
+.mm-link {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--hero-ink); text-decoration: none; opacity: .85;
+  transition: opacity .15s ease;
+}
+.mm-link:hover { opacity: 1; }
+.mm-email { margin-top: 8px; font-size: 11px; opacity: .55; }
 .who-body em {
   font-style: italic; font-weight: 500;
   background: var(--rotor-grad);
@@ -526,18 +560,16 @@ body.menu-open .mobile-menu { display: flex; }
 }
 .wp-email:hover { border-color: var(--accent-2); background: rgba(255,255,255,.06); }
 .portraits-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  max-width: 900px; margin: 0 auto;
 }
 
-/* ══ PORTRAITS HIDDEN — remove the two lines below when staff info is ready ══ */
-.portraits-grid { display: none !important; }
-.wp-inner { grid-template-columns: 1fr !important; }
-/* ══════════════════════════════════════════════════════════════════════════════ */
 .portrait-img {
   width: 100%; aspect-ratio: 3/4;
-  background: rgba(255,255,255,.1);
+  object-fit: cover; object-position: center top;
+  display: block;
+  border-radius: 6px;
   margin-bottom: 12px;
-  transition: background-color .55s ease;
 }
 .portrait-name {
   font-family: 'Inter Tight', sans-serif; font-weight: 500;
@@ -629,6 +661,7 @@ body[data-page="legal"] nav .center { display: none; }
   nav .right > a { display: none; }
   nav .center { display: none; }
   .nav-hamburger { display: flex; }
+  .wp-lead { grid-template-columns: 1fr; gap: 16px; }
   .hero-content { padding: 0 22px; }
   .hero-content h1 { font-size: 48px; }
   .hero-foot { left: 22px; right: 22px; }
@@ -639,7 +672,6 @@ body[data-page="legal"] nav .center { display: none; }
   .how-grid { grid-template-columns: 1fr; }
   .how-item { border-left: none; border-top: 1px solid var(--rule); }
   /* where-band is now light, so rule color is the same as other light sections */
-  .wp-inner { grid-template-columns: 1fr; gap: 48px; }
   .portraits-grid { grid-template-columns: repeat(2, 1fr); }
 
   /* Section vertical rhythm — rein in the desktop values at tablet sizes */
