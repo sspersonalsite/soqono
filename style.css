@@ -657,7 +657,6 @@ body[data-page="legal"] nav .center { display: none; }
 
 /* mob-br: line breaks shown on all screen sizes */
 .hero-content .imprint { display: none; }
-.mob-only { display: none; }
 
 /* ───── SMALL MOBILE (phones) ───── */
 @media (max-width: 540px) {
@@ -684,8 +683,6 @@ body[data-page="legal"] nav .center { display: none; }
     letter-spacing: .14em;
     margin-bottom: 24px;
   }
-  .mob-only { display: inline; }
-  .desk-only { display: none; }
   .hero-divider { margin: 16px 0; }
   .hero-foot { left: 20px; right: 20px; bottom: 18px; align-items: center; }
 
