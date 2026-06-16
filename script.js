@@ -499,8 +499,13 @@ function _renderMapDots() {
     dot.style.top     = d.pos.py.toFixed(3) + '%';
     dot.style.width   = d.size + 'px';
     dot.style.height  = d.size + 'px';
-    dot.style.zIndex  = rank + 1; // rank 0 (largest) gets z-index 1, smallest gets highest
+    var baseZ = rank + 1; // rank 0 (largest) gets z-index 1, smallest gets highest
+    dot.style.zIndex = baseZ;
     dot.style.setProperty('--dot-color', d.col);
+    if (d.pos.px < 12)      dot.classList.add('label-right');
+    else if (d.pos.px > 88) dot.classList.add('label-left');
+    dot.addEventListener('mouseenter', function() { dot.style.zIndex = 1000; });
+    dot.addEventListener('mouseleave', function() { dot.style.zIndex = baseZ; });
     wrap.appendChild(dot);
   });
 }
@@ -683,6 +688,30 @@ function positionNavRule() {
 }
 
 document.fonts.ready.then(positionNavRule);
+
+// ───── Mobile hamburger menu ─────
+(function() {
+  var btn = document.getElementById('navHamburger');
+  var menu = document.getElementById('mobileMenu');
+  if (!btn || !menu) return;
+  function closeMenu() {
+    document.body.classList.remove('menu-open');
+    btn.setAttribute('aria-expanded', 'false');
+    menu.setAttribute('aria-hidden', 'true');
+  }
+  btn.addEventListener('click', function() {
+    var opening = !document.body.classList.contains('menu-open');
+    document.body.classList.toggle('menu-open');
+    btn.setAttribute('aria-expanded', String(opening));
+    menu.setAttribute('aria-hidden', String(!opening));
+  });
+  menu.querySelectorAll('.mm-link').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
 
 // Keyboard activation for the "Based in California" theme toggle
 // (role="button" div needs explicit keydown → click forwarding)

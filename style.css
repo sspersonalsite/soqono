@@ -341,7 +341,7 @@ body.nav-dark nav { color: var(--ink); }
 .where-band .section-eyebrow { color: var(--accent); margin-bottom: 40px; }
 .where-map-wrap {
   position: relative; width: 100%; line-height: 0;
-  overflow: hidden;
+  overflow: visible;
   /* 2.4:1 crops to ~−60°S — fully below Tierra del Fuego (−55°S) and just
      inside the −62° draw clip, removing the blank white gap without cutting coastlines */
   aspect-ratio: 2.4 / 1;
@@ -362,7 +362,7 @@ body.nav-dark nav { color: var(--ink); }
   transition: transform .18s ease, border-color .55s ease;
   pointer-events: auto; cursor: default;
 }
-.map-dot:hover { transform: translate(-50%,-50%) scale(1.8); z-index: 5; }
+.map-dot:hover { transform: translate(-50%,-50%) scale(1.8); z-index: 100; }
 .map-dot::after {
   content: attr(data-label);
   position: absolute; bottom: calc(100% + 7px); left: 50%;
@@ -374,6 +374,8 @@ body.nav-dark nav { color: var(--ink); }
   opacity: 0; pointer-events: none;
   transition: opacity .15s ease;
 }
+.map-dot.label-right::after { left: 0; transform: none; }
+.map-dot.label-left::after  { left: auto; right: 0; transform: none; }
 .map-dot:hover::after { opacity: 1; }
 .where-foot { padding-top: 48px; padding-bottom: 80px; }
 /* where-band is now light — grid borders use theme rule color */
@@ -469,6 +471,35 @@ body.nav-dark nav { color: var(--ink); }
   background: var(--ink); color: var(--bg-paper); padding: 110px 0 100px;
   transition: background-color .55s ease, color .55s ease;
 }
+/* ───── HAMBURGER / MOBILE MENU ───── */
+.nav-hamburger {
+  display: none; background: none; border: none; cursor: pointer;
+  color: inherit; pointer-events: auto;
+  flex-direction: column; gap: 5px; align-items: center; justify-content: center;
+  width: 28px; height: 28px; padding: 0; flex-shrink: 0;
+}
+.nav-hamburger span {
+  display: block; width: 18px; height: 1.5px; background: currentColor;
+  transition: transform .2s ease, opacity .2s ease;
+}
+body.menu-open .nav-hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+body.menu-open .nav-hamburger span:nth-child(2) { opacity: 0; }
+body.menu-open .nav-hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 20;
+  background: var(--hero-bg);
+  flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+}
+body.menu-open .mobile-menu { display: flex; }
+.mm-link {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--hero-ink); text-decoration: none; opacity: .85;
+  transition: opacity .15s ease;
+}
+.mm-link:hover { opacity: 1; }
+.mm-email { margin-top: 8px; font-size: 11px; opacity: .55; }
+
 .who-people-band .section-eyebrow { color: var(--accent-2); }
 .wp-inner {
   display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
@@ -594,8 +625,10 @@ body[data-page="legal"] nav .center { display: none; }
   .frame { padding: 0 22px; }
   nav { padding: 8px 10px; grid-template-columns: auto auto; row-gap: 0; justify-content: space-between; }
   nav .left, nav .center, nav .right { padding: 6px 12px; }
-  nav .right { display: none; }
-  nav .center { grid-column: auto; order: unset; justify-self: end; }
+  nav .right { display: flex; align-items: center; gap: 8px; }
+  nav .right > a { display: none; }
+  nav .center { display: none; }
+  .nav-hamburger { display: flex; }
   .hero-content { padding: 0 22px; }
   .hero-content h1 { font-size: 48px; }
   .hero-foot { left: 22px; right: 22px; }
