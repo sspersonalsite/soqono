@@ -694,6 +694,25 @@ document.fonts.ready.then(positionNavRule);
   var btn = document.getElementById('navHamburger');
   var menu = document.getElementById('mobileMenu');
   if (!btn || !menu) return;
+
+  // Build links in JS so they don't exist in HTML (prevents Chrome Android
+  // from surfacing them as a navigation bar above the page)
+  var items = [
+    { href: '#what',               label: 'What',             cls: 'mm-link' },
+    { href: '#how',                label: 'How',              cls: 'mm-link' },
+    { href: '#where',              label: 'Where',            cls: 'mm-link' },
+    { href: '#who',                label: 'Who',              cls: 'mm-link' },
+    { href: 'mailto:team@soqono.com', label: 'team@soqono.com', cls: 'mm-link mm-email', email: true },
+  ];
+  items.forEach(function(item) {
+    var a = document.createElement('a');
+    a.href = item.href;
+    a.className = item.cls;
+    a.textContent = item.label;
+    if (item.email) a.addEventListener('click', copyEmail);
+    menu.appendChild(a);
+  });
+
   function closeMenu() {
     document.body.classList.remove('menu-open');
     btn.setAttribute('aria-expanded', 'false');
