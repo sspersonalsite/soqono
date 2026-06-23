@@ -515,35 +515,6 @@ body.menu-open .mobile-menu { display: flex; }
   letter-spacing: -.022em; color: inherit;
 }
 
-/* ───── HAMBURGER / MOBILE MENU ───── */
-.nav-hamburger {
-  display: none; background: none; border: none; cursor: pointer;
-  color: inherit; pointer-events: auto;
-  flex-direction: column; gap: 5px; align-items: center; justify-content: center;
-  width: 28px; height: 28px; padding: 0; flex-shrink: 0;
-}
-.nav-hamburger span {
-  display: block; width: 18px; height: 1.5px; background: currentColor;
-  transition: transform .2s ease, opacity .2s ease;
-}
-body.menu-open .nav-hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-body.menu-open .nav-hamburger span:nth-child(2) { opacity: 0; }
-body.menu-open .nav-hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-.mobile-menu {
-  display: none; position: fixed; inset: 0; z-index: 20;
-  background: var(--hero-bg);
-  flex-direction: column; align-items: center; justify-content: center; gap: 32px;
-}
-body.menu-open .mobile-menu { display: flex; }
-.mm-link {
-  font-family: 'JetBrains Mono', monospace; font-size: 13px;
-  letter-spacing: .22em; text-transform: uppercase;
-  color: var(--hero-ink); text-decoration: none; opacity: .85;
-  transition: opacity .15s ease;
-}
-.mm-link:hover { opacity: 1; }
-.mm-email { margin-top: 8px; font-size: 11px; opacity: .55; }
 .who-body em {
   font-style: italic; font-weight: 500;
   background: var(--rotor-grad);
