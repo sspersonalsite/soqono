@@ -1,44 +1,53 @@
-# Soqono — Aurora
+# Soqono — www.soqono.com
 
-Marketing site for Soqono Technical Operations. Nine-theme color switcher, animated hero canvas, interactive world map, and smooth-scroll navigation.
+Company website for Soqono, a technical research operations firm based in California.
 
-## Run locally
+## Stack
+
+Static site — HTML, CSS, and vanilla JavaScript. No framework, no build step.
+
+Hosted on **GitHub Pages**, proxied through **Cloudflare** (DNS, SSL, CDN).
+
+## Local development
 
 ```bash
-npm install
-npm run dev
+npx serve .
 ```
 
-Opens at http://localhost:5173 with hot reload.
+Opens the site at `http://localhost:3000`. No install required beyond Node.js.
 
-## Files
+## Repository structure
 
-| File | Purpose |
+```
+index.html        Main site
+style.css         All styles
+script.js         All client-side logic
+privacy.html      Privacy policy
+terms.html        Terms of service
+staff/            Cropped portrait photos (used by the site)
+brand/            Brand assets — gitignored, not in repo
+development/      Prototype/experimental files — gitignored, not in repo
+```
+
+## Branch conventions
+
+| Branch | Purpose |
 |---|---|
-| `index.html` | Main page — hero, What/Where/Who/Programs sections |
-| `style.css` | All styling + 9 theme variable blocks |
-| `script.js` | Theme switcher, smooth scroll, hero canvas, world map, programs grid, footer injection, cookie banner, favicon |
-| `terms.html` | Terms of Use (unlisted) |
-| `privacy.html` | Privacy Policy (unlisted) |
+| `main` | Live site — do not push directly |
+| `feature/<description>` | All new work branches from here |
 
-## Themes
+**Workflow:**
+1. Branch off `main`: `git checkout -b feature/your-description`
+2. Make changes and preview locally with `npx serve .`
+3. Open a pull request into `main`
+4. Get at least one review before merging
 
-Click the glowing dot next to "Soqono" to cycle. Choice persists across pages via `localStorage`.
+## Staff portraits
 
-| # | Key | Palette |
-|---|---|---|
-| 1 | `atomic` | Yellow / red / cyan on black (default) |
-| 2 | `aurora` | Teal / blue / violet |
-| 3 | `solar` | Amber / red / magenta |
-| 4 | `mono` | Grayscale + oxblood |
-| 5 | `embedding` | Purple / magenta / teal |
-| 6 | `plasma` | Magenta / violet / pink |
-| 7 | `forest` | Moss / olive / amber |
-| 8 | `coral` | Salmon / peach / pink |
-| 9 | `midnight` | Navy / silver / steel |
+Cropped portrait files live in `staff/`. Naming convention: `Firstname-sq.jpg` (or `.png`/`.jpeg`).
 
-## Notes
+Original/unprocessed photos are stored locally in `to_delete/staff-orig/` — gitignored and not part of the repo.
 
-- World map uses TopoJSON data fetched from `cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json`
-- Footer content (text + links) is injected by `script.js` — edit the `// ───── Shared footer ─────` block there to update all three pages at once
-- Cookie consent stored in `localStorage` under key `sqCookieConsent`
+## Deployment
+
+Merging to `main` automatically deploys via GitHub Pages. Cloudflare propagates within seconds. SSL mode is set to **Full** in Cloudflare.
